@@ -1,4 +1,4 @@
-export const PrimaryButton = ({ children, onClick, className='' }) => {
+export const PrimaryButton = ({ children, onClick, className = "" }) => {
   return (
     <button
       onClick={onClick}
@@ -9,18 +9,30 @@ export const PrimaryButton = ({ children, onClick, className='' }) => {
   );
 };
 
-export const H1 = ({ children, className='' }) => {
-  return <h1 className={`text-[#d6e5e4] text-3xl font-bold ${ className}`}>{children}</h1>;
+export const H1 = ({ children, className = "" }) => {
+  return (
+    <h1 className={`text-[#d6e5e4] text-3xl font-bold ${className}`}>
+      {children}
+    </h1>
+  );
 };
 
-export const P = ({ children, className='' }) => {
+export const P = ({ children, className = "" }) => {
   return <p className={`text-[#d3d7d6] ${className}`}>{children}</p>;
 };
 
-export const Input = ({ type, placeholder, value, onChange, className='' }) => {
+export const Input = ({
+  type,
+  name,
+  placeholder,
+  value,
+  onChange,
+  className = "",
+}) => {
   return (
-    <input
+    <input required
       type={type}
+      name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}

@@ -2,10 +2,27 @@ import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { PrimaryButton, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((data) => {
+      return { ...data, [name]: value };
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate("/")
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -13,19 +30,25 @@ const SignIn = () => {
 
   return (
     <div className="bg-gradient-to-r from-gray-900 to-[#08413b] w-[30%] p-6 mx-auto mt-10 rounded-lg shadow-lg">
-      <form action="" className="flex flex-col gap-4">
+      <form action="" className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <FaUserCircle
           size={100}
           color="#baf9e2"
           className="text-center my-5 self-center"
         />
         <Input
-          type="text"
+          name="email"
+          onChange={handleChange}
+          value={data.email}
+          type="email"
           placeholder="Email"
           className="rounded-lg text-black p-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
         />
         <div className="flex items-center bg-white justify-between rounded-lg shadow-sm">
           <Input
+            name="password"
+            onChange={handleChange}
+            value={data.password}
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             className="rounded-lg text-black p-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -39,19 +62,23 @@ const SignIn = () => {
             ) : (
               <IoMdEye size={24} className="text-teal-500" />
             )}
-            
           </div>
-          
         </div>
-        
-        <Link to="../forgotpassword" className="text-blue-500 hover:text-blue-600 text-center">
+
+        <Link
+          to="../forgotpassword"
+          className="text-blue-500 hover:text-blue-600 text-center"
+        >
           Forgot Password?
         </Link>
         <PrimaryButton className="rounded-lg p-2 w-24 mx-auto bg-teal-500 hover:bg-teal-600 transition duration-200">
           Sign In
         </PrimaryButton>
-        
-        <Link to="/signup" className="text-blue-500 hover:text-blue-600 text-center">
+
+        <Link
+          to="/signup"
+          className="text-blue-500 hover:text-blue-600 text-center"
+        >
           Don't have an account? Sign Up
         </Link>
       </form>

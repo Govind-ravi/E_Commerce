@@ -4,6 +4,7 @@ import { Input, PrimaryButton } from "./CustomTags";
 import { GoSearch } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -24,7 +25,7 @@ function Header() {
             <FaShoppingCart size={28} color="white" />
             <PrimaryButton className="rounded-full text-sm px-1 py-0 font-normal absolute -top-2 -right-2">0</PrimaryButton>
           </div>
-          <PrimaryButton className="my-5">Login</PrimaryButton>
+          <Link to={"/signin"}><PrimaryButton className="my-5">Login</PrimaryButton></Link>
         </div>
       </nav>
     </div>
