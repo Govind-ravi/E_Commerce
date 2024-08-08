@@ -2,6 +2,11 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+*{
+  box-sizing: border-box;
+  padding: 1px;
+}
+
 body {
     background: linear-gradient(to right, #1f2937, #08413b);
     min-height: 100vh;

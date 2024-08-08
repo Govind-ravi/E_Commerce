@@ -24,7 +24,7 @@ export const Input = ({ type, placeholder, value, onChange, className='' }) => {
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={`border-2 border-[#199b8e] rounded p-2 ${className}`}
+      className={`rounded-lg p-2 text-black focus:outline-none ${className}`}
     />
   );
 };
