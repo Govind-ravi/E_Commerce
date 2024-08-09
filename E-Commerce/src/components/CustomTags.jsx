@@ -1,6 +1,7 @@
-export const PrimaryButton = ({ children, onClick, className = "" }) => {
+export const PrimaryButton = ({ children, onClick, className = "", style }) => {
   return (
     <button
+      style={style}
       onClick={onClick}
       className={`font-semibold bg-gradient-to-r from-[#199b8e] to-[#09635b] text-[#d5f4ee] py-2 px-4 rounded hover:from-[#106d64] hover:to-[#06453f] ${className}`}
     >
@@ -30,7 +31,8 @@ export const Input = ({
   className = "",
 }) => {
   return (
-    <input required
+    <input
+      required
       type={type}
       name={name}
       placeholder={placeholder}

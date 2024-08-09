@@ -20,12 +20,19 @@ function Header() {
           <GoSearch size={28} color="#1d564e" />
         </div>
         <div className="flex gap-4 items-center mx-10">
-            <FaRegCircleUser size={30} color="white"/>
+          <FaRegCircleUser size={30} color="white" />
           <div className="relative">
             <FaShoppingCart size={28} color="white" />
-            <PrimaryButton className="rounded-full text-sm px-1 py-0 font-normal absolute -top-2 -right-2">0</PrimaryButton>
+            <PrimaryButton
+              style={{ padding: "0px 7px" }}
+              className="rounded-full text-sm px-1 py-0 font-normal absolute -top-2 -right-2"
+            >
+              0
+            </PrimaryButton>
           </div>
-          <Link to={"/signin"}><PrimaryButton className="my-5">Login</PrimaryButton></Link>
+          <Link to={"/signin"}>
+            <PrimaryButton className="my-5">Login</PrimaryButton>
+          </Link>
         </div>
       </nav>
     </div>
