@@ -3,10 +3,11 @@ import { FaUserCircle } from "react-icons/fa";
 import { PrimaryButton, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
+import APIs from "../APIs";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -19,9 +20,30 @@ const SignIn = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/")
+
+    try {
+      const dataResponse = await fetch(APIs.SignIn.url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const Data = await dataResponse.json();
+      console.log(Data);
+      if (Data.error) {
+        return alert(Data.message);
+      }
+      
+    } catch (error) {
+      console.error(error);
+      return alert("Failed to sign in");
+    }
+    
+
+    navigate("/");
   };
 
   const togglePasswordVisibility = () => {

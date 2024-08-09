@@ -1,6 +1,6 @@
-export const PrimaryButton = ({ children, onClick, className = "", style }) => {
+export const PrimaryButton = ({ children, onClick, className = "", style, disabled }) => {
   return (
-    <button
+    <button disabled={disabled}
       style={style}
       onClick={onClick}
       className={`font-semibold bg-gradient-to-r from-[#199b8e] to-[#09635b] text-[#d5f4ee] py-2 px-4 rounded hover:from-[#106d64] hover:to-[#06453f] ${className}`}

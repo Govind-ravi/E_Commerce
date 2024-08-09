@@ -3,11 +3,14 @@ import { FaUserCircle } from "react-icons/fa";
 import { PrimaryButton, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-import imageToBase64 from "../helpers/imageToBase64";
+import APIs from "../APIs";
+import { storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
@@ -15,25 +18,56 @@ const SignUp = () => {
     password: "",
     profilePicture: "",
   });
+
   const [passwordNotMatch, setPasswordNotMatch] = useState(true);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (data.password !== data.confirmPassword) {
       setPasswordNotMatch(false);
       return;
     }
+
+    try {
+      const dataResponse = await fetch(APIs.SignUp.url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const Data = await dataResponse.json();
+
+      if (Data.error) {
+        return alert(Data.message);
+      }
+    } catch (error) {
+      return console.log(error);
+    }
+
     navigate("/");
   };
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const image = await imageToBase64(e.target.files[0]);
-    setData({ ...data, profilePicture: image });
+    const file = e.target.files[0];
+
+    if (file) {
+      setLoading(true); // Set loading to true before upload
+      const storageRef = ref(storage, `profilePictures/${file.name}`);
+
+      try {
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        setData({ ...data, profilePicture: url });
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -56,7 +90,7 @@ const SignUp = () => {
                   color="#baf9e2"
                   className="text-center mt-2 "
                 />
-                Upload Picture
+                {loading ? "Uploading..." : "Upload Picture"}
               </>
             )}
             {data.profilePicture !== "" && (
@@ -68,7 +102,7 @@ const SignUp = () => {
                     alt="User Profile"
                   />
                 </div>
-                Change Picture
+                {loading ? "Changing..." : "Change Picture"}
               </>
             )}
             <input
@@ -137,7 +171,10 @@ const SignUp = () => {
         {!passwordNotMatch && (
           <p className="text-red-500 text-center">Passwords do not match.</p>
         )}
-        <PrimaryButton className="rounded-lg p-2 w-24 mx-auto bg-teal-500 hover:bg-teal-600 transition duration-200">
+        <PrimaryButton
+          disabled={loading}
+          className="rounded-lg p-2 w-24 mx-auto bg-teal-500 hover:bg-teal-600 transition duration-200"
+        >
           Sign Up
         </PrimaryButton>
         <Link
