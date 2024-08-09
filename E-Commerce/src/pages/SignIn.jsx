@@ -26,6 +26,7 @@ const SignIn = () => {
     try {
       const dataResponse = await fetch(APIs.SignIn.url, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },

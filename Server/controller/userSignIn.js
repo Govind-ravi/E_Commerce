@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 async function comparePassword(password1, password2) {
   const valid = await bcrypt.compare(password1, password2);
@@ -23,7 +24,15 @@ async function userSignInController(req, res) {
         .status(404)
         .json({ message: "Wrong Password!", error: true, success: false });
     }
-    res.status(200).json({
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 60*60*8 });
+
+    const tokenOption = {
+      httpOnly: true,
+      secure: true
+    }
+
+    res.cookie("token", token, tokenOption).status(200).json({
       data: user,
       error: false,
       success: true,
