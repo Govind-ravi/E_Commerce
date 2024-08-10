@@ -9,8 +9,6 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const user = useSelector((state) => state?.user?.user);
-  console.log(user);
-
   return (
     <div>
       <nav className="w-full flex rounded my-2 items-center justify-between">
@@ -33,23 +31,23 @@ function Header() {
               0
             </PrimaryButton>
           </div>
-          <FaRegHeart color="white" size={24}/>
-          <Link to="/profile">
+          <FaRegHeart color="white" size={24} />
+          {user ? (
             <div className="rounded-full overflow-hidden w-9 h-9 flex items-center justify-center">
-              {user ? (
+              <Link to="/profile">
                 <img
                   src={user.profilePicture}
                   width={36}
                   alt=""
                   className="object-cover"
                 />
-              ) : (
-                <Link to={"/signin"}>
-                  <PrimaryButton className="my-5">Login</PrimaryButton>
-                </Link>
-              )}
+              </Link>
             </div>
-          </Link>
+          ) : (
+            <Link to={"/signin"}>
+              <PrimaryButton className="my-5">Login</PrimaryButton>
+            </Link>
+          )}
         </div>
       </nav>
     </div>

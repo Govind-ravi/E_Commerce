@@ -9,6 +9,9 @@ const APIs = {
     },
     Profile: {
         url: `${domain}/profile`
+    },
+    signOut: {
+        url: `${domain}/signout`
     }
 }
 
