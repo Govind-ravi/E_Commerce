@@ -25,15 +25,20 @@ async function userSignInController(req, res) {
         .json({ message: "Wrong Password!", error: true, success: false });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: 60*60*8 });
+    const tokenData = {
+      _id: user._id,
+      email: user.email      
+    }
+    const token = jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: 60*60*8 });
 
     const tokenOption = {
       httpOnly: true,
       secure: true
     }
+    
 
     res.cookie("token", token, tokenOption).status(200).json({
-      data: user,
+      data: token,
       error: false,
       success: true,
       message: "User Signed in successfully",

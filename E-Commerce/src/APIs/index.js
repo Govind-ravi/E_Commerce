@@ -6,6 +6,9 @@ const APIs = {
     },
     SignIn: {
         url: `${domain}/signin`
+    },
+    Profile: {
+        url: `${domain}/profile`
     }
 }
 

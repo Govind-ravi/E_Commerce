@@ -12,8 +12,8 @@ app.use(
   })
 );
 app.use(express.json());
-app.use("/api", Router);
 app.use(cookieParser());
+app.use("/api", Router);
 const port = process.env.PORT || 3000;
 
 connectDB();

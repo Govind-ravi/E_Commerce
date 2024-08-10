@@ -20,7 +20,9 @@ function Header() {
           <GoSearch size={28} color="#1d564e" />
         </div>
         <div className="flex gap-4 items-center mx-10">
-          <FaRegCircleUser size={30} color="white" />
+          <Link to='/profile'>
+            <FaRegCircleUser size={30} color="white" />
+          </Link>
           <div className="relative">
             <FaShoppingCart size={28} color="white" />
             <PrimaryButton
