@@ -3,7 +3,6 @@ import userModel from "../models/userModel.js";
 async function userProfileController(req, res) {
   try {
     const currentUser = await userModel.findById(req.userId);
-    console.log(currentUser);
     
     res.status(200).json({
       data: currentUser,

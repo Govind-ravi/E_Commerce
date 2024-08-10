@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { PrimaryButton, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import APIs from "../APIs";
+import Context from "../context";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +13,8 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const {fetchUserDetails} = useContext(Context)
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,8 +46,8 @@ const SignIn = () => {
       return alert("Failed to sign in");
     }
     
-
     navigate("/");
+    fetchUserDetails()
   };
 
   const togglePasswordVisibility = () => {

@@ -4,44 +4,48 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
 import APIs from "./APIs";
+import Context from "./context";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "./store/userSlice";
 
 function App() {
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const fetchCurrentUser = await fetch(APIs.Profile.url, {
-          method: 'get',
-          // headers: {
-          //   // 'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          //   // 'Content-Type': 'application/json',
-          // },
-          credentials: "include",
-        });
+  const dispatch = useDispatch()
+  const fetchUserDetails = async () => {
+    try {
+      const fetchCurrentUser = await fetch(APIs.Profile.url, {
+        method: "get",
+        credentials: "include",
+      });
+
+      const currentUser = await fetchCurrentUser.json();
       
-        // if (!fetchCurrentUser.ok) {
-        //   throw new Error(`HTTP error! Status: ${fetchCurrentUser.status}`);
-        // }
-      
-        const currentUser = await fetchCurrentUser.json();
-        console.log(currentUser);
-      } catch (error) {
-        console.error('Error fetching user details:', error);
+      if(currentUser.success){
+        dispatch(setUserDetails(currentUser.data))
       }
-        
+    } catch (error) {
+      console.error("Error fetching user details:", error);
     }
+  };
+  useEffect(() => {
     fetchUserDetails();
   }, []);
   return (
     <>
-      <div>
-        <div className="">
-          <Header />
-          <main className="min-h-[calc(100vh-340px)]">
-            <Outlet />
-          </main>
-          <Footer />
+      <Context.Provider
+        value={{
+          fetchUserDetails,
+        }}
+      >
+        <div>
+          <div className="">
+            <Header />
+            <main className="min-h-[calc(100vh-340px)]">
+              <Outlet />
+            </main>
+            <Footer />
+          </div>
         </div>
-      </div>
+      </Context.Provider>
     </>
   );
 }

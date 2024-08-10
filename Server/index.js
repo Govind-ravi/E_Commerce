@@ -11,8 +11,8 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
 app.use("/api", Router);
 const port = process.env.PORT || 3000;
 
