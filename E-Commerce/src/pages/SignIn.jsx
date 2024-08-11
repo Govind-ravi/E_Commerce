@@ -36,7 +36,6 @@ const SignIn = () => {
         body: JSON.stringify(data),
       });
       const Data = await dataResponse.json();
-      console.log(Data);
       if (Data.error) {
         return alert(Data.message);
       }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { PrimaryButton, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import APIs from "../APIs";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import Context from "../context";
+
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +20,7 @@ const SignUp = () => {
     password: "",
     profilePicture: "",
   });
+  const {fetchUserDetails} = useContext(Context)
 
   const [passwordNotMatch, setPasswordNotMatch] = useState(true);
 
@@ -35,6 +38,7 @@ const SignUp = () => {
     try {
       const dataResponse = await fetch(APIs.SignUp.url, {
         method: "POST",
+        credentials: 'include',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -47,6 +51,7 @@ const SignUp = () => {
       return console.log(error);
     }
 
+    await fetchUserDetails()
     navigate("/");
   };
 
