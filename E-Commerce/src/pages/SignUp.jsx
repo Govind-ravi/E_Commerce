@@ -8,7 +8,6 @@ import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Context from "../context";
 
-
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -19,14 +18,19 @@ const SignUp = () => {
     email: "",
     password: "",
     profilePicture: "",
+    role: "user",
   });
-  const {fetchUserDetails} = useContext(Context)
+  console.log(data);
+  
+  const { fetchUserDetails } = useContext(Context);
 
   const [passwordNotMatch, setPasswordNotMatch] = useState(true);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +42,7 @@ const SignUp = () => {
     try {
       const dataResponse = await fetch(APIs.SignUp.url, {
         method: "POST",
-        credentials: 'include',
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -51,7 +55,7 @@ const SignUp = () => {
       return console.log(error);
     }
 
-    await fetchUserDetails()
+    await fetchUserDetails();
     navigate("/");
   };
 
@@ -176,6 +180,7 @@ const SignUp = () => {
         {!passwordNotMatch && (
           <p className="text-red-500 text-center">Passwords do not match.</p>
         )}
+
         <PrimaryButton
           disabled={loading}
           className="rounded-lg p-2 w-24 mx-auto bg-teal-500 hover:bg-teal-600 transition duration-200"

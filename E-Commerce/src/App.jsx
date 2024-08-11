@@ -2,14 +2,16 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import APIs from "./APIs";
 import Context from "./context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
 
 function App() {
-  const dispatch = useDispatch()
+  const user = useSelector((action) => action?.user?.user);
+
+  const dispatch = useDispatch();
   const fetchUserDetails = async () => {
     try {
       const fetchCurrentUser = await fetch(APIs.Profile.url, {
@@ -18,16 +20,19 @@ function App() {
       });
 
       const currentUser = await fetchCurrentUser.json();
-      
-      if(currentUser.success){
-        dispatch(setUserDetails(currentUser.data))
+
+      if (currentUser.success) {
+        dispatch(setUserDetails(currentUser.data));
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
   };
   useEffect(() => {
-    fetchUserDetails();
+    
+    if (!user) {
+      fetchUserDetails();
+    }
   }, []);
   return (
     <>

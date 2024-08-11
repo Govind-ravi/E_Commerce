@@ -5,6 +5,10 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import ForgotPassword from "../pages/ForgetPassword";
 import UserProfile from "../pages/UserProfile";
+import AdminPanel from "../pages/AdminPanel";
+import AdminUser from "../components/AdminUser";
+import AdminProducts from "../components/AdminProducts";
+import AdminDashboard from "../components/AdminDashboard";
 
 const Router = createBrowserRouter([
   {
@@ -28,8 +32,26 @@ const Router = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: "/profile",
+        path: "profile",
         element: <UserProfile />,
+      },
+      {
+        path: "adminpanel",
+        element: <AdminPanel />,
+        children: [
+          {
+            path: "",
+            element: <AdminDashboard />,
+          },
+          {
+            path: "users",
+            element: <AdminUser />,
+          },
+          {
+            path: "products",
+            element: <AdminProducts />,
+          },
+        ],
       },
     ],
   },

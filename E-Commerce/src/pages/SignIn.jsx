@@ -8,18 +8,25 @@ import Context from "../context";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [verifyAdmin, setVerifyAdmin] = useState(true);
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-  const {fetchUserDetails} = useContext(Context)
-  
+  const { fetchUserDetails } = useContext(Context);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((data) => {
       return { ...data, [name]: value };
+    });
+  };
+
+  const handleCheckboxChange = () => {
+    setIsAdmin((prev) => {
+      return !prev;
     });
   };
 
@@ -29,24 +36,31 @@ const SignIn = () => {
     try {
       const dataResponse = await fetch(APIs.SignIn.url, {
         method: "POST",
-        credentials: 'include',
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
       const Data = await dataResponse.json();
+
       if (Data.error) {
         return alert(Data.message);
       }
-      
+      if (isAdmin) {
+        if (Data.data.role !== "admin") {
+          return setVerifyAdmin(false);
+        } else {
+          return setVerifyAdmin(true);
+        }
+      }
     } catch (error) {
       console.error(error);
       return alert("Failed to sign in");
     }
-    
+
     navigate("/");
-    fetchUserDetails()
+    fetchUserDetails();
   };
 
   const togglePasswordVisibility = () => {
@@ -89,6 +103,18 @@ const SignIn = () => {
             )}
           </div>
         </div>
+        <label className="flex items-center text-white">
+          <input
+            type="checkbox"
+            checked={isAdmin}
+            onChange={handleCheckboxChange}
+            className="mr-2 scale-150"
+          />
+          Are you admin
+        </label>
+            {!verifyAdmin && <p className="text-red-500 text-center">You are not an admin! Get access to be admin after sign In</p>}
+        
+
 
         <Link
           to="../forgotpassword"
