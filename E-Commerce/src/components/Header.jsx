@@ -1,6 +1,6 @@
 import logo from "../assets/Logo.png";
 import React from "react";
-import { Input, PrimaryButton } from "./CustomTags";
+import { Button, Input } from "./CustomTags";
 import { GoSearch } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
@@ -11,27 +11,39 @@ function Header() {
   const user = useSelector((state) => state?.user?.user);
   return (
     <div>
-      <nav className="w-full flex rounded my-2 items-center justify-between">
-        <img src={logo} alt="Govind Hub" className="h-20 mx-4" />
-        <div className="flex items-center m-5 bg-slate-50 rounded px-2 focus:outline-none">
+      <nav className="py-2 px-6 w-full flex items-center justify-between font-semibold">
+        <div className="w-full"> 
+          <Link to={"/"}>
+            <img src={logo} alt="Govind Hub" className="h-16 mx-4" />
+          </Link>
+        </div>
+        <div className="relative items-center m-5 bg-slate-100 rounded px-2 focus:outline-none w-full mx-auto">
           <Input
             type={"text"}
             placeholder={"Search..."}
-            className="bg-slate-50"
+            className="bg-slate-50 w-full"
           />
-          <GoSearch size={28} color="#1d564e" />
+          <GoSearch
+            size={28}
+            color="#1d564e"
+            className="absolute right-0 top-1 m-1"
+          />
         </div>
         <div className="flex gap-6 items-center mx-10">
+          <div>Home</div>
+          <div>Mens</div>
+          <div>Womens</div>
+          <div>Accessories</div>
           <div className="relative">
-            <FaShoppingCart size={28} color="white" />
-            <PrimaryButton
+            <FaShoppingCart size={28} color="black" />
+            <Button
               style={{ padding: "0px 7px" }}
-              className="rounded-full text-sm px-1 py-0 font-normal absolute -top-2 -right-2"
+              className="font-semibold  rounded-full text-sm px-1 py-0 absolute -top-2 -right-2"
             >
               0
-            </PrimaryButton>
+            </Button>
           </div>
-          <FaRegHeart color="white" size={24} />
+          <FaRegHeart color="black" size={24} />
           {user ? (
             <div className="rounded-full overflow-hidden w-9 h-9 flex items-center justify-center">
               <Link to="/profile">
@@ -45,7 +57,9 @@ function Header() {
             </div>
           ) : (
             <Link to={"/signin"}>
-              <PrimaryButton className="my-5">Login</PrimaryButton>
+              <Button className="text-black p-2 px-4 font-semibold rounded my-5">
+                Login
+              </Button>
             </Link>
           )}
         </div>

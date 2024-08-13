@@ -4,12 +4,40 @@
 
 *{
   box-sizing: border-box;
+  font-family: popins;
 }
 
 body {
-    background: linear-gradient(to right, #1f2937, #08413b);
-    min-height: 100vh;
-    margin: 0;
-    padding: 1px;
-  }
-  
+  background: #ffffff;
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+.login{
+    padding: 20px;
+    position: relative;
+    opacity: 0; 
+    transform: scale(0);
+    transition: opacity .5s ease, transform .5s ease; 
+}
+
+.login.visible {
+  opacity: 1; /* Fully visible */
+  transform: translateY(0); /* Move into position */
+}
+button{
+  background: linear-gradient(90deg, #98e1e4, #a4b1e3); 
+}
+button:hover{
+  /* background: linear-gradient(90deg, #98e1e4, #a4b1e3); */
+  box-shadow: 2px 2px 2px 2px rgb(209, 244, 246);
+}
+.primaryDiv{
+  background: #b7d7ea;
+}
+
+.secondaryDiv{
+  background: #f2e8ee;
+}

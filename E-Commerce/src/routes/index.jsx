@@ -9,6 +9,9 @@ import AdminPanel from "../pages/AdminPanel";
 import AdminUser from "../components/AdminUser";
 import AdminProducts from "../components/AdminProducts";
 import AdminDashboard from "../components/AdminDashboard";
+import YourCart from "../components/YourCart";
+import YourOrders from "../components/YourOrders";
+import YourWishlist from "../components/YourWishlist";
 
 const Router = createBrowserRouter([
   {
@@ -34,6 +37,20 @@ const Router = createBrowserRouter([
       {
         path: "profile",
         element: <UserProfile />,
+        children: [
+          {
+            path: "",
+            element: <YourCart />,
+          },
+          {
+            path: "myorders",
+            element: <YourOrders />,
+          },
+          {
+            path: "mywishlist",
+            element: <YourWishlist />,
+          },
+        ]
       },
       {
         path: "adminpanel",

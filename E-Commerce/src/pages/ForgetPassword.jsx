@@ -1,32 +1,40 @@
 import React from "react";
 import { FaLockOpen } from "react-icons/fa";
-import { PrimaryButton, Input } from "../components/CustomTags";
+import { MdEmail } from "react-icons/md";
+import { Input } from "../components/CustomTags";
 import { Link } from "react-router-dom";
 
 const ForgotPassword = () => {
   return (
-    <div className="bg-gradient-to-r from-gray-900 to-[#08413b] w-[30%] p-6 mx-auto mt-10 rounded-lg shadow-lg">
+    <div className="bg-[#cc80f9] w-[30%] p-6 px-12 mx-auto mt-10 rounded-lg shadow-lg font-semibold">
       <form action="" className="flex flex-col gap-6">
         <FaLockOpen
           size={100}
-          color="#baf9e2"
+          color="white"
           className="text-center my-5 self-center"
         />
-        <h2 className="text-[#baf9e2] text-2xl text-center mb-4">
+        <h2 className="text-black text-2xl text-center mb-4">
           Reset Your Password
         </h2>
-        <Input
-          type="email"
-          placeholder="Enter your email"
-          className="rounded-lg text-black p-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
-        />
-        <p className="text-[#d3d7d6] text-center">
+        <div>
+              <div className="relative flex items-center justify-between rounded-lg">
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  className="placeholder-slate-700 font-semibold w-full bg-transparent rounded-lg focus:outline-none"
+                />
+                <MdEmail size={24}/>
+              </div>
+              <div className="h-[0.075rem] mt-2 bg-black"></div>
+            </div>
+        <p className="text-center">
           We will send you an email with instructions to reset your password.
         </p>
-        <PrimaryButton className="rounded-lg p-2  mx-auto bg-teal-500 hover:bg-teal-600 transition duration-200">
+        <button className="rounded-lg py-2 px-4 mx-auto bg-gray-800 text-white">
           Send Email
-        </PrimaryButton>
-        <Link to={"../signin"} className="text-blue-500 hover:text-blue-600 text-center">
+        </button>
+        <Link to={"../signin"} className=" text-center">
           Remember your password? Sign In
         </Link>
       </form>
