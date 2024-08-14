@@ -12,6 +12,18 @@ const APIs = {
     },
     signOut: {
         url: `${domain}/signout`
+    },
+    addAddress: {
+        url: `${domain}/addaddress`
+    },
+    removeAddress: {
+        url: `${domain}/removeaddress`
+    },
+    updateProfile: {
+        url: `${domain}/updateprofile`
+    },
+    updatePassword: {
+        url: `${domain}/updatepassword`
     }
 }
 

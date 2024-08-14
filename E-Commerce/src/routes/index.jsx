@@ -12,6 +12,9 @@ import AdminDashboard from "../components/AdminDashboard";
 import YourCart from "../components/YourCart";
 import YourOrders from "../components/YourOrders";
 import YourWishlist from "../components/YourWishlist";
+import Product from "../pages/Product";
+import MyAddress from "../components/MyAddress";
+import UpdateProfile from "../components/UpdateProfile";
 
 const Router = createBrowserRouter([
   {
@@ -50,6 +53,14 @@ const Router = createBrowserRouter([
             path: "mywishlist",
             element: <YourWishlist />,
           },
+          {
+            path: "myaddress",
+            element: <MyAddress />,
+          },
+          {
+            path: "update",
+            element: <UpdateProfile/>
+          }
         ]
       },
       {
@@ -70,6 +81,10 @@ const Router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "product",
+        element: <Product/>
+      }
     ],
   },
 ]);

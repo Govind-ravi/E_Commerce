@@ -7,6 +7,8 @@ import { TiShoppingCart } from "react-icons/ti";
 import { FaRegHeart } from "react-icons/fa";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { removeUser } from "../store/userSlice";
+import { FaLocationDot } from "react-icons/fa6";
+import { MdEdit } from "react-icons/md";
 
 const UserProfile = () => {
   const user = useSelector((action) => action?.user?.user);
@@ -30,21 +32,25 @@ const UserProfile = () => {
     } catch (error) {}
   };
 
+  
   return (
     <>
-      <div className="flex min-h-[calc(100vh-200px)] w-[80%] mx-auto my-8">
+      <div className="flex min-h-[calc(100vh-200px)] w-full ">
         <div className="primaryDiv w-[25%] p-4 pt-4 flex flex-col gap-4 rounded-l">
           <center>
-            <div className="rounded-full w-36 h-36 overflow-hidden border-4 border-slate-400">
+            <div className=" relative rounded-full w-36 h-36 border-4 border-slate-400">
               {user && user.profilePicture ? (
                 <img
-                  className="object-cover w-full h-full"
+                  className="object-cover w-full h-full rounded-full"
                   src={user.profilePicture}
                   alt="User Profile"
                 />
               ) : (
                 <FaUserCircle size={144} color="#baf9e2" />
               )}
+              <div className="absolute bg-gray-400 rounded-full p-1 bottom-0 right-0">
+                <Link to={'/profile/update'}><MdEdit size={24} /></Link>
+              </div>
             </div>
             <h2 className="mt-2 text-2xl font-semibold text-gray-800">
               {user ? user.name : "Loading..."}
@@ -63,6 +69,12 @@ const UserProfile = () => {
             <div className="flex gap-2 items-center">
               <FaRegHeart size={24} />
               <Link to={"/profile/mywishlist"}>My Wishlist</Link>
+            </div>
+            <div className="flex gap-2 items-center">
+              <FaLocationDot size={24} />
+              <Link to={"/profile/myaddress"} state={{ user: user }}>
+                My Address
+              </Link>
             </div>
           </div>
           <button

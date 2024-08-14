@@ -18,13 +18,17 @@ const userSchema = new mongoose.Schema(
     profilePicture: String,
     role: {
       type: String,
-      default: 'user',
-    }
+      default: "user",
+    },
+    address: {
+      type: Array,
+      default: [],
+    },
   },
   {
     timestamps: true,
   }
 );
-const userModel = mongoose.model('User', userSchema)
+const userModel = mongoose.model("User", userSchema);
 
 export default userModel;
