@@ -24,6 +24,9 @@ const APIs = {
     },
     updatePassword: {
         url: `${domain}/updatepassword`
+    },
+    searchProducts: {
+        url: `${domain}/searchproducts`
     }
 }
 

@@ -1,34 +1,49 @@
 import logo from "../assets/Logo.png";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Input } from "./CustomTags";
 import { GoSearch } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Header() {
   const user = useSelector((state) => state?.user?.user);
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState(""); // State for the search term
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search?query=${searchTerm}`); // Navigate to search results
+  };
+
   return (
     <div>
       <nav className="py-2 px-6 w-full flex items-center justify-between font-semibold">
-        <div className="w-full"> 
+        <div className="w-full">
           <Link to={"/"}>
             <img src={logo} alt="Govind Hub" className="h-16 mx-4" />
           </Link>
         </div>
-        <div className="relative items-center m-5 bg-slate-100 rounded px-2 focus:outline-none w-full mx-auto">
+        <form
+          onSubmit={handleSearch}
+          className="relative items-center m-5 bg-slate-100 rounded px-2 focus:outline-none w-full mx-auto"
+        >
           <Input
-            type={"text"}
-            placeholder={"Search..."}
+            type="text"
+            placeholder="Search..."
             className="bg-slate-50 w-full"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Update the search term
           />
-          <GoSearch
-            size={28}
-            color="#1d564e"
-            className="absolute right-0 top-1 m-1"
-          />
-        </div>
+          <button>
+            <GoSearch
+              size={28}
+              color="#1d564e"
+              className="absolute right-0 top-1 m-1"
+            />
+          </button>
+        </form>
         <div className="flex gap-6 items-center mx-10">
           <div>Home</div>
           <div>Mens</div>
@@ -38,7 +53,7 @@ function Header() {
             <FaShoppingCart size={28} color="black" />
             <Button
               style={{ padding: "0px 7px" }}
-              className="font-semibold  rounded-full text-sm px-1 py-0 absolute -top-2 -right-2"
+              className="font-semibold rounded-full text-sm px-1 py-0 absolute -top-2 -right-2"
             >
               0
             </Button>

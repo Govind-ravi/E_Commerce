@@ -15,6 +15,7 @@ import YourWishlist from "../components/YourWishlist";
 import Product from "../pages/Product";
 import MyAddress from "../components/MyAddress";
 import UpdateProfile from "../components/UpdateProfile";
+import SearchResults from "../pages/SearchProducts";
 
 const Router = createBrowserRouter([
   {
@@ -84,6 +85,10 @@ const Router = createBrowserRouter([
       {
         path: "product",
         element: <Product/>
+      },
+      {
+        path: 'search',
+        element: <SearchResults/>
       }
     ],
   },
