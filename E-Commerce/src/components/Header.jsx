@@ -10,7 +10,14 @@ import { useSelector } from "react-redux";
 function Header() {
   const user = useSelector((state) => state?.user?.user);
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState(""); // State for the search term
+  const [searchTerm, setSearchTerm] = useState(""); 
+
+  const handleScroll = (id)=>{
+    const element = document.getElementById(id);
+    if(element){
+      element.scrollIntoView({behavior: 'smooth'})
+    }
+  }
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -45,10 +52,63 @@ function Header() {
           </button>
         </form>
         <div className="flex gap-6 items-center mx-10">
-          <div>Home</div>
-          <div>Mens</div>
-          <div>Womens</div>
-          <div>Accessories</div>
+          <div className="relative group">
+            <Link>
+              <div>Home</div>
+            </Link>
+            <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[180px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+              <Link to='#' onClick={()=>{handleScroll('featured')}}><div>Featured Products</div></Link>
+              <Link to='#' onClick={()=>{handleScroll('topDeals')}}><div>Top Deals</div></Link>
+              <Link to='#' onClick={()=>{handleScroll('newArrivals')}}><div>New Arrivals</div></Link>
+              <Link to='#' onClick={()=>{handleScroll('bestSellers')}}><div>Best Sellers</div></Link>
+              <Link to='#' onClick={()=>{handleScroll('discountAndOffers')}}><div>Discount and Offers</div></Link>
+              <Link to='#' onClick={()=>{handleScroll('seasonalSpecials')}}><div>Seasonal Specials</div></Link>
+              <Link to='#' onClick={()=>{handleScroll('contact')}}><div>Contact</div></Link>
+            </div>
+          </div>
+          <div className="relative group">
+            <Link>
+              <div>Mens</div>
+            </Link>
+            <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[100px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+              <Link><div>Shirts</div></Link>
+              <Link><div>Sheos</div></Link>
+              <Link><div>Watches</div></Link>
+              <Link><div>Motorcycles</div></Link>
+            </div>
+          </div>
+          <div className="relative group">
+            <Link>
+              <div>Womens</div>
+            </Link>
+            <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[100px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+              <Link><div>Jewellery</div></Link>
+              <Link><div>Tops</div></Link>
+              <Link><div>Dresses</div></Link>
+              <Link><div>Shoes</div></Link>
+              <Link><div>Watches</div></Link>
+              <Link><div>Bags</div></Link>
+              <Link><div>Contact</div></Link>
+            </div>
+          </div>
+          <div className="relative group">
+            <Link>
+              <div>Accessories</div>
+            </Link>
+            <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[180px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+              <Link><div>Furniture</div></Link>
+              <Link><div>Kitchen</div></Link>
+              <Link><div>Sports</div></Link>
+              <Link><div>Smart Phones</div></Link>
+              <Link><div>Laptops</div></Link>
+              <Link><div>Tablets</div></Link>
+              <Link><div>Fragrances</div></Link>
+              <Link><div>Skin Care</div></Link>
+              <Link><div>Groceries</div></Link>
+              <Link><div>Home Decoration</div></Link>
+              <Link><div>Vehicle</div></Link>
+            </div>
+          </div>
           <div className="relative">
             <FaShoppingCart size={28} color="black" />
             <Button

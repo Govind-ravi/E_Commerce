@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import ProductCard from "../components/ProductCard";
 
-export class Home extends Component {
-  render() {
+const Home = () =>{
+    const featuredRef = useRef(null)
     return (
       <>
         <div className="p-2">
@@ -22,7 +22,7 @@ export class Home extends Component {
               />
             </div>
           </div>
-          <div className="featured m-2">
+          <div id="featured" ref={featuredRef} className="m-2">
             <h1 className="text-3xl font-semibold">Featured Products</h1>
             <div className="flex gap-4">
               <ProductCard />
@@ -35,6 +35,5 @@ export class Home extends Component {
       </>
     );
   }
-}
 
 export default Home;
