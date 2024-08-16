@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { Button, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import APIs from "../APIs";
@@ -14,12 +13,14 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isGenderReveal, setIsGenderReveal] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     profilePicture: "",
+    gender: "",
     role: "user",
   });
   console.log(data);
@@ -27,6 +28,11 @@ const SignUp = () => {
   const { fetchUserDetails } = useContext(Context);
 
   const [passwordNotMatch, setPasswordNotMatch] = useState(true);
+
+  const handleGenderToggle = () => {
+    setIsGenderReveal(!isGenderReveal);
+    setData({ ...data, gender: "" });
+  };
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -88,11 +94,12 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex max-w-[60vw] mx-auto mt-8 items-center h-[70vh]">
+    <div className="flex max-w-[60vw] mx-auto mt-8 items-center h-[80vh]">
       <div className="primaryDiv h-full flex flex-col justify-center items-center w-[50%] gap-2">
         <h1 className="text-3xl font-bold text-center">Create your account!</h1>
         <p className="text-center font-semibold">
-        Sign up to unlock exclusive features and stay updated with your latest activities. It only takes a few moments to get started!
+          Sign up to unlock exclusive features and stay updated with your latest
+          activities. It only takes a few moments to get started!
         </p>
       </div>
       <div className="secondaryDiv w-[50%] h-full px-14 py-4 bg-white">
@@ -128,7 +135,11 @@ const SignUp = () => {
             />
           </label>
         </center>
-        <form action="" className="flex flex-col gap-6 font-semibold" onSubmit={handleSubmit}>
+        <form
+          action=""
+          className="flex flex-col gap-6 font-semibold"
+          onSubmit={handleSubmit}
+        >
           <div className="flex flex-col items-center relative"></div>
           <div>
             <div className="relative flex items-center justify-between rounded-lg">
@@ -207,18 +218,71 @@ const SignUp = () => {
           {!passwordNotMatch && (
             <p className="text-red-500 text-center">Passwords do not match.</p>
           )}
-
+          <div>
+            {isGenderReveal && (
+              <div className="flex justify-between">
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Male"
+                      checked={data.gender === "Male"}
+                      onChange={handleChange}
+                    />
+                    Male
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Female"
+                      checked={data.gender === "Female"}
+                      onChange={handleChange}
+                    />
+                    Female
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="Others"
+                      checked={data.gender === "Others"}
+                      onChange={handleChange}
+                    />
+                    Others
+                  </label>
+                </div>
+              </div>
+            )}
+            <div>
+              <span
+                onClick={handleGenderToggle}
+                className="cursor-pointer underline"
+              >
+                {isGenderReveal
+                  ? "I Don't want to reveal gender"
+                  : "Want to reveal gender?"}
+              </span>
+              {!isGenderReveal && (
+                <p className="text-sm text-gray-700">
+                  (Hepls is showing products for you)
+                </p>
+              )}
+            </div>
+          </div>
           <div className="flex flex-col gap-2">
-            <Button
+            <button
               disabled={loading}
               className="font-semibold text-black rounded p-2 w-24 mx-auto bg-[#cc80f9] transition duration-200"
             >
               Sign Up
-            </Button>
-            <Link
-              to="/signin"
-              className="text-center"
-            >
+            </button>
+            <Link to="/signin" className="text-center">
               Already have an account? Sign In
             </Link>
           </div>

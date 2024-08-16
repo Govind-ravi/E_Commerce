@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    gender: {
+      type: String,
+      default: "",
+    },
     address: {
       type: Array,
       default: [],

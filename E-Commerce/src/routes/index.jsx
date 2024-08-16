@@ -5,10 +5,6 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import ForgotPassword from "../pages/ForgetPassword";
 import UserProfile from "../pages/UserProfile";
-import AdminPanel from "../pages/AdminPanel";
-import AdminUser from "../components/AdminUser";
-import AdminProducts from "../components/AdminProducts";
-import AdminDashboard from "../components/AdminDashboard";
 import YourCart from "../components/YourCart";
 import YourOrders from "../components/YourOrders";
 import YourWishlist from "../components/YourWishlist";
@@ -16,6 +12,14 @@ import Product from "../pages/Product";
 import MyAddress from "../components/MyAddress";
 import UpdateProfile from "../components/UpdateProfile";
 import SearchResults from "../pages/SearchProducts";
+import AdminPanel from "../pages/AdminPanel";
+import AdminUsers from "../adminComponents/AdminUsers";
+import AdminProducts from "../adminComponents/AdminProducts";
+import AdminOrders from "../adminComponents/AdminOrders";
+import AdminCollections from "../adminComponents/AdminCollections";
+import AdminReports from "../adminComponents/AdminReports";
+import AdminDashboard from '../adminComponents/AdminDashboard'
+
 
 const Router = createBrowserRouter([
   {
@@ -74,12 +78,24 @@ const Router = createBrowserRouter([
           },
           {
             path: "users",
-            element: <AdminUser />,
+            element: <AdminUsers />,
           },
           {
             path: "products",
             element: <AdminProducts />,
           },
+          {
+            path: "orders",
+            element: <AdminOrders />,
+          },
+          {
+            path: "collections",
+            element: <AdminCollections/>
+          },
+          {
+            path: "reports",
+            element: <AdminReports/>
+          }
         ],
       },
       {

@@ -5,6 +5,7 @@ import APIs from "../APIs";
 import { FiShoppingBag } from "react-icons/fi";
 import { TiShoppingCart } from "react-icons/ti";
 import { FaRegHeart } from "react-icons/fa";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { removeUser } from "../store/userSlice";
 import { FaLocationDot } from "react-icons/fa6";
@@ -74,6 +75,12 @@ const UserProfile = () => {
               <FaLocationDot size={24} />
               <Link to={"/profile/myaddress"} state={{ user: user }}>
                 My Address
+              </Link>
+            </div>
+            <div className="flex gap-2 items-center">
+              <MdAdminPanelSettings size={24} />
+              <Link to={"/adminpanel"} state={{ user: user }}>
+                Admin Panel {user && user.role !== "admin" && <span>(Demo)</span>}
               </Link>
             </div>
           </div>

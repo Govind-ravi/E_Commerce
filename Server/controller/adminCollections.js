@@ -2,12 +2,12 @@ import adminModel from "../models/adminModel.js";
 import productModel from "../models/productModel.js";
 
 export const uploadProduct = async (req, res) => {
-  const productData = req.body;
-
   try {
-    const newProduct = new productModel(productData);
+    const newProduct = new productModel(req.body.productData);
+    console.log(newProduct);
+    
     await newProduct.save();
-
+    console.log(newProduct);
     res
       .status(201)
       .json({ message: "Product uploaded successfully", newProduct });

@@ -4,7 +4,7 @@ import userModel from "../models/userModel.js";
 
 export async function userSignUpController(req, res) {
   try {
-    const { name, email, password, profilePicture, role } = req.body;
+    const { name, email, password, profilePicture, gender, role } = req.body;
 
     const user = await userModel.findOne({ email });
 
@@ -20,6 +20,7 @@ export async function userSignUpController(req, res) {
       email,
       password: hashedPassword,
       profilePicture,
+      gender,
       role
     });
     await newUser.save();

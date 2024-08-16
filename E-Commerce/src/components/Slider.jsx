@@ -36,17 +36,17 @@ const Slider = ({ products }) => {
     return () => clearInterval(interval);
   }, [currentIndex]);
 
+  if(products){
   return (
     <>
-      {products.length !== 1 ? (
+      {products && products.length !== 1 ? (
         <div className="relative w-[90vw] mx-auto overflow-hidden px-4">
           <div
-            className={`flex transition-transform duration-500 ease-in-out ${
-              isTransitioning ? "" : "duration-0"
+            className={`flex transition-transform ease-in-out ${
+              isTransitioning ? "duration-500 " : "duration-0"
             }`}
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {/* Duplicate last product */}
             <div className="flex items-center justify-center w-full flex-shrink-0">
               <div className="w-[60%] p-4">
                 <h1 className="text-4xl text-white font-semibold">
@@ -64,7 +64,6 @@ const Slider = ({ products }) => {
               </div>
             </div>
 
-            {/* Actual products */}
             {products.map((product) => (
               <div
                 key={product.id}
@@ -87,7 +86,6 @@ const Slider = ({ products }) => {
               </div>
             ))}
 
-            {/* Duplicate first product */}
             <div className="flex items-center justify-center w-full flex-shrink-0">
               <div className="w-[60%] p-4">
                 <h1 className="text-4xl text-white font-semibold">
@@ -162,7 +160,7 @@ const Slider = ({ products }) => {
         </>
       )}
     </>
-  );
+  );}
 };
 
 export default Slider;

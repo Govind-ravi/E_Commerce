@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 const AdminDashboard = () => {
-    const user = useSelector((action) => action?.user?.user);
+  const user = useSelector((action) => action?.user?.user);
 
   return (
     <>

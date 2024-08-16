@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 export const productSchema = new mongoose.Schema(
   {
-    id: {
-      type: Number,
-      required: true,
-    },
     title: {
       type: String,
       required: true,
@@ -27,7 +23,6 @@ export const productSchema = new mongoose.Schema(
     },
     discountPercentage: {
       type: Number,
-      required: true,
       min: 0,
       max: 100,
       default: 0,
