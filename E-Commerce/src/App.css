@@ -13,6 +13,15 @@ body {
   min-height: 100vh;
   margin: 0;
   scroll-behavior: smooth;
+  margin-top: 120px;
+}
+
+::-webkit-scrollbar {
+  width: 1px;
+}
+/* Styling for Firefox */
+html {
+  scrollbar-width: none;
 }
 
 .login{

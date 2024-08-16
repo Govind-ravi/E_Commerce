@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import Slider from "../components/Slider";
+import Categories from "../components/Categories";
 
 const Home = () => {
   const featuredRef = useRef(null);
@@ -45,16 +46,14 @@ const Home = () => {
     fetchProducts();
   }, []); 
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
     <>
-      <div className="p-2">
+    <Categories/>
+      <div className="p-2 my-1">
         <div
           id="bestSeller"
           className="m-2 rounded h-[50vh] bg-[#f7ce98] flex items-center min-w-[90vw] p-2 px-4"

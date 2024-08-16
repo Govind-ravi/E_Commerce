@@ -4,10 +4,12 @@ import { Button, Input } from "./CustomTags";
 import { GoSearch } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Header() {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
   const user = useSelector((state) => state?.user?.user);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState(""); 
@@ -26,10 +28,10 @@ function Header() {
 
   return (
     <div>
-      <nav className="py-2 px-6 w-full flex items-center justify-between font-semibold">
+      <nav className={`mx-auto  bg-white shadow-lg z-50 fixed top-0 left-0 py-2 px-6 w-[100vw] rounded flex items-center justify-between font-semibold`}>
         <div className="w-full">
           <Link to={"/"}>
-            <img src={logo} alt="Govind Hub" className="h-16 mx-4" />
+            <img src={logo} alt="Govind Hub" className="h-24 mx-4"/>
           </Link>
         </div>
         <form

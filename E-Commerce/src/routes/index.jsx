@@ -19,6 +19,7 @@ import AdminOrders from "../adminComponents/AdminOrders";
 import AdminCollections from "../adminComponents/AdminCollections";
 import AdminReports from "../adminComponents/AdminReports";
 import AdminDashboard from '../adminComponents/AdminDashboard'
+import CategoryProducts from "../pages/CategoryProducts";
 
 
 const Router = createBrowserRouter([
@@ -105,6 +106,10 @@ const Router = createBrowserRouter([
       {
         path: 'search',
         element: <SearchResults/>
+      },
+      {
+        path: 'category/:categoryName',
+        element: <CategoryProducts/>
       }
     ],
   },
