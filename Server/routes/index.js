@@ -3,7 +3,8 @@ import authToken from "../middleware/authToken.js";
 import { userSignInController, userSignOutController, userSignUpController } from "../controller/userAuth.js";
 import { updateUserPasswordController, updateUserProfileController, userAddressController, userProfileController, userRemoveAddress } from "../controller/userProfile.js";
 import { getProduct, searchProducts } from "../controller/product.js";
-import { allCollections, uploadCollection, uploadProduct } from "../controller/adminCollections.js";
+import { addToCollection, allCollections, createCollection, uploadProduct } from "../controller/adminCollections.js";
+import { addToCart, addToWishlist, getWishlist, removeFromCart, removeFromWishlist, updateQuantityInCart } from "../controller/userCartWishlist.js";
 const Router = express.Router();
 
 Router.post("/signup", userSignUpController);
@@ -15,9 +16,16 @@ Router.post("/removeaddress", authToken, userRemoveAddress);
 Router.put("/updateprofile", authToken, updateUserProfileController);
 Router.put("/updatepassword", authToken, updateUserPasswordController);
 Router.post('/uploadproduct', authToken,  uploadProduct);
-Router.post('/uploadcollections', authToken, uploadCollection);
+Router.post('/createcollection', authToken, createCollection);
+Router.post('/addtocollection', authToken, addToCollection);
 Router.get('/getproducts', getProduct);
 Router.get('/searchproducts', searchProducts);
-Router.get('/allcollections', allCollections);
+Router.get('/allcollections', authToken, allCollections);
+Router.get('/addtocart', authToken, addToCart);
+Router.get('/removefromcart', authToken, removeFromCart);
+Router.get('/updatequantityincart', authToken, updateQuantityInCart);
+Router.get('/addtowishlist', authToken, addToWishlist);
+Router.get('/removefromwishlist', authToken, removeFromWishlist);
+Router.get('/getwishlist', authToken, getWishlist);
 
 export default Router;

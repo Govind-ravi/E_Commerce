@@ -21,17 +21,44 @@ export const uploadProduct = async (req, res) => {
   }
 };
 
-export const uploadCollection = async (req, res) => {
+export const createCollection = async (collectionName, collectionProductId) => {
   try {
-    const { collectionName, collectionProducts } = req.body;
-    const newCollections = new adminModel(collectionName, collectionProducts);
-    await newCollections.save();
+    const collection = await adminModel.findOne({collectionName})
+    if (collection) {
+      return res.status(400).json({ message: "Collection already exists" });
+    }
+    const newCollection = new adminModel({
+      collectionName,
+      collectionProductId: [collectionProductId] // Initialize with one product ID
+    });
 
-    res
-      .status(201)
-      .json({ message: "Collections saved successfully", newCollections });
-  } catch (error) {
-    res.status(500).json({ message: "Error saving collections", error });
+    await newCollection.save();
+    res.status(201).json({ message: "Collection created successfully", newCollection });
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+export const addToCollection = async (collectionId, productId) => {
+  try {
+    // Find the collection by its ID
+    const collection = await adminModel.findById(collectionId);
+
+    if (collection) {
+      // Check if the product ID is already in the array
+      if (!collection.collectionProductId.includes(productId)) {
+        // Add the product ID to the array
+        collection.collectionProductId.push(productId);
+        await collection.save();
+        res.status(200).json({message: 'Product added to collection successfully'})
+      } else {
+        res.status(400).json({ message: 'Product already exists in collection' });
+      }
+    } else {
+      res.status(404).json({ message: 'Collection not found' });
+    }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
   }
 };
 

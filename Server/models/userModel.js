@@ -29,11 +29,16 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
     cart: {
-      type: Array,
+      type: [{
+        id: { type: String },
+        quantity: { type: Number }
+      }],
       default: [],
     },
     wishlist: {
-      type: Array,
+      type: [{
+        id: { type: String }
+      }],
       default: [],
     }
   },
