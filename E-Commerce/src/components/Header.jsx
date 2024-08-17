@@ -28,10 +28,10 @@ function Header() {
 
   return (
     <div>
-      <nav className={`mx-auto  bg-white shadow-lg z-50 fixed top-0 left-0 py-2 px-6 w-[100vw] rounded flex items-center justify-between font-semibold`}>
+      <nav className={`mx-auto  bg-white shadow z-50 fixed top-0 left-0 py-2 px-6 w-[100vw] rounded flex items-center justify-between font-semibold`}>
         <div className="w-full">
           <Link to={"/"}>
-            <img src={logo} alt="Govind Hub" className="h-24 mx-4"/>
+            <img src={logo} alt="Govind Hub" className="h-16 mx-4"/>
           </Link>
         </div>
         <form

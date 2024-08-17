@@ -8,7 +8,7 @@
 }
 
 body {
-  background: #ffffff;
+  background: #f4f2f2;
   position: relative;
   min-height: 100vh;
   margin: 0;
@@ -37,11 +37,12 @@ html {
   transform: translateY(0); /* Move into position */
 }
 button{
-  background: linear-gradient(90deg, #98e1e4, #a4b1e3); 
+  background: #fde66a; 
 }
 button:hover{
   /* background: linear-gradient(90deg, #98e1e4, #a4b1e3); */
-  box-shadow: 2px 2px 2px 2px rgb(209, 244, 246);
+  transform: scale(1.05);
+  box-shadow:  1.5px 1.5px rgba(0, 0, 0, 0.3);
 }
 .primaryDiv{
   background: #b7d7ea;
