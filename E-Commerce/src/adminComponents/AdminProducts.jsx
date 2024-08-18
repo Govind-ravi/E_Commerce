@@ -3,8 +3,10 @@ import ProductCard from "../components/ProductCard";
 import APIs from "../APIs";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const AdminProducts = () => {
+  const user = useSelector((action) => action?.user?.user);
   const [products, setProducts] = useState([]);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,14 +15,12 @@ const AdminProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          "https://dummyjson.com/products/category/beauty"
-        );
+        const response = await fetch(APIs.getProducts.url);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-        setProducts(data.products);
+        const products = await response.json();
+        setProducts(products);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -463,12 +463,17 @@ const AdminProducts = () => {
           </div>
           {/* Submit Button */}
           <div className="flex flex-col gap-2">
-            <button
+            {user.role === 'user' ? (<button
               type="submit"
-              className="font-semibold text-black rounded p-2 w-40 mx-auto bg-[#cc80f9] transition duration-200"
+              className="disabled cursor-not-allowed font-semibold text-black rounded p-2 w-40 mx-auto transition duration-200"
+            >
+              Only Admin can upload Product
+            </button>): (<button
+              type="submit"
+              className="font-semibold text-black rounded p-2 w-40 mx-auto transition duration-200"
             >
               Upload Product
-            </button>
+            </button>)}
           </div>
         </form>
       )}

@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
+
 const AdminUsers = () => {
+  const user = useSelector((action) => action?.user?.user);
+
   return (
     <>
-      <h1>You need access to see all users</h1>
-      <p>Request Access</p>
+      {user.role === 'user' && <h1 className="text-2xl font-semibold">Only admin can view</h1>}
     </>
   );
 };

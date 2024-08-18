@@ -19,7 +19,7 @@ export const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
-      default: 0
+      default: 0,
     },
     discountPercentage: {
       type: Number,
@@ -41,53 +41,53 @@ export const productSchema = new mongoose.Schema(
     },
     tags: {
       type: [String],
-      default: []
+      default: [],
     },
     brand: {
       type: String,
     },
     weight: {
-        type: Number,
-        min: 0,
-        default: 0
+      type: Number,
+      min: 0,
+      default: 0,
     },
     dimensions: {
-        width: { type: Number, min: 0, default: 0 },
-        height: { type: Number, min: 0, default: 0 },
-        depth: { type: Number, min: 0, default: 0 }
+      width: { type: Number, min: 0, default: 0 },
+      height: { type: Number, min: 0, default: 0 },
+      depth: { type: Number, min: 0, default: 0 },
     },
     warrantyInformation: {
-        type: String,
+      type: String,
     },
-    availabilityStatus:{
-        type: String,
-        enum: ["In Stock", "Low Stock", "Out of Stock"],
-        default: "In Stock"
+    availabilityStatus: {
+      type: String,
+      enum: ["In Stock", "Low Stock", "Out of Stock"],
+      default: "In Stock",
     },
     reviews: {
-        type: [
-          {
-            rating: { type: Number, min: 0, max: 5 },
-            comment: { type: String },
-            date: { type: Date, default: Date.now },
-            reviewerName: { type: String },
-            reviewerEmail: { type: String },
-          },
-        ],
-        default: [],
+      type: [
+        {
+          rating: { type: Number, min: 0, max: 5 },
+          comment: { type: String },
+          date: { type: Date, default: Date.now },
+          reviewerName: { type: String },
+          reviewerEmail: { type: String },
+        },
+      ],
+      default: [],
     },
     returnPolicy: {
-        type: String,
-        default: "30 days return policy",
+      type: String,
+      default: "30 days return policy",
     },
     images: {
-        type: [String],
-        required: true,
+      type: [String],
+      required: true,
     },
     thumbnail: {
-        type: String,
-        required: true,
-    }
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -28,8 +28,26 @@ const APIs = {
   searchProducts: {
     url: `${domain}/searchproducts`,
   },
+  getProducts: {
+    url: `${domain}/getproducts`,
+  },
   uploadProduct: {
     url: `${domain}/uploadproduct`,
+  },
+  fetchProductById: {
+    url: `${domain}/product`,
+  },
+  fetchAdminCollections: {
+    url: `${domain}/allcollections`,
+  },
+  createAdminCollections: {
+    url: `${domain}/createcollection`,
+  },
+  addProductToCollection: {
+    url: `${domain}/addtocollection`,
+  },
+  deletProductIdFromCollection: {
+    url: `${domain}/deleteproductidfromcollection`,
   },
 };
 

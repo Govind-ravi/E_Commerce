@@ -1,7 +1,7 @@
 import adminModel from "../models/adminModel.js";
 import productModel from "../models/productModel.js";
 
-export const getProduct = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     const products = await productModel.find();
     res.status(200).json(products);
@@ -11,6 +11,20 @@ export const getProduct = async (req, res) => {
       .json({ message: "Failed to fetch products", error: error.message });
   }
 };
+
+export const getProductById = async (req, res) => {
+  const productId = req.params.id;
+  try {
+    const product = await productModel.findById(productId);
+    if (!product) {
+      res.status(404).json({ message: "No product found", error: true });
+    } else {
+      res.json(product); // Responding with the found product
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });    
+  }
+}
 
 export const searchProducts = async (req, res) => {
   const query = req.query.query; // Extracting the query parameter

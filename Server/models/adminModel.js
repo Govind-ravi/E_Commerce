@@ -2,11 +2,10 @@ import mongoose from "mongoose";
 
 const collectionSchema = new mongoose.Schema({
   collectionName: {
-    type: String,
-    unique: true
+    type: String
   },
   collectionProductId: [{
-    id: { type: String }
+    id: { type: String }, default: []
   }],  
 },
   {
