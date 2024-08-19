@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { fetchProductById } from "../helpers/fetchProduct";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import APIs from "../APIs";
+import Context from "../context";
 
 const YourCart = () => {
   const user = useSelector((state) => state.user?.user);
+  const { fetchUserDetails } = useContext(Context);
   const [products, setProducts] = useState([]);
   const [cartQuantities, setCartQuantities] = useState({});
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,6 +37,7 @@ const YourCart = () => {
     if (user?.cart?.length) {
       fetchProducts();
     }
+    fetchUserDetails();
   }, [user?.cart]);
 
   const handleIncreaseQuantity = async (productId) => {
@@ -99,7 +104,7 @@ const YourCart = () => {
     }
   };
 
-  const clearCart= async()=>{
+  const clearCart = async () => {
     try {
       const response = await fetch(APIs.clearCart.url, {
         method: "POST",
@@ -118,22 +123,32 @@ const YourCart = () => {
       }
     } catch (error) {
       console.error("Error clearing cart:", error);
+    } finally {
+      setIsOrderPlaced(true);
+      setInterval(() => {
+        setIsOrderPlaced(false);
+      }, 3000);
     }
-  }
+  };
 
   return (
     <>
       <div className="relative w-[80%] rounded-r py-2 px-4">
-        <div className="absolute w-28 h-10 bottom-4 right-10 rounded">
-          <button className="h-full w-full rounded font-semibold">
-            Place Order
+        {user?.cart?.length !== 0 && <div className="absolute w-28 h-10 bottom-4 right-10 rounded">
+          <button
+            onClick={clearCart}
+            className="h-full w-full rounded font-semibold"
+          >
+            {isOrderPlaced ? "Order Placed" : "Place Order"}
           </button>
-        </div>
+        </div>}
         <h1 className="text-4xl font-semibold">My Cart</h1>
         {user?.cart?.length === 0 ? (
-          <p className="text-lg my-2">No Products in your Cart</p>
+          <p className="text-lg my-2">
+            {isOrderPlaced ? "Order Placed" : "No Products in your Cart"}
+          </p>
         ) : (
-          <div className="flex flex-col gap-2 my-2">
+          <div className="flex flex-col gap-2 my-2  overflow-y-scroll h-[calc(100vh-200px)]">
             {products.map((product) => (
               <div
                 key={product._id}
@@ -166,14 +181,24 @@ const YourCart = () => {
                       className="bg-[#fde66a] h-full flex items-center p-1"
                       onClick={() => handleDecreaseQuantity(product._id)}
                     >
-                      <FaMinus className="h-full cursor-pointer" />
+                      {cartQuantities?.[product._id] === 1 ? (
+                        <FaTrash
+                          color="black"
+                          className="h-full cursor-pointer"
+                          size={12}
+                        />
+                      ) : (
+                        <FaMinus className="h-full cursor-pointer" size={12} />
+                      )}
                     </div>
-                    <span>{cartQuantities[product._id] || 0}</span>
+                    <span className="font-semibold">
+                      {cartQuantities[product._id] || 0}
+                    </span>
                     <div
                       className="bg-[#fde66a] h-full flex items-center p-1"
                       onClick={() => handleIncreaseQuantity(product._id)}
                     >
-                      <FaPlus className="h-full cursor-pointer" />
+                      <FaPlus className="h-full cursor-pointer" size={12} />
                     </div>
                   </div>
                 </div>

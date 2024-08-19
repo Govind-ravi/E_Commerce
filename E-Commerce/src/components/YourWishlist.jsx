@@ -65,7 +65,7 @@ const YourWishlist = () => {
       {user?.wishlist?.length === 0 ? (
         <p className="text-lg my-2">No Products in your Wishlist</p>
       ) : (
-        <div className="flex flex-col gap-2 my-2">
+        <div className="flex flex-col gap-2 my-2 overflow-y-scroll h-[calc(100vh-200px)]">
           {products.map((product) => (
             <div
               key={product._id}

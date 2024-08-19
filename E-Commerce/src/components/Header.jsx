@@ -1,6 +1,5 @@
 import logo from "../assets/Logo.png";
 import React, { useState } from "react";
-import { Button, Input } from "./CustomTags";
 import { GoSearch } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
@@ -9,17 +8,17 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === "/";
   const user = useSelector((state) => state?.user?.user);
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleScroll = (id)=>{
+  const handleScroll = (id) => {
     const element = document.getElementById(id);
-    if(element){
-      element.scrollIntoView({behavior: 'smooth'})
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -28,22 +27,24 @@ function Header() {
 
   return (
     <div>
-      <nav className={`mx-auto  bg-white shadow z-50 fixed top-0 left-0 py-2 px-6 w-[100vw] rounded flex items-center justify-between font-semibold`}>
-        <div className="w-full">
-          <Link to={"/"}>
-            <img src={logo} alt="Govind Hub" className="h-16 mx-4"/>
+      <nav
+        className={`mx-auto bg-white shadow z-50 fixed top-0 left-0 px-6 w-[100vw] rounded flex items-center justify-between font-semibold`}
+      >
+        <div className="min-w-24 mx-2">
+          <Link to={"/"} className="">
+            <img src={logo} alt="Govind Hub" className="h-16 mx-4" />
           </Link>
         </div>
         <form
           onSubmit={handleSearch}
-          className="relative items-center m-5 bg-slate-100 rounded px-2 focus:outline-none w-full mx-auto"
+          className="relative items-center m-4 bg-slate-100 rounded px-2 py-0.5 focus:outline-none w-[50%] mx-auto"
         >
-          <Input
+          <input
             type="text"
             placeholder="Search..."
-            className="bg-slate-50 w-full"
+            className="bg-slate-50 w-full bg-transparent rounded-lg p-2 text-black focus:outline-none"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // Update the search term
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button>
             <GoSearch
@@ -59,13 +60,62 @@ function Header() {
               <div>Home</div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[180px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link to='#' onClick={()=>{handleScroll('featured')}}><div>Featured Products</div></Link>
-              <Link to='#' onClick={()=>{handleScroll('topDeals')}}><div>Top Deals</div></Link>
-              <Link to='#' onClick={()=>{handleScroll('newArrivals')}}><div>New Arrivals</div></Link>
-              <Link to='#' onClick={()=>{handleScroll('bestSellers')}}><div>Best Sellers</div></Link>
-              <Link to='#' onClick={()=>{handleScroll('discountAndOffers')}}><div>Discount and Offers</div></Link>
-              <Link to='#' onClick={()=>{handleScroll('seasonalSpecials')}}><div>Seasonal Specials</div></Link>
-              <Link to='#' onClick={()=>{handleScroll('contact')}}><div>Contact</div></Link>
+              <Link
+                to="#"
+                onClick={() => {
+                  handleScroll("featured");
+                }}
+              >
+                <div>Featured Products</div>
+              </Link>
+              <Link
+                to="#"
+                onClick={() => {
+                  handleScroll("topDeals");
+                }}
+              >
+                <div>Top Deals</div>
+              </Link>
+              <Link
+                to="#"
+                onClick={() => {
+                  handleScroll("newArrivals");
+                }}
+              >
+                <div>New Arrivals</div>
+              </Link>
+              <Link
+                to="#"
+                onClick={() => {
+                  handleScroll("bestSellers");
+                }}
+              >
+                <div>Best Sellers</div>
+              </Link>
+              <Link
+                to="#"
+                onClick={() => {
+                  handleScroll("discountAndOffers");
+                }}
+              >
+                <div>Discount and Offers</div>
+              </Link>
+              <Link
+                to="#"
+                onClick={() => {
+                  handleScroll("seasonalSpecials");
+                }}
+              >
+                <div>Seasonal Specials</div>
+              </Link>
+              <Link
+                to="#"
+                onClick={() => {
+                  handleScroll("contact");
+                }}
+              >
+                <div>Contact</div>
+              </Link>
             </div>
           </div>
           <div className="relative group">
@@ -73,10 +123,18 @@ function Header() {
               <div>Mens</div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[100px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link><div>Shirts</div></Link>
-              <Link><div>Sheos</div></Link>
-              <Link><div>Watches</div></Link>
-              <Link><div>Motorcycles</div></Link>
+              <Link>
+                <div>Shirts</div>
+              </Link>
+              <Link>
+                <div>Sheos</div>
+              </Link>
+              <Link>
+                <div>Watches</div>
+              </Link>
+              <Link>
+                <div>Motorcycles</div>
+              </Link>
             </div>
           </div>
           <div className="relative group">
@@ -84,13 +142,27 @@ function Header() {
               <div>Womens</div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[100px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link><div>Jewellery</div></Link>
-              <Link><div>Tops</div></Link>
-              <Link><div>Dresses</div></Link>
-              <Link><div>Shoes</div></Link>
-              <Link><div>Watches</div></Link>
-              <Link><div>Bags</div></Link>
-              <Link><div>Contact</div></Link>
+              <Link>
+                <div>Jewellery</div>
+              </Link>
+              <Link>
+                <div>Tops</div>
+              </Link>
+              <Link>
+                <div>Dresses</div>
+              </Link>
+              <Link>
+                <div>Shoes</div>
+              </Link>
+              <Link>
+                <div>Watches</div>
+              </Link>
+              <Link>
+                <div>Bags</div>
+              </Link>
+              <Link>
+                <div>Contact</div>
+              </Link>
             </div>
           </div>
           <div className="relative group">
@@ -98,45 +170,77 @@ function Header() {
               <div>Accessories</div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[180px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link><div>Furniture</div></Link>
-              <Link><div>Kitchen</div></Link>
-              <Link><div>Sports</div></Link>
-              <Link><div>Smart Phones</div></Link>
-              <Link><div>Laptops</div></Link>
-              <Link><div>Tablets</div></Link>
-              <Link><div>Fragrances</div></Link>
-              <Link><div>Skin Care</div></Link>
-              <Link><div>Groceries</div></Link>
-              <Link><div>Home Decoration</div></Link>
-              <Link><div>Vehicle</div></Link>
+              <Link>
+                <div>Furniture</div>
+              </Link>
+              <Link>
+                <div>Kitchen</div>
+              </Link>
+              <Link>
+                <div>Sports</div>
+              </Link>
+              <Link>
+                <div>Smart Phones</div>
+              </Link>
+              <Link>
+                <div>Laptops</div>
+              </Link>
+              <Link>
+                <div>Tablets</div>
+              </Link>
+              <Link>
+                <div>Fragrances</div>
+              </Link>
+              <Link>
+                <div>Skin Care</div>
+              </Link>
+              <Link>
+                <div>Groceries</div>
+              </Link>
+              <Link>
+                <div>Home Decoration</div>
+              </Link>
+              <Link>
+                <div>Vehicle</div>
+              </Link>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative group">
             <FaShoppingCart size={28} color="black" />
-            <Button
+            <button
               style={{ padding: "0px 7px" }}
-              className="font-semibold rounded-full text-sm px-1 py-0 absolute -top-2 -right-2"
+              className="font-semibold rounded-full text-sm px-1 py-0 absolute -top-2 -right-2 disabled cursor-none"
             >
-              0
-            </Button>
+              {user?.cart?.length}
+            </button>
+            <div className="flex-col text-sm text-nowrap items-center gap-2 flex-nowrap p-1 absolute z-10 bg-gray-100 bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+              My Cart
+            </div>
           </div>
-          <FaRegHeart color="black" size={24} />
+          <div className="relative group">
+            <FaRegHeart color="black" size={24} />
+            <div className="flex-col text-sm text-nowrap items-center gap-2 flex-nowrap p-1 absolute z-10 bg-gray-100 bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+              My Wishlist
+            </div>
+          </div>
           {user ? (
-            <div className="rounded-full overflow-hidden w-9 h-9 flex items-center justify-center">
+            <div className="relative group rounded-full overflow-hidden w-10 h-10 flex items-center justify-center border-2 border-gray-700">
               <Link to="/profile">
                 <img
                   src={user.profilePicture}
-                  width={36}
                   alt=""
                   className="object-cover"
                 />
+                <div className="flex-col text-sm text-nowrap items-center gap-2 flex-nowrap p-1 absolute z-10 bg-gray-100 bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+                  View Profile
+                </div>
               </Link>
             </div>
           ) : (
             <Link to={"/signin"}>
-              <Button className="text-black p-2 px-4 font-semibold rounded my-5">
+              <button className="text-black p-2 px-4 font-semibold rounded my-5">
                 Login
-              </Button>
+              </button>
             </Link>
           )}
         </div>

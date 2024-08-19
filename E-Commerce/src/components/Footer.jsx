@@ -7,8 +7,9 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <h1 className="text-2xl font-bold">Govind Hub</h1>
+            <h1 className="text-black text-2xl font-bold">Govind Hub</h1>
             <p className="text-gray-400">Your one-stop e-commerce solution</p>
+            <p className="text-gray-400 font-semibold">Wanna use this Website for you company? Contact govindnr20122001@gmail.com</p>
           </div>
           <div className="flex space-x-4">
             <a

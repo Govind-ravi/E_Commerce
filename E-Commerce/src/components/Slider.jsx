@@ -36,35 +36,54 @@ const Slider = ({ products }) => {
     return () => clearInterval(interval);
   }, [currentIndex, products.length]);
 
-  if(products.length === 0){
-    return (
-      <div className="text-center text-3xl">
-        Loading...
-      </div>
-    );
+  if (products.length === 0) {
+    return <div className="text-center text-3xl">Loading...</div>;
   }
   if (products) {
     return (
       <>
         {products && products.length !== 1 ? (
-          <div className="relative w-[90vw] mx-auto overflow-hidden px-4">
+          <div className="relative w-[90vw] h-[60vh] mx-auto overflow-hidden px-4">
             <div
               className={`flex transition-transform ease-in-out ${
                 isTransitioning ? "duration-500 " : "duration-0"
               }`}
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              <div className="flex items-center justify-center w-full flex-shrink-0">
-                <div className="w-[60%] p-4">
-                  <h1 className="text-4xl text-white font-semibold">
+              <div className="flex items-center justify-center w-full flex-shrink-0 h-[60vh]">
+                <div className="w-[50%] p-4 flex flex-col justify-center">
+                  <h1 className="text-5xl font-bold text-white mb-2">
                     {products[products.length - 1].title}
                   </h1>
-                  <p>{products[products.length - 1].price}/-</p>
-                  <button className="py-2 px-4 rounded">Buy Now</button>
+                  <p className="text-xl text-gray-800 mb-4">
+                    ₹
+                    {Math.floor(
+                      (products[products.length - 1].price -
+                        (products[products.length - 1].discountPercentage *
+                          products[products.length - 1].price) /
+                          100) *
+                        84
+                    )}
+                  </p>
+                  <p className="text-md text-gray-700 mb-4">
+                    {products[products.length - 1].description}/-
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <button
+                      className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                      onClick={() =>
+                        (window.location.href = `/product/${
+                          products[products.length - 1].id
+                        }`)
+                      }
+                    >
+                      Buy Now
+                    </button>
+                  </div>
                 </div>
-                <div className="flex w-[40%]">
+                <div className="p-4 w-[35%]">
                   <img
-                    width={400}
+                    className="w-full h-full object-cover rounded-lg"
                     src={products[products.length - 1].thumbnail}
                     alt={products[products.length - 1].title}
                   />
@@ -74,18 +93,37 @@ const Slider = ({ products }) => {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="flex items-center justify-center w-full flex-shrink-0"
+                  className="flex items-center justify-center w-full h-[60vh] flex-shrink-0 overflow-hidden"
                 >
-                  <div className="w-[60%] p-4">
-                    <h1 className="text-4xl text-white font-semibold">
+                  <div className="w-[50%] p-4 flex flex-col justify-center">
+                    <h1 className="text-5xl font-bold text-white mb-2">
                       {product.title}
                     </h1>
-                    <p>{product.price}/-</p>
-                    <button className="py-2 px-4 rounded">Buy Now</button>
+                    <p className="text-xl text-gray-800 mb-4">
+                      ₹
+                      {Math.floor(
+                        (product.price -
+                          (product.discountPercentage * product.price) / 100) *
+                          84
+                      )}
+                    </p>
+                    <p className="text-md text-gray-700 mb-4">
+                      {product.description}/-
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <button
+                        className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                        onClick={() =>
+                          (window.location.href = `/product/${product.id}`)
+                        }
+                      >
+                        Buy Now
+                      </button>
+                    </div>
                   </div>
-                  <div className="flex w-[40%]">
+                  <div className="w-[35%] p-4">
                     <img
-                      width={400}
+                      className="w-full h-full object-cover rounded-lg"
                       src={product.thumbnail}
                       alt={product.title}
                     />
@@ -93,17 +131,37 @@ const Slider = ({ products }) => {
                 </div>
               ))}
 
-              <div className="flex items-center justify-center w-full flex-shrink-0">
-                <div className="w-[60%] p-4">
-                  <h1 className="text-4xl text-white font-semibold">
+              <div className="flex items-center justify-center w-full flex-shrink-0 h-[60vh]">
+                <div className="w-[50%] p-4 flex flex-col justify-center">
+                  <h1 className="text-5xl font-bold text-white mb-2">
                     {products[0].title}
                   </h1>
-                  <p>{products[0].price}/-</p>
-                  <button className="py-2 px-4 rounded">Buy Now</button>
+                  <p className="text-xl text-gray-800 mb-4">
+                    ₹
+                    {Math.floor(
+                      (products[0].price -
+                        (products[0].discountPercentage * products[0].price) /
+                          100) *
+                        84
+                    )}
+                  </p>
+                  <p className="text-md text-gray-700 mb-4">
+                    {products[0].description}/-
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <button
+                      className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+                      onClick={() =>
+                        (window.location.href = `/product/${products[0].id}`)
+                      }
+                    >
+                      Buy Now
+                    </button>
+                  </div>
                 </div>
-                <div className="flex w-[40%]">
+                <div className="p-4 w-[35%]">
                   <img
-                    width={400}
+                    className="w-full h-full object-cover rounded-lg "
                     src={products[0].thumbnail}
                     alt={products[0].title}
                   />

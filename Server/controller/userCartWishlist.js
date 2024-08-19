@@ -2,7 +2,7 @@ import UserModel from "../models/userModel.js"; // Adjust the path as needed
 
 export const addToCart = async (req, res) => {
   const { userId, productId } = req.body;
-
+  
   try {
     const user = await UserModel.findById(userId);
 
@@ -66,26 +66,23 @@ export const removeFromCart = async (req, res) => {
   }
 };
 
-export const handleClearCart = async () => {
-  try {
-    const response = await fetch('/api/clearCart', {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: user._id }),
-    });
+export const handleClearCart = async (req, res) => {
+  const { userId } = req.body;
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Cart cleared:", data.cart);
-      // Optionally, refresh or update the UI
-    } else {
-      console.log("Error clearing cart");
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    // Clear the cart
+    user.cart = [];
+
+    await user.save();
+    res.status(200).json({ message: "Cart cleared", cart: user.cart });
   } catch (error) {
-    console.error("Error clearing cart:", error);
+    res.status(500).json({ message: "Error clearing cart", error });
   }
 };
 

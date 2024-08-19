@@ -84,7 +84,7 @@ export const allCollections = async (req, res) => {
     res
       .status(200)
       .json({
-        collections,
+        data: collections,
         message: "all collection fetch successfully",
         error: false,
       });

@@ -59,7 +59,7 @@ const AdminCollections = () => {
 
       if (response.ok) {
         setCollections((prevCollections) =>
-          prevCollections.map((collection) =>
+          prevCollections?.map((collection) =>
             collection._id === collectionId
               ? {
                   ...collection,
@@ -96,7 +96,7 @@ const AdminCollections = () => {
       const data = await response.json();
       if (response.ok) {
         setCollections((prevCollections) =>
-          prevCollections.map((collection) =>
+          prevCollections?.map((collection) =>
             collection._id === collectionId
               ? {
                   ...collection,
@@ -126,12 +126,12 @@ const AdminCollections = () => {
         setCollections(data.collections);
 
         // Fetch all products based on product IDs in the collections
-        const productIds = data.collections.flatMap(
-          (collection) => collection.collectionProductId.map((idObj) => idObj.id)
+        const productIds = data.collections?.flatMap(
+          (collection) => collection.collectionProductId?.map((idObj) => idObj.id)
         );
 
         const productsData = await Promise.all(
-          productIds.map(async (id) => {
+          productIds?.map(async (id) => {
             const productData = await fetchProductById(id);
             return { id, productData };
           })
@@ -197,13 +197,13 @@ const AdminCollections = () => {
         )}
         <h2 className="text-3xl font-semibold">Your Collections</h2>
         <div className="">
-          {collections.map((collection) => (
+          {collections?.map((collection) => (
             <div className="" key={collection._id}>
               <h3 className="mt-4 mb-1 text-2xl font-semibold">
                 {collection.collectionName}
               </h3>
               <div className="flex flex-wrap gap-2">
-                  {collection.collectionProductId.map((idObj) => {
+                  {collection.collectionProductId?.map((idObj) => {
                     const productData = products[idObj.id];
                     return productData ? (
                       <ProductCard key={idObj.id} product={productData} />

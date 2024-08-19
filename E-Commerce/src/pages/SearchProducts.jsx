@@ -41,8 +41,8 @@ const SearchResults = () => {
       <div className="flex gap-2 flex-wrap">
         {products.length > 0 ? (
           products.map((product) => (
-            <div key={product.id} className="">
-              <ProductCard data={product} />
+            <div key={product._id} className="">
+              <ProductCard product={product} />
             </div>
           ))
         ) : (

@@ -8,12 +8,12 @@
 }
 
 body {
-  background: #f4f2f2;
+  background: #F5F5DC;
   position: relative;
   min-height: 100vh;
   margin: 0;
   scroll-behavior: smooth;
-  padding-top: 100px;
+  padding-top: 80px;
 }
 
 ::-webkit-scrollbar {

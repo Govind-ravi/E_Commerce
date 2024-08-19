@@ -46,15 +46,21 @@ Router.put("/updatepassword", authToken, updateUserPasswordController);
 // Products
 Router.get("/getproducts", getProducts);
 Router.post("/uploadproduct", authToken, uploadProduct);
-Router.get("/allcollections", authToken, allCollections);
+Router.get("/product/:id", getProductById);
+Router.get("/searchproducts", searchProducts);
+
+// Collections
+Router.get("/allcollections", allCollections);
 Router.post("/createcollection", authToken, createCollection);
 Router.post("/addtocollection", authToken, addToCollection);
 Router.post("/deleteproductidfromcollection", authToken, deleteProductIdfFromCollection);
-Router.get("/product/:id", getProductById);
-Router.get("/searchproducts", searchProducts);
+
+// cart
 Router.post("/addtocart", authToken, addToCart);
 Router.post("/removefromcart", authToken, removeFromCart);
 Router.post("/clearcart", authToken, handleClearCart);
+
+// wishlist
 Router.post("/addtowishlist", authToken, addToWishlist);
 Router.post("/removefromwishlist", authToken, removeFromWishlist);
 Router.post("/getwishlist", authToken, getWishlist);

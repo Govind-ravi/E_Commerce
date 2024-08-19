@@ -3,6 +3,7 @@ import cors from "cors";
 import connectDB from "./config/DB.js";
 import Router from "./routes/index.js";
 import cookieParser from "cookie-parser";
+import productModel from "./models/productModel.js";
 
 const app = express();
 app.use(

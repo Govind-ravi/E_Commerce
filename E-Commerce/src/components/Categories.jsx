@@ -4,7 +4,7 @@ import categoryList from "../assets/CategoriesList";
 const Categories = () => {
   return (
     <>
-      <div className="h-44 mt-26 px-4 gap-4 flex overflow-x-scroll items-center justify-betwen">
+      <div className="h-40 px-4 gap-4 flex overflow-x-scroll items-center justify-betwen">
         {categoryList.map((category) => {            
           return (
             <>

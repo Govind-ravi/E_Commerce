@@ -8,10 +8,15 @@ const AdminPanel = () => {
 
   return (
     <>
-      {user && user.role !== "admin" ? (
+      {user && user?.role === "admin" || user?.role === "user" ? (
         <div className="min-h-screen bg-gray-100">
           <header className="bg-blue-300 p-4 text-white">
-            <h1 className="text-2xl font-bold">Admin Panel {user && user.role !== "admin" &&  <span>(This is Just to show the demo of admin panel)</span>}</h1>
+            <h1 className="text-2xl font-bold">
+              Admin Panel{" "}
+              {user && user?.role !== "admin" && (
+                <span>(This is Just to show the demo of admin panel)</span>
+              )}
+            </h1>
           </header>
           <div className="flex p-2">
             <nav className="w-64 bg-white p-4 shadow-lg flex flex-col items-center">
@@ -78,8 +83,7 @@ const AdminPanel = () => {
               </ul>
             </nav>
             <main className="flex-1 p-4">
-                <Outlet/>
-                
+              <Outlet />
             </main>
           </div>
         </div>

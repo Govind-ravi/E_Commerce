@@ -12,6 +12,7 @@ import Context from "../context";
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [isGenderReveal, setIsGenderReveal] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +24,6 @@ const SignUp = () => {
     gender: "",
     role: "user",
   });
-  console.log(data);
 
   const { fetchUserDetails } = useContext(Context);
 
@@ -34,13 +34,16 @@ const SignUp = () => {
     setData({ ...data, gender: "" });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e) => { 
+    if(e.target.name === 'confirmPassword'){
+      setConfirmPassword(e.target.value);
+    } else
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (data.password !== data.confirmPassword) {
+    if (data.password !== confirmPassword) {
       setPasswordNotMatch(false);
       return;
     }

@@ -1,16 +1,19 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import StarRating from "../components/StarRating";
 import { useSelector } from "react-redux";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import { AiFillCloseSquare } from "react-icons/ai";
 import APIs from "../APIs";
+import Context from "../context";
 
 const Product = () => {
   const user = useSelector((action) => action?.user?.user);
+  const { fetchUserDetails } = useContext(Context);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState(null);
@@ -23,6 +26,7 @@ const Product = () => {
   const [zoomVisible, setZoomVisible] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [isWishlist, setIsWishlist] = useState(false);
+  const [isCheckOut, setIsCheckOut] = useState(false);
 
   const handleImageChange = (image) => {
     setActiveImage(image); // Update active image when hovering over a thumbnail
@@ -69,6 +73,8 @@ const Product = () => {
       }
     } catch (error) {
       alert("Error decreasing product quantity");
+    } finally {
+      setIsCheckOut(true);
     }
   };
 
@@ -101,6 +107,8 @@ const Product = () => {
       }
     } catch (error) {
       console.error("Error adding product to cart:", error);
+    } finally {
+      setIsCheckOut(true);
     }
   };
 
@@ -166,6 +174,10 @@ const Product = () => {
     }
   };
 
+  const handleCloseCheckOut = () => {
+    setIsCheckOut(false);
+  };
+
   useEffect(() => {
     const fetchProduct = () => {
       setLoading(true);
@@ -174,6 +186,7 @@ const Product = () => {
       if (productData) {
         setActiveImage(productData.images[0]); // Set initial active image if product exists
       }
+      fetchUserDetails();
       setLoading(false);
     };
 
@@ -203,6 +216,19 @@ const Product = () => {
 
   return (
     <>
+      {isCheckOut && (
+        <div
+          className="fixed text-xl flex items-center justify-between w-40 bottom-20 right-20 bg-amber-200 px-1 pl-2 py-1 rounded font-semibold"
+        >
+          <p className="cursor-pointer"
+          onClick={() => navigate("/profile")}>Check Out</p>
+          <AiFillCloseSquare
+            className="z-10 cursor-pointer"
+            onClick={handleCloseCheckOut}
+            size={22}
+          />
+        </div>
+      )}
       {product ? (
         <div className="flex gap-2 w-[95vw] mx-auto">
           <div className="relative group m-2 flex gap-2 ml-16">

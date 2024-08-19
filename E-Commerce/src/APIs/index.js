@@ -64,6 +64,9 @@ const APIs = {
   removeFromWishlist: {
     url: `${domain}/removefromwishlist`,
   },
+  allCollections: {
+    url: `${domain}/allcollections`,
+  }
 };
 
 export default APIs;
