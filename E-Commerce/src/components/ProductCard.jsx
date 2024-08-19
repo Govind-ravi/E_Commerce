@@ -15,7 +15,6 @@ const ProductCard = ({ product }) => {
   const [isWishlist, setIsWishlist] = useState(isProductInWishlist);
   const [collections, setCollections] = useState([]);
   const [isCollectionVisible, setIsCollectionVisible] = useState(false);
-  console.log(collections);
 
   const [isProductAdded, setIsProductAdded] = useState(false);
   const [isProductRemoved, setIsProductRemoved] = useState(false);
@@ -27,7 +26,6 @@ const ProductCard = ({ product }) => {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
         setCollections(data.data);
       } else {
         console.error(data.message);
@@ -210,7 +208,7 @@ const ProductCard = ({ product }) => {
                 {/* Product Image Section */}
                 <div className="w-[150px] p-2 flex items-center justify-center overflow-hidden m-0.5">
                   <img
-                    src={product.thumbnail}
+                    src={product.images[0]}
                     alt={product.title}
                     className="max-w-full h-auto object-cover rounded-md scale-125"
                   />

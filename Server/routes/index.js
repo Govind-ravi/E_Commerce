@@ -15,6 +15,7 @@ import {
 import {
   getProductById,
   getProducts,
+  getProductsByCategory,
   searchProducts,
 } from "../controller/product.js";
 import {
@@ -48,6 +49,7 @@ Router.get("/getproducts", getProducts);
 Router.post("/uploadproduct", authToken, uploadProduct);
 Router.get("/product/:id", getProductById);
 Router.get("/searchproducts", searchProducts);
+Router.get("/category/:name", getProductsByCategory);
 
 // Collections
 Router.get("/allcollections", allCollections);

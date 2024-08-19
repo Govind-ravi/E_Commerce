@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import categoryList from "../assets/CategoriesList";
+import APIs from "../APIs";
 
 const CategoryProducts = () => {
   const { categoryName } = useParams();
@@ -19,7 +20,7 @@ const CategoryProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          `https://dummyjson.com/products/category/${categoryName}`
+          `${APIs.getProductsByCategory.url}/${categoryName}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,11 +34,13 @@ const CategoryProducts = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [categoryName]);
 
   return (
     <>
-    <h1 className="text-3xl m-4">{category_name}</h1>
+      <h1 className="text-3xl m-4 capitalize">
+        {products[0]?.category.replace(/-/g, " ")}
+      </h1>
       <div className="flex flex-wrap gap-4 mx-4">
         {products.map((product) => {
           return <ProductCard key={product.title} product={product} />;

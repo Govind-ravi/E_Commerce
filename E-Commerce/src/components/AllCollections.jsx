@@ -38,13 +38,10 @@ const AllCollections = () => {
   };
 
   useEffect(() => {
-    fetchAllCollections();
-  }, []);
-
-  useEffect(() => {
     if (collections.length > 0) {
       fetchAllProducts();
     }
+    fetchAllCollections();
   }, [collections]);
 
   return (
@@ -56,8 +53,8 @@ const AllCollections = () => {
             return (
               <div
                 key={collection.collectionName}
-                id="bestSeller"
-                className="m-4 rounded-lg h-[60vh] bg-[#f7ce98] flex items-center justify-between p-6 shadow-lg overflow-hidden"
+                id="Best Seller"
+                className="mx-4 rounded-lg h-[60vh] bg-[#f7ce98] flex items-center justify-between p-6 shadow-lg overflow-hidden"
               >
                 <div className="w-[50%] p-4 flex flex-col justify-center">
                   <h1 className="text-5xl font-bold text-white mb-2">
@@ -101,7 +98,7 @@ const AllCollections = () => {
             collection?.products?.length > 0
           ) {
             return (
-              <div key={collection.collectionName} id="topDeals" className="">
+              <div key={collection.collectionName} id="Trending Now" className="">
                 <h1 className="text-3xl font-semibold m-2">Trending Now</h1>
                 <div className="relative m-4 rounded-lg h-[60vh] bg-[#E0F2F1] flex items-center justify-between p-6 shadow-lg">
                   <Slider products={collection.products} />
@@ -110,13 +107,13 @@ const AllCollections = () => {
             );
           } else if (collection?.products?.length > 0) {
             return (
-              <div key={collection.collectionName} className="p-2">
+              <div id={collection.collectionName} key={collection.collectionName} className="p-2">
                 <h2 className="text-2xl font-semibold">
                   {collection.collectionName}
                 </h2>
                 <div className="flex gap-2 py-2 overflow-y-scroll">
-                  {collection.products.map((product) => (
-                    <ProductCard key={product._id} product={product} />
+                  {collection.products.map((product, i) => (
+                    <ProductCard key={i} product={product} />
                   ))}
                 </div>
               </div>

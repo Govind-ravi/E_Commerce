@@ -92,7 +92,7 @@ const Slider = ({ products }) => {
 
               {products.map((product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="flex items-center justify-center w-full h-[60vh] flex-shrink-0 overflow-hidden"
                 >
                   <div className="w-[50%] p-4 flex flex-col justify-center">

@@ -66,6 +66,9 @@ const APIs = {
   },
   allCollections: {
     url: `${domain}/allcollections`,
+  },
+  getProductsByCategory: {
+    url: `${domain}/category`,
   }
 };
 

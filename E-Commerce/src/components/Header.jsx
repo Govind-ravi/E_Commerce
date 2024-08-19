@@ -1,10 +1,11 @@
 import logo from "../assets/Logo.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoSearch } from "react-icons/go";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import APIs from "../APIs";
 
 function Header() {
   const location = useLocation();
@@ -15,8 +16,17 @@ function Header() {
 
   const handleScroll = (id) => {
     const element = document.getElementById(id);
+    const navbarHeight = 80; // Adjust this to the height of your navbar
+
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -24,6 +34,25 @@ function Header() {
     e.preventDefault();
     navigate(`/search?query=${searchTerm}`); // Navigate to search results
   };
+
+  const [collections, setCollections] = useState([]);
+
+  const fetchAllCollections = async () => {
+    try {
+      const response = await fetch(APIs.allCollections.url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setCollections(data.data);
+    } catch (error) {
+      console.error("Failed to fetch collections:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllCollections(); // Fetch collections only once when the component mounts
+  }, []);
 
   return (
     <div>
@@ -56,172 +85,151 @@ function Header() {
         </form>
         <div className="flex gap-6 items-center mx-10">
           <div className="relative group">
-            <Link>
+            <Link to="/">
               <div>Home</div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[180px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link
-                to="#"
-                onClick={() => {
-                  handleScroll("featured");
-                }}
-              >
-                <div>Featured Products</div>
-              </Link>
-              <Link
-                to="#"
-                onClick={() => {
-                  handleScroll("topDeals");
-                }}
-              >
-                <div>Top Deals</div>
-              </Link>
-              <Link
-                to="#"
-                onClick={() => {
-                  handleScroll("newArrivals");
-                }}
-              >
-                <div>New Arrivals</div>
-              </Link>
-              <Link
-                to="#"
-                onClick={() => {
-                  handleScroll("bestSellers");
-                }}
-              >
-                <div>Best Sellers</div>
-              </Link>
-              <Link
-                to="#"
-                onClick={() => {
-                  handleScroll("discountAndOffers");
-                }}
-              >
-                <div>Discount and Offers</div>
-              </Link>
-              <Link
-                to="#"
-                onClick={() => {
-                  handleScroll("seasonalSpecials");
-                }}
-              >
-                <div>Seasonal Specials</div>
-              </Link>
-              <Link
-                to="#"
-                onClick={() => {
-                  handleScroll("contact");
-                }}
-              >
-                <div>Contact</div>
-              </Link>
+              {collections.map((collection) => (
+                <Link
+                  key={collection._id}
+                  to="#"
+                  onClick={() => {
+                    handleScroll(collection.collectionName);
+                  }}
+                >
+                  <div>{collection.collectionName}</div>
+                </Link>
+              ))}
             </div>
           </div>
           <div className="relative group">
-            <Link>
+            <Link
+              to=""
+              onClick={() => {
+                handleScroll("Mens");
+              }}
+            >
               <div>Mens</div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[100px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link>
+              <Link to="/category/mens-shirts">
                 <div>Shirts</div>
               </Link>
-              <Link>
+              <Link to="/category/mens-shoes">
                 <div>Sheos</div>
               </Link>
-              <Link>
+              <Link to="/category/mens-watches">
                 <div>Watches</div>
               </Link>
-              <Link>
+              <Link to="/category/motorcycle">
                 <div>Motorcycles</div>
               </Link>
             </div>
           </div>
           <div className="relative group">
             <Link>
-              <div>Womens</div>
+              <div
+                onClick={() => {
+                  handleScroll("Womens");
+                }}
+              >
+                Womens
+              </div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[100px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link>
+              <Link to="/category/womens-jewellery">
                 <div>Jewellery</div>
               </Link>
-              <Link>
+              <Link to="/category/tops">
                 <div>Tops</div>
               </Link>
-              <Link>
+              <Link to="/category/womens-dresses">
                 <div>Dresses</div>
               </Link>
-              <Link>
+              <Link to="/category/womens-shoes">
                 <div>Shoes</div>
               </Link>
-              <Link>
+              <Link to="/category/womens-watches">
                 <div>Watches</div>
               </Link>
-              <Link>
+              <Link to="/category/womens-bags">
                 <div>Bags</div>
-              </Link>
-              <Link>
-                <div>Contact</div>
               </Link>
             </div>
           </div>
           <div className="relative group">
-            <Link>
+            <Link
+              onClick={() => {
+                handleScroll("Accessories");
+              }}
+            >
               <div>Accessories</div>
             </Link>
             <div className="flex-col items-center gap-2 flex-wrap p-2 absolute w-[180px] z-10 bg-white bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              <Link>
+              <Link to="/category/furniture">
                 <div>Furniture</div>
               </Link>
-              <Link>
+              <Link to="/category/kitchen-accessories">
                 <div>Kitchen</div>
               </Link>
-              <Link>
+              <Link to="/category/sports-accessories">
                 <div>Sports</div>
               </Link>
-              <Link>
+              <Link to="/category/smartphones">
                 <div>Smart Phones</div>
               </Link>
-              <Link>
+              <Link to="/category/laptops">
                 <div>Laptops</div>
               </Link>
-              <Link>
+              <Link to="/category/tablets">
                 <div>Tablets</div>
               </Link>
-              <Link>
+              <Link to="/category/fragrances">
                 <div>Fragrances</div>
               </Link>
-              <Link>
+              <Link to="/category/skin-care">
                 <div>Skin Care</div>
               </Link>
-              <Link>
+              <Link to="/category/groceries">
                 <div>Groceries</div>
               </Link>
-              <Link>
+              <Link to="/category/home-decoration">
                 <div>Home Decoration</div>
               </Link>
-              <Link>
+              <Link to="/category/vehicle">
                 <div>Vehicle</div>
               </Link>
             </div>
           </div>
-          <div className="relative group">
-            <FaShoppingCart size={28} color="black" />
-            <button
-              style={{ padding: "0px 7px" }}
-              className="font-semibold rounded-full text-sm px-1 py-0 absolute -top-2 -right-2 disabled cursor-none"
-            >
-              {user?.cart?.length}
-            </button>
+          <div onClick={() => {
+                handleScroll('footer');
+              }} className="relative group">
+            <Link>Contact</Link>
             <div className="flex-col text-sm text-nowrap items-center gap-2 flex-nowrap p-1 absolute z-10 bg-gray-100 bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              My Cart
+            <div>Contact</div>
             </div>
           </div>
           <div className="relative group">
-            <FaRegHeart color="black" size={24} />
-            <div className="flex-col text-sm text-nowrap items-center gap-2 flex-nowrap p-1 absolute z-10 bg-gray-100 bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
-              My Wishlist
-            </div>
+            <Link to="/profile">
+              <FaShoppingCart size={28} color="black" />
+              <button
+                style={{ padding: "0px 7px" }}
+                className="font-semibold rounded-full text-sm px-1 py-0 absolute -top-2 -right-2 disabled cursor-none"
+              >
+                {user?.cart?.length}
+              </button>
+              <div className="flex-col text-sm text-nowrap items-center gap-2 flex-nowrap p-1 absolute z-10 bg-gray-100 bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+                My Cart
+              </div>
+            </Link>
+          </div>
+          <div className="relative group">
+            <Link to="/profile/mywishlist">
+              <FaRegHeart color="black" size={24} />
+              <div className="flex-col text-sm text-nowrap items-center gap-2 flex-nowrap p-1 absolute z-10 bg-gray-100 bg-opacity-60 shadow hidden group-hover:flex top-full left-1/2 transform -translate-x-1/2">
+                My Wishlist
+              </div>
+            </Link>
           </div>
           {user ? (
             <div className="relative group rounded-full overflow-hidden w-10 h-10 flex items-center justify-center border-2 border-gray-700">

@@ -64,3 +64,17 @@ export const getCollections = async (req, res) => {
     res.status(404).json({ message: "Internal error", error });
   }
 };
+
+export const getProductsByCategory = async (req, res)=>{
+  const categoryName = req.params.name
+  try {
+    const products = await productModel.find({ category: categoryName})
+    if(!products){
+      res.status(404).json({ message: "No products found in this category", error: true })
+    } else {
+      res.status(200).json({products, message: "Products found in category", error: false })
+    }
+  } catch (error) {
+    
+  }
+}
