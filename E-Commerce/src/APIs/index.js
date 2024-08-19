@@ -49,6 +49,21 @@ const APIs = {
   deletProductIdFromCollection: {
     url: `${domain}/deleteproductidfromcollection`,
   },
+  addToCart: {
+    url: `${domain}/addtocart`,
+  },
+  removeFromCart: {
+    url: `${domain}/removefromcart`,
+  },
+  clearCart: {
+    url: `${domain}/clearcart`,
+  },
+  addToWishlist: {
+    url: `${domain}/addtowishlist`,
+  },
+  removeFromWishlist: {
+    url: `${domain}/removefromwishlist`,
+  },
 };
 
 export default APIs;

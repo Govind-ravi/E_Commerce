@@ -9,19 +9,15 @@ import APIs from "../APIs";
 
 const ProductCard = ({ product }) => {
   const user = useSelector((action) => action?.user?.user);
-  const [isWishlist, setIsWishlist] = useState(false);
+  const isProductInWishlist = user?.wishlist.some(
+    (item) => item.id === product._id
+  );
+  const [isWishlist, setIsWishlist] = useState(isProductInWishlist);
   const [collections, setCollections] = useState([]);
-
-  const [newCollectionName, setNewCollectionName] = useState("");
-  const [productId, setProductId] = useState("");
   const [isCollectionVisible, setIsCollectionVisible] = useState(false);
   const [isProductAdded, setIsProductAdded] = useState(false);
   const [isProductRemoved, setIsProductRemoved] = useState(false);
-  const handleWishlist = () => {
-    setIsWishlist((prev) => {
-      return !prev;
-    });
-  };
+
   const fetchCollections = async () => {
     try {
       const response = await fetch(APIs.fetchAdminCollections.url, {
@@ -129,6 +125,68 @@ const ProductCard = ({ product }) => {
     }
   };
 
+  const handleAddToWishlist = async () => {
+    if (!user) {
+      navigate("/signin");
+      return;
+    }
+    try {
+      const response = await fetch(APIs.addToWishlist.url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          productId: product._id,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Product added to wishlist", data);
+      } else {
+        console.log("Error adding to wishlist");
+      }
+    } catch (error) {
+      console.error("Error adding product to wishlist:", error);
+    } finally {
+      setIsWishlist((prev) => {
+        return !prev;
+      });
+    }
+  };
+
+  const handleRemoveFromWishlist = async () => {
+    try {
+      const response = await fetch(APIs.removeFromWishlist.url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          productId: product._id,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Product removed from wishlist", data);
+      } else {
+        console.log("Error removing from wishlist");
+      }
+    } catch (error) {
+      console.error("Error removing product from wishlist:", error);
+    } finally {
+      setIsWishlist((prev) => {
+        return !prev;
+      });
+    }
+  };
+
   useEffect(() => {
     fetchCollections();
   }, []);
@@ -141,20 +199,30 @@ const ProductCard = ({ product }) => {
         {product && (
           <div className=" overflow-x-hidden">
             <div className="relative group">
-              {user.role !== "user" && isWishlist && (
-                <FaHeart
-                  color="red"
-                  className="absolute right-2 top-2 z-10 cursor-pointer"
-                  onClick={handleWishlist}
-                />
+              {user?.role === "user" && isWishlist && (
+                <>
+                  <FaHeart
+                    color="red"
+                    className="absolute right-2 top-2 z-10 cursor-pointer"
+                    onClick={handleRemoveFromWishlist}
+                  />
+                  <span className="text-gray-700 absolute hidden right-8 top-1 group-hover:inline">
+                      Remove from Wishlist
+                    </span>
+                </>
               )}
-              {user.role !== "user" && !isWishlist && (
-                <FaRegHeart
-                  className="absolute right-2 top-2 z-10 cursor-pointer"
-                  onClick={handleWishlist}
-                />
+              {user?.role === "user" && !isWishlist && (
+                <>
+                  <FaRegHeart
+                    className="absolute right-2 top-2 z-10 cursor-pointer"
+                    onClick={handleAddToWishlist}
+                  />
+                  <span className="text-gray-700 absolute hidden right-8 top-1 group-hover:inline">
+                      Add to wishlist
+                    </span>
+                </>
               )}
-              {user.role !== "admin" && !isWishlist && (
+              {user?.role === "admin" && !isWishlist && (
                 <>
                   <RiMenuAddFill
                     size={20}
@@ -202,8 +270,12 @@ const ProductCard = ({ product }) => {
                         })
                       ) : (
                         <div>
-                          {isProductAdded && <span className="px-2">Added</span>}
-                          {isProductRemoved && <span className="px-2">Removed</span>}
+                          {isProductAdded && (
+                            <span className="px-2">Added</span>
+                          )}
+                          {isProductRemoved && (
+                            <span className="px-2">Removed</span>
+                          )}
                         </div>
                       )}
                     </span>
@@ -229,7 +301,7 @@ const ProductCard = ({ product }) => {
               </div>
               <div className=" p-2">
                 <h4 className="text-2xl" style={{ fontFamily: "sans-serif" }}>
-                  {product.brand? product.brand: 'Branded'}
+                  {product.brand ? product.brand : "Branded"}
                 </h4>
                 <h3
                   className="text-xl truncate"

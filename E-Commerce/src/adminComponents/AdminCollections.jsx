@@ -9,9 +9,9 @@ const AdminCollections = () => {
   const [newCollectionName, setNewCollectionName] = useState("");
   const [isAddCollectionVisible, setIsAddCollectionVisible] = useState(false);
   const [products, setProducts] = useState({});
+  
   const createNewCollections = async () => {
     if (!newCollectionName) return;
-
     try {
       const response = await fetch(APIs.createAdminCollections.url, {
         method: "POST",

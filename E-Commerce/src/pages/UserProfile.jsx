@@ -36,8 +36,8 @@ const UserProfile = () => {
   
   return (
     <>
-      <div className="flex min-h-[calc(100vh-200px)] w-full ">
-        <div className="primaryDiv w-[25%] p-4 pt-4 flex flex-col gap-4 rounded-l">
+      <div className=" flex min-h-[calc(100vh-200px)] w-full">
+        <div className="bg-amber-200 w-[25%] p-4 pt-4 flex flex-col gap-4 rounded-l">
           <center>
             <div className=" relative rounded-full w-36 h-36 border-4 border-slate-400">
               {user && user.profilePicture ? (
@@ -86,7 +86,7 @@ const UserProfile = () => {
           </div>
           <button
             onClick={signOutClickHandler}
-            className="mx-auto p-2 text-white rounded"
+            className="mx-auto p-2 text-white rounded bg-gray-500"
           >
             Sign Out
           </button>

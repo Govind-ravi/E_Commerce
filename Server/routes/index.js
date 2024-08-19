@@ -28,9 +28,9 @@ import {
   addToCart,
   addToWishlist,
   getWishlist,
+  handleClearCart,
   removeFromCart,
   removeFromWishlist,
-  updateQuantityInCart,
 } from "../controller/userCartWishlist.js";
 const Router = express.Router();
 
@@ -52,11 +52,11 @@ Router.post("/addtocollection", authToken, addToCollection);
 Router.post("/deleteproductidfromcollection", authToken, deleteProductIdfFromCollection);
 Router.get("/product/:id", getProductById);
 Router.get("/searchproducts", searchProducts);
-Router.get("/addtocart", authToken, addToCart);
-Router.get("/removefromcart", authToken, removeFromCart);
-Router.get("/updatequantityincart", authToken, updateQuantityInCart);
-Router.get("/addtowishlist", authToken, addToWishlist);
-Router.get("/removefromwishlist", authToken, removeFromWishlist);
-Router.get("/getwishlist", authToken, getWishlist);
+Router.post("/addtocart", authToken, addToCart);
+Router.post("/removefromcart", authToken, removeFromCart);
+Router.post("/clearcart", authToken, handleClearCart);
+Router.post("/addtowishlist", authToken, addToWishlist);
+Router.post("/removefromwishlist", authToken, removeFromWishlist);
+Router.post("/getwishlist", authToken, getWishlist);
 
 export default Router;

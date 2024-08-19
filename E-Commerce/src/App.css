@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
   margin: 0;
   scroll-behavior: smooth;
-  margin-top: 120px;
+  padding-top: 100px;
 }
 
 ::-webkit-scrollbar {
