@@ -13,7 +13,13 @@ body {
   min-height: 100vh;
   margin: 0;
   scroll-behavior: smooth;
-  padding-top: 80px;
+  padding-top: 65px;
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-top: 70px; /* Adjust as needed for medium screens */
+  }
 }
 
 ::-webkit-scrollbar {

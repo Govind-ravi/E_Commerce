@@ -210,7 +210,7 @@ const ProductCard = ({ product }) => {
                   <img
                     src={product.images[0]}
                     alt={product.title}
-                    className="max-w-full h-auto object-cover rounded-md scale-125"
+                    className="max-w-full h-auto max-h-32 object-cover rounded-md scale-125"
                   />
                 </div>
                 {/* Product Details Section */}

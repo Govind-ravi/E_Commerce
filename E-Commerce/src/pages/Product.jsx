@@ -183,7 +183,7 @@ const Product = () => {
       setLoading(true);
       const productData = location?.state?.product;
       setProduct(productData);
-      if (productData) {
+      if (productData && !activeImage) {
         setActiveImage(productData.images[0]); // Set initial active image if product exists
       }
       fetchUserDetails();
