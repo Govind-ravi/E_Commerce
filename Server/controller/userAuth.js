@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
-
+import crypto from 'crypto'
+import nodemailer from 'nodemailer'
 export async function userSignUpController(req, res) {
   try {
     const { name, email, password, profilePicture, gender, role } = req.body;
@@ -116,3 +117,74 @@ export async function userSignOutController(req, res) {
   }
     
 }
+
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+export const requestPasswordReset = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'No account with that email address exists.' });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+    await user.save();
+
+    const resetUrl = `http://${req.headers.host}/reset/${resetToken}`;
+    const mailOptions = {
+      to: email,
+      from: process.env.EMAIL_USER,
+      subject: 'Password Reset Request',
+      text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+      Please make a PUT request to the following URL with your new password:\n\n
+      ${resetUrl}\n\n
+      If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: 'Password reset email sent.' });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Error sending password reset email.'});
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Password reset token is invalid or has expired.' });
+    }
+
+    user.password = password;
+    user.resetPasswordToken = '';
+    user.resetPasswordExpires = Date.now();
+
+    await user.save();
+
+    res.status(200).json({ message: 'Password has been reset.' });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Error resetting password.', error });
+  }
+};

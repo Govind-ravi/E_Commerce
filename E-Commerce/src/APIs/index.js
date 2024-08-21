@@ -69,6 +69,9 @@ const APIs = {
   },
   getProductsByCategory: {
     url: `${domain}/category`,
+  },
+  resetPassword: {
+    url: `${domain}/request-reset`
   }
 };
 

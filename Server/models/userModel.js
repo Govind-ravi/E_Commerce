@@ -29,18 +29,30 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
     cart: {
-      type: [{
-        id: { type: String },
-        quantity: { type: Number }
-      }],
+      type: [
+        {
+          id: { type: String },
+          quantity: { type: Number },
+        },
+      ],
       default: [],
     },
     wishlist: {
-      type: [{
-        id: { type: String }
-      }],
+      type: [
+        {
+          id: { type: String },
+        },
+      ],
       default: [],
-    }
+    },
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

@@ -1,6 +1,8 @@
 import express from "express";
 import authToken from "../middleware/authToken.js";
 import {
+  requestPasswordReset,
+  resetPassword,
   userSignInController,
   userSignOutController,
   userSignUpController,
@@ -66,5 +68,7 @@ Router.post("/clearcart", authToken, handleClearCart);
 Router.post("/addtowishlist", authToken, addToWishlist);
 Router.post("/removefromwishlist", authToken, removeFromWishlist);
 Router.post("/getwishlist", authToken, getWishlist);
+Router.post('/request-reset', requestPasswordReset);
+Router.put('/reset/:token', resetPassword);
 
 export default Router;

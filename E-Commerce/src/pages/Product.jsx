@@ -231,7 +231,7 @@ const Product = () => {
       )}
       {product ? (
         <div className="flex flex-col sm:flex-row items-center md:items-start gap-2 w-screen lg:w-[95vw] mx-auto sm:py-4 justify-center">
-          <div className="lg:w-1/2 relative group m-2 flex gap-2 lg:ml-14">
+          <div className="lg:w-[40%] relative group m-2 flex gap-2 lg:ml-10">
             {user?.role === "user" && isWishlist && (
               <>
                 <FaHeart
@@ -268,7 +268,7 @@ const Product = () => {
             </div>
             <div>
               <div
-                className="hidden lg:block w-[400px] h-[400px] border-2 bg-gray-50 cursor-crosshair"
+                className="hidden lg:block w-full h-full xl:w-[450px] xl:h-[450px] border-2 bg-gray-50 cursor-crosshair"
                 onMouseMove={handleZoom}
                 onMouseLeave={handleMouseLeave}
               >
@@ -283,25 +283,25 @@ const Product = () => {
                 <ImageSlider images={product.images} />
               </div>
               <div className="flex gap-2 my-2 font-semibold items-center">
-                <div className=" w-1/2">
+                <div className="w-1/2">
                   {cartQuantity === 0 ? (
                     <button
-                      className="py-2 w-full px-4 rounded border-2 border-[#fde66a]"
+                      className="py-2 w-full px-4 rounded border-2 border-[#f6e1b1]"
                       onClick={handleAddToCart}
                     >
                       Add to Cart
                     </button>
                   ) : (
-                    <div className="flex justify-between items-center rounded border-2 h-full border-[#fde66a]">
+                    <div className="flex justify-between items-center rounded border-2 h-full border-[#f6e1b1]">
                       <div
-                        className="bg-[#fde66a] h-full flex items-center p-2"
+                        className="bg-[#f6e1b1] h-full flex items-center p-2"
                         onClick={handleDecreaseQuantity}
                       >
                         <FaMinus className="h-full cursor-pointer" />
                       </div>
                       <span>{cartQuantity}</span>
                       <div
-                        className="bg-[#fde66a] h-full flex items-center p-2"
+                        className="bg-[#f6e1b1] h-full flex items-center p-2"
                         onClick={handleIncreaseQuantity}
                       >
                         <FaPlus className="h-full cursor-pointer" />
@@ -313,7 +313,7 @@ const Product = () => {
                   className="py-2 px-4 w-1/2 rounded"
                   style={{
                     background: "white",
-                    border: "3px solid gold",
+                    border: "3px solid #f6e1b1",
                     boxSizing: "border-box",
                   }}
                 >
@@ -322,7 +322,7 @@ const Product = () => {
               </div>
             </div>
             {zoomVisible && (
-              <div className="w-[450px] h-[450px] bg-gray-50 overflow-hidden border absolute -right-[460px] top-0">
+              <div className="w-[500px] h-[500px] bg-gray-50 overflow-hidden border absolute -right-[82%] top-0">
                 <div
                   className="h-[450px] w-[450px]"
                   style={{
@@ -336,7 +336,7 @@ const Product = () => {
               </div>
             )}
           </div>
-          <div className="px-2 xs:px-8 sm:px-0 sm:w-1/2 mt-2 sm:h-[80vh] sm:overflow-scroll">
+          <div className="px-2 xs:px-8 sm:px-0 w-[60%] sm:w-1/2 mt-2 sm:h-[80vh] sm:overflow-scroll">
             <span className="bg-amber-200 py-1 px-4 text-sm rounded-lg">
               {product.brand ? product.brand : "Branded"}
             </span>
@@ -346,12 +346,15 @@ const Product = () => {
             >
               {product.title}
             </h1>
-            <p className="mb-2 text-sm md:text-base" style={{ fontFamily: "sans-serif" }}>
+            <p
+              className="mb-2 text-sm md:text-base"
+              style={{ fontFamily: "sans-serif" }}
+            >
               {product.description}
             </p>
             <div className="flex my-2 gap-1">
               <StarRating rating={product.rating} />{" "}
-              <span className="mx=2">
+              <span className="mx-2">
                 ({product.reviews?.length || 0} reviews)
               </span>
             </div>
@@ -418,14 +421,7 @@ const Product = () => {
                           </span>
                         </div>
                         <span className="text-sm text-gray-700 font-semibold">
-                          {review.reviewerName}
-                        </span>
-                        <span className="text-sm text-gray-700 mx-4">
-                          {new Date(review.date).toLocaleString("en-us", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
+                          {review.reviewedBy}
                         </span>
                       </div>
                     ))}
@@ -436,7 +432,9 @@ const Product = () => {
           </div>
         </div>
       ) : (
-        <div>No product found.</div>
+        <div className="flex items-center justify-center w-screen h-screen">
+          <p className="text-xl font-semibold text-gray-600">Loading...</p>
+        </div>
       )}
     </>
   );
