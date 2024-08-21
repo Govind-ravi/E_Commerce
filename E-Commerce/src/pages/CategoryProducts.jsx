@@ -36,12 +36,17 @@ const CategoryProducts = () => {
     fetchProducts();
   }, [categoryName]);
 
+  if(products.length === 0){
+    return (
+      <div className="p-4 font-semibold text-xl">No Products found in this category</div>
+    )
+  }
   return (
     <>
       <h1 className="text-3xl m-4 capitalize">
         {products[0]?.category.replace(/-/g, " ")}
       </h1>
-      <div className="flex flex-wrap gap-4 mx-4">
+      <div className="flex flex-wrap gap-2 xs:gap-4 mx-2 md:mx-4">
         {products.map((product) => {
           return <ProductCard key={product.title} product={product} />;
         })}

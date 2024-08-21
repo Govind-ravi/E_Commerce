@@ -10,6 +10,7 @@ import { FaHeart } from "react-icons/fa";
 import { AiFillCloseSquare } from "react-icons/ai";
 import APIs from "../APIs";
 import Context from "../context";
+import ImageSlider from "../components/ProductImageSlider";
 
 const Product = () => {
   const user = useSelector((action) => action?.user?.user);
@@ -217,11 +218,10 @@ const Product = () => {
   return (
     <>
       {isCheckOut && (
-        <div
-          className="fixed text-xl flex items-center justify-between w-40 bottom-20 right-20 bg-amber-200 px-1 pl-2 py-1 rounded font-semibold"
-        >
-          <p className="cursor-pointer"
-          onClick={() => navigate("/profile")}>Check Out</p>
+        <div className="fixed text-xl flex items-center justify-between w-40 bottom-20 right-20 bg-amber-200 px-1 pl-2 py-1 rounded font-semibold">
+          <p className="cursor-pointer" onClick={() => navigate("/profile")}>
+            Check Out
+          </p>
           <AiFillCloseSquare
             className="z-10 cursor-pointer"
             onClick={handleCloseCheckOut}
@@ -230,8 +230,8 @@ const Product = () => {
         </div>
       )}
       {product ? (
-        <div className="flex gap-2 w-[95vw] mx-auto">
-          <div className="relative group m-2 flex gap-2 ml-16">
+        <div className="flex flex-col sm:flex-row items-center md:items-start gap-2 w-screen lg:w-[95vw] mx-auto sm:py-4 justify-center">
+          <div className="lg:w-1/2 relative group m-2 flex gap-2 lg:ml-14">
             {user?.role === "user" && isWishlist && (
               <>
                 <FaHeart
@@ -255,7 +255,7 @@ const Product = () => {
                 </span>
               </>
             )}
-            <div className="flex flex-col gap-2">
+            <div className="hidden lg:flex flex-col gap-2">
               {product.images.map((image, i) => (
                 <div
                   key={i}
@@ -268,7 +268,7 @@ const Product = () => {
             </div>
             <div>
               <div
-                className="w-[400px] h-[400px] border-2 bg-gray-50 cursor-crosshair"
+                className="hidden lg:block w-[400px] h-[400px] border-2 bg-gray-50 cursor-crosshair"
                 onMouseMove={handleZoom}
                 onMouseLeave={handleMouseLeave}
               >
@@ -277,6 +277,10 @@ const Product = () => {
                   src={activeImage}
                   alt=""
                 />
+              </div>
+
+              <div className="lg:hidden w-[300px] h-[300px] xs:w-[400px] xs:h-[400px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px]">
+                <ImageSlider images={product.images} />
               </div>
               <div className="flex gap-2 my-2 font-semibold items-center">
                 <div className=" w-1/2">
@@ -332,14 +336,17 @@ const Product = () => {
               </div>
             )}
           </div>
-          <div className="mt-2 w-[45%] h-[80vh] overflow-scroll">
+          <div className="px-2 xs:px-8 sm:px-0 sm:w-1/2 mt-2 sm:h-[80vh] sm:overflow-scroll">
             <span className="bg-amber-200 py-1 px-4 text-sm rounded-lg">
               {product.brand ? product.brand : "Branded"}
             </span>
-            <h1 className="text-4xl mt-2" style={{ fontFamily: "sans-serif" }}>
+            <h1
+              className="text-xl md:text-2xl lg:text-4xl mt-2 font-semibold lg:font-normal"
+              style={{ fontFamily: "sans-serif" }}
+            >
               {product.title}
             </h1>
-            <p className="mb-2" style={{ fontFamily: "sans-serif" }}>
+            <p className="mb-2 text-sm md:text-base" style={{ fontFamily: "sans-serif" }}>
               {product.description}
             </p>
             <div className="flex my-2 gap-1">
@@ -348,9 +355,9 @@ const Product = () => {
                 ({product.reviews?.length || 0} reviews)
               </span>
             </div>
-            <div className="flex items-center text-xl gap-2">
+            <div className="flex items-center md:text-xl gap-2">
               <p
-                className="font-bold text-2xl"
+                className="font-bold text-xl md:text-2xl"
                 style={{ fontFamily: "sans-serif" }}
               >
                 ₹{" "}
@@ -359,7 +366,7 @@ const Product = () => {
                     (product.discountPercentage * product.price) / 100) *
                     84
                 )}{" "}
-                <span className="px-1 text-gray-500 font-normal line-through decoration-1">
+                <span className="px-1 text-gray-500 text-lg font-normal line-through decoration-1">
                   ₹{Math.floor(product.price * 84)}
                 </span>
               </p>
@@ -367,15 +374,19 @@ const Product = () => {
                 {product.discountPercentage} % off
               </p>
             </div>
-            <div className="font-semibold text-2xl my-4">
+            <div className="font-semibold text-lg md:text-xl lg:text-2xl my-4">
               Product Details:
-              <div className="font-normal flex flex-col text-xl">
+              <div className="font-normal flex flex-col">
                 {product.weight && (
-                  <span className="text-lg">Weight: {product.weight}kg</span>
+                  <span className="text-base lg:text-lg">
+                    Weight: {product.weight}kg
+                  </span>
                 )}
-                <div className="flex gap-2 items-center">
-                  <h3 className="font-semibold">Dimensions: </h3>
-                  <div className="flex gap-2 text-base">
+                <div className="lg:flex gap-2 items-center">
+                  <h3 className="font-semibold text-lg lg:text-xl">
+                    Dimensions:
+                  </h3>
+                  <div className="flex gap-2 text-sm lg:text-base text-nowrap">
                     {product.dimensions?.width && (
                       <span>Width: {product.dimensions.width}kg,</span>
                     )}
@@ -388,15 +399,19 @@ const Product = () => {
                   </div>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-xl">Reviews: </h3>
+                  <h3 className="font-semibold text-lg md:text-xl lg:text-2xl mt-2">
+                    Reviews:{" "}
+                  </h3>
                   <div className="flex flex-col gap-2">
                     {product.reviews?.map((review, i) => (
                       <div
                         key={i}
-                        className="p-2 rounded border w-1/2 bg-gray-200"
+                        className="p-2 rounded border w-2/3 md:w-1/2 bg-gray-200"
                       >
                         <div className="flex gap-2 items-center">
-                          <p className="text-lg">{review.comment}</p>
+                          <p className="text-base lg:text-lg">
+                            {review.comment}
+                          </p>
                           <span className="text-base font-bold bg-white px-1 rounded flex gap-1 items-center">
                             {review.rating}
                             <FaStar color="gold" />

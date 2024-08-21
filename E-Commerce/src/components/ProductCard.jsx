@@ -200,29 +200,37 @@ const ProductCard = ({ product }) => {
   };
   return (
     <>
-      <div className="pr-2 w-[300px] border bg-white shadow-lg rounded-lg font-semibold hover:scale-[1.05] transition-transform duration-200 ease-in-out">
+      <div className="relative pr-2 w-[140px] vs:w-[160px] sm:w-[200px] md:w-[250px] lg:w-[300px] border bg-white shadow-lg rounded-lg font-semibold hover:scale-[1.05] transition-transform duration-200 ease-in-out">
         {product && (
           <div className="overflow-hn">
             <Link to={`/product`} state={{ product }}>
-              <div className="flex">
+              <div className="flex flex-col md:flex-row items-center">
                 {/* Product Image Section */}
-                <div className="w-[150px] p-2 flex items-center justify-center overflow-hidden m-0.5">
+                <div className="w-[100px] h-[100px] md:h-full md:w-[150px] p-2 flex items-center justify-center overflow-hidden m-0.5">
                   <img
                     src={product.images[0]}
                     alt={product.title}
                     className="max-w-full h-auto max-h-32 object-cover rounded-md scale-125"
                   />
                 </div>
+
                 {/* Product Details Section */}
-                <div className="w-full p-2">
+                <div className="w-fit mx-auto px-2 py-1 md:py-2">
                   {/* Rating and Wishlist/Collection Buttons */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm gap-1">
-                      <span className="text-base">{product.rating}</span>
-                      <FaStar color="red" />
-                      <span>({product.reviews.length})</span>
+                    <div className="flex w-full items-center text-xs md:text-sm justify-between">
+                      <div className="flex items-center text-xs md:text-sm gap-1">
+                        <span className="text-base md:text-base">
+                          {product.rating}
+                        </span>
+                        <FaStar color="gold" />
+                        <span>({product.reviews.length})</span>
+                      </div>
+                      <span className="hidden sm:inline md:hidden bg-gray-200 rounded px-1 truncate py-0.5 text-xs text-gray-700">
+                        {product?.brand ? product.brand : product.tags[0]}
+                      </span>
                     </div>
-                    <div className="relative group z-100">
+                    <div className="absolute top-2 right-2 group z-100">
                       {!user && (
                         <>
                           <FaRegHeart
@@ -234,7 +242,7 @@ const ProductCard = ({ product }) => {
                           </span>
                         </>
                       )}
-                      {user?.role === "user" && isWishlist && (
+                      {user?.role == "user" && isWishlist && (
                         <>
                           <FaHeart
                             color="red"
@@ -246,7 +254,7 @@ const ProductCard = ({ product }) => {
                           </span>
                         </>
                       )}
-                      {user?.role === "user" && !isWishlist && (
+                      {user?.role == "user" && !isWishlist && (
                         <>
                           <FaRegHeart
                             className="cursor-pointer"
@@ -257,7 +265,7 @@ const ProductCard = ({ product }) => {
                           </span>
                         </>
                       )}
-                      {user?.role === "admin" && (
+                      {user?.role == "admin" && (
                         <>
                           <RiMenuAddFill
                             size={20}
@@ -276,7 +284,8 @@ const ProductCard = ({ product }) => {
                                     onClick={(e) =>
                                       removeProductFromCollection(
                                         collection._id,
-                                        product._id, e
+                                        product._id,
+                                        e
                                       )
                                     }
                                   >
@@ -289,7 +298,8 @@ const ProductCard = ({ product }) => {
                                     onClick={(e) =>
                                       addProductToCollection(
                                         collection._id,
-                                        product._id, e
+                                        product._id,
+                                        e
                                       )
                                     }
                                   >
@@ -305,21 +315,21 @@ const ProductCard = ({ product }) => {
                   </div>
 
                   {/* Product Brand */}
-                  <span className="bg-gray-200 rounded px-2 py-0.5 text-xs text-gray-700">
+                  <span className="hidden md:inline bg-gray-200 rounded px-2 py-0.5 text-xs text-gray-700">
                     {product?.brand ? product.brand : product.tags[0]}
                   </span>
 
                   {/* Product Title */}
                   <h3
-                    className="text-md font-bold w-[140px] truncate mt-1"
+                    className="text-sm sm:text-base md:text-lg font-bold w-[140px] truncate mt"
                     style={{ fontFamily: "sans-serif" }}
                   >
                     {product.title}
                   </h3>
 
                   {/* Price and Discount */}
-                  <div className="mt-2">
-                    <p className="text-lg font-bold text-gray-800">
+                  <div className="mt-1">
+                    <p className="text-sm sm:text-base md:text-lg font-bold text-gray-800">
                       ₹
                       {Math.floor(
                         (product.price -

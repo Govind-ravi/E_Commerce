@@ -253,7 +253,7 @@ function Header() {
           </div>
           <div className="flex items-center gap-2">
             {user ? (
-              <div className="relative group rounded-full overflow-hidden w-10 h-10 flex items-center justify-center border-2 border-gray-700">
+              <div className="relative group rounded-full overflow-hidden w-8 h-8 xs:w-10 xs:h-10 flex items-center justify-center border-2 border-gray-700">
                 <Link to="/profile">
                   <img
                     src={user.profilePicture}
@@ -306,7 +306,7 @@ function Header() {
 
       {/* Sidebar */}
       <div
-        className={`md:hidden fixed top-0 bg-gray-700 h-[100vh] w-[80%] xss:w-[70%] xs:w-[60vw] sm:w-[50vw] z-[100] overflow-y-scroll transform ${
+        className={`md:hidden fixed top-0 bg-gray-700 h-[100vh] w-[80%] xss:w-[70%] xs:w-[60vw] sm:w-[50vw] z-[200] overflow-y-scroll transform ${
           isSideBarMenu ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >
@@ -327,12 +327,6 @@ function Header() {
             <div className="relative group flex gap-2 items-center">
               <FaShoppingCart size={28} className="text-gray-200" />
               <div>My Cart {user?.cart?.length}</div>
-              <button
-                style={{ padding: "0px 7px" }}
-                className="font-semibold rounded-full text-sm px-1 py-0 absolute -top-2 -right-2 bg-red-500 text-white"
-              >
-                {user?.cart?.length}
-              </button>
             </div>
           </Link>
           <Link to={`${user ? "/profile/mywishlist" : "/signin"}`}>

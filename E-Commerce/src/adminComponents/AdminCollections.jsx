@@ -39,81 +39,81 @@ const AdminCollections = () => {
     }
   };
 
-  const addProductToCollection = async (collectionId, productId) => {
-    if (!collectionId || !productId) return;
+  // const addProductToCollection = async (collectionId, productId) => {
+  //   if (!collectionId || !productId) return;
 
-    try {
-      const response = await fetch(APIs.addProductToCollection.url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          collectionId,
-          productId,
-        }),
-      });
+  //   try {
+  //     const response = await fetch(APIs.addProductToCollection.url, {
+  //       method: "POST",
+  //       credentials: "include",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         collectionId,
+  //         productId,
+  //       }),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (response.ok) {
-        setCollections((prevCollections) =>
-          prevCollections?.map((collection) =>
-            collection._id === collectionId
-              ? {
-                  ...collection,
-                  collectionProductId: [
-                    ...collection.collectionProductId,
-                    productId,
-                  ],
-                }
-              : collection
-          )
-        );
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error("Failed to add product to collection:", error);
-    }
-  };
+  //     if (response.ok) {
+  //       setCollections((prevCollections) =>
+  //         prevCollections?.map((collection) =>
+  //           collection._id === collectionId
+  //             ? {
+  //                 ...collection,
+  //                 collectionProductId: [
+  //                   ...collection.collectionProductId,
+  //                   productId,
+  //                 ],
+  //               }
+  //             : collection
+  //         )
+  //       );
+  //     } else {
+  //       console.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to add product to collection:", error);
+  //   }
+  // };
 
-  const removeProductFromCollection = async (collectionId, productId) => {
-    if (!collectionId || !productId) return;
-    try {
-      const response = await fetch(APIs.deletProductIdFromCollection.url, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          collectionId,
-          productId,
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setCollections((prevCollections) =>
-          prevCollections?.map((collection) =>
-            collection._id === collectionId
-              ? {
-                  ...collection,
-                  collectionProductId: collection.collectionProductId.filter(
-                    (id) => id !== productId
-                  ),
-                }
-              : collection
-          )
-        );
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error("Failed to remove product from collection:", error);
-    }
-  };
+  // const removeProductFromCollection = async (collectionId, productId) => {
+  //   if (!collectionId || !productId) return;
+  //   try {
+  //     const response = await fetch(APIs.deletProductIdFromCollection.url, {
+  //       method: "POST",
+  //       credentials: "include",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         collectionId,
+  //         productId,
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       setCollections((prevCollections) =>
+  //         prevCollections?.map((collection) =>
+  //           collection._id === collectionId
+  //             ? {
+  //                 ...collection,
+  //                 collectionProductId: collection.collectionProductId.filter(
+  //                   (id) => id !== productId
+  //                 ),
+  //               }
+  //             : collection
+  //         )
+  //       );
+  //     } else {
+  //       console.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to remove product from collection:", error);
+  //   }
+  // };
 
   const fetchCollections = async () => {
     try {
@@ -121,12 +121,11 @@ const AdminCollections = () => {
         credentials: "include",
       });
       const data = await response.json();
-
       if (response.ok) {
-        setCollections(data.collections);
+        setCollections(data.data);
 
         // Fetch all products based on product IDs in the collections
-        const productIds = data.collections?.flatMap(
+        const productIds = data.data?.flatMap(
           (collection) => collection.collectionProductId?.map((idObj) => idObj.id)
         );
 
@@ -155,7 +154,9 @@ const AdminCollections = () => {
 
   useEffect(() => {
     fetchCollections();
-  }, []);
+    console.log(1);
+    
+  }, [setCollections]);
 
   return (
     <>

@@ -17,13 +17,13 @@ const AccordionMenu = ({ collections, handleScroll, setIsSideBarMenu }) => {
           className="flex items-center cursor-pointer"
           onClick={() => toggleAccordion(0)}
         >
-          <Link to="/">
+          <Link >
             <div className="flex items-center">
               Home
               {openIndex === 0 ? (
-                <FaChevronDown className="ml-2" />
+                <FaChevronDown className="ml-2" size={12}/>
               ) : (
-                <FaChevronRight className="ml-2" />
+                <FaChevronRight className="ml-2" size={12}/>
               )}
             </div>
           </Link>
