@@ -97,22 +97,22 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex max-w-[60vw] mx-auto mt-8 items-center h-[80vh]">
-      <div className="primaryDiv h-full flex flex-col justify-center items-center w-[50%] gap-2">
+    <div className="flex max-h-[600px] max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] xl:max-w-[60vw] mx-auto mt-8 items-center h-[80vh]">
+      <div className="hidden primaryDiv h-full xs:flex flex-col justify-center items-center w-[45%] md:w-[50%] gap-2 p-2">
         <h1 className="text-3xl font-bold text-center">Create your account!</h1>
         <p className="text-center font-semibold">
           Sign up to unlock exclusive features and stay updated with your latest
           activities. It only takes a few moments to get started!
         </p>
       </div>
-      <div className="secondaryDiv w-[50%] h-full px-14 py-4 bg-white">
+      <div className="secondaryDiv w-[95%] xss:w-[80%] mx-auto xs:w-[55%] md:w-[50%] h-full px-8 xs:px-4 sm:px-8 md:px-14 py-4 bg-white">
         <center className="font-semibold">
           <label className=" flex flex-col items-center">
             {data.profilePicture === "" && (
               <>
                 <FaUserCircle
                   size={100}
-                  color="black"
+                  color="gray"
                   className="text-center mt-2 "
                 />
                 {loading ? "Uploading..." : "Upload Picture"}
@@ -140,7 +140,7 @@ const SignUp = () => {
         </center>
         <form
           action=""
-          className="flex flex-col gap-6 font-semibold"
+          className="flex flex-col gap-4 lg:gap-6 font-semibold"
           onSubmit={handleSubmit}
         >
           <div className="flex flex-col items-center relative"></div>
@@ -156,7 +156,7 @@ const SignUp = () => {
               />
               <FaUser size={24} />
             </div>
-            <div className="h-[0.075rem] mt-2 bg-black"></div>
+            <div className="h-[0.05rem] mt-2 bg-black"></div>
           </div>
           <div>
             <div className="relative flex items-center justify-between rounded-lg">
@@ -170,7 +170,7 @@ const SignUp = () => {
               />
               <MdEmail size={24} />
             </div>
-            <div className="h-[0.125rem] mt-2 bg-black"></div>
+            <div className="h-[0.05rem] mt-2 bg-black"></div>
           </div>
           <div>
             <div className="relative flex items-center justify-between rounded-lg">
@@ -193,7 +193,7 @@ const SignUp = () => {
                 )}
               </div>
             </div>
-            <div className="h-[0.075rem] bg-black mt-2"></div>{" "}
+            <div className="h-[0.05rem] bg-black mt-2"></div>{" "}
             {/* Line for password */}
           </div>
           <div>
@@ -216,7 +216,7 @@ const SignUp = () => {
                 )}
               </div>
             </div>
-            <div className="h-0.5 bg-black mt-2"></div>
+            <div className="h-[0.05rem] bg-black mt-2"></div>
           </div>
           {!passwordNotMatch && (
             <p className="text-red-500 text-center">Passwords do not match.</p>
@@ -285,7 +285,7 @@ const SignUp = () => {
             >
               Sign Up
             </button>
-            <Link to="/signin" className="text-center">
+            <Link to="/signin" className="text-center text-nowrap">
               Already have an account? Sign In
             </Link>
           </div>

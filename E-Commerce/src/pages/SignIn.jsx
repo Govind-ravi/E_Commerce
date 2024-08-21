@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import {  Button, Input } from "../components/CustomTags";
+import { Button, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import APIs from "../APIs";
@@ -68,26 +68,26 @@ const SignIn = () => {
 
   return (
     <>
-      <div className="flex max-w-[60vw] mx-auto mt-10 items-center h-[70vh] text-black">
-        <div className="primaryDiv h-full flex flex-col justify-center items-center w-[50%] gap-2">
+      <div className="flex max-h-[500px] max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] xl:max-w-[60vw] mx-auto mt-10 items-center h-[70vh] text-black">
+        <div className="hidden primaryDiv h-full xs:flex flex-col justify-center items-center w-[45%] md:w-[50%] gap-2 p-2">
           <h1 className="text-3xl font-bold text-center">Hello User!</h1>
           <p className="text-center font-semibold">
             Sign in to your account and stay updated with your latest
             activities. Let's get you logged in and ready to go!
           </p>
         </div>
-        <div className="secondaryDiv w-[50%] h-full px-14 bg-white">
-          <center className="mb-8 my-4">
+        <div className="secondaryDiv w-[95%] xss:w-[80%] mx-auto xs:w-[55%] md:w-[50%] h-full max-h-[80vh] px-8 xs:px-4 sm:px-8 md:px-14">
+          <center className="lg:mb-8 my-4">
             <FaUserCircle
               size={100}
-              color="black"
+              color="gray"
               className="text-center self-center"
             />
             <p className="font-bold text-xl">Login</p>
           </center>
           <form
             action=""
-            className="flex flex-col gap-10"
+            className="flex flex-col gap-5 lg:gap-10"
             onSubmit={handleSubmit}
           >
             <div>
@@ -100,9 +100,9 @@ const SignIn = () => {
                   placeholder="Email"
                   className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
                 />
-                <MdEmail size={24}/>
+                <MdEmail size={24} />
               </div>
-              <div className="h-[0.075rem] mt-2 bg-black"></div>
+              <div className="h-[0.05rem] mt-2 bg-black"></div>
             </div>
             <div>
               <div className="relative flex items-center justify-between rounded-lg">
@@ -119,13 +119,13 @@ const SignIn = () => {
                   className="absolute right-0 cursor-pointer"
                 >
                   {showPassword ? (
-                    <IoMdEyeOff size={24}/>
+                    <IoMdEyeOff size={24} />
                   ) : (
                     <IoMdEye size={24} />
                   )}
                 </div>
               </div>
-              <div className="h-0.5 bg-black mt-2"></div>
+              <div className="h-[0.05rem] bg-black mt-2"></div>
               {/* Line for password */}
             </div>
             <label className="flex items-center font-semibold">

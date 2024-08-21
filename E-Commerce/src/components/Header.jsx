@@ -267,7 +267,7 @@ function Header() {
               </div>
             ) : (
               <Link to={"/signin"}>
-                <button className="text-black py-0.5 px-1 xss:p-1 xs:p-2 xs:px-4 font-semibold rounded my-5">
+                <button className="text-black py-0.5 px-1 xss:p-1 xs:p-2 xs:px-4 font-semibold rounded">
                   Login
                 </button>
               </Link>
