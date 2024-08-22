@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { Button, Input } from "../components/CustomTags";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import APIs from "../APIs";
@@ -15,6 +14,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
   const { fetchUserDetails } = useContext(Context);
 
@@ -41,25 +41,29 @@ const SignIn = () => {
         },
         body: JSON.stringify(data),
       });
+
       const Data = await dataResponse.json();
 
       if (Data.error) {
         return alert(Data.message);
       }
+
+      // Handle admin verification
       if (isAdmin) {
         if (Data.data.role !== "admin") {
-          return setVerifyAdmin(false);
-        } else {
-          return setVerifyAdmin(true);
+          setVerifyAdmin(false); // Not an admin, show verification error
+          return; // Stop execution
         }
       }
+
+      // If no admin verification needed or if admin verified, proceed
+      setVerifyAdmin(true);
+      navigate("/"); // Redirect after successful sign-in
+      fetchUserDetails(); // Fetch user details
     } catch (error) {
       console.error(error);
-      return alert("Failed to sign in");
+      alert("Failed to sign in");
     }
-
-    navigate("/");
-    fetchUserDetails();
   };
 
   const togglePasswordVisibility = () => {
@@ -138,7 +142,7 @@ const SignIn = () => {
               Are you admin
             </label>
             {!verifyAdmin && (
-              <p className="text-red-500 text-center">
+              <p className="text-red-500 text-center text-nowrap -my-8">
                 You are not an admin! Get access to be admin after sign In
               </p>
             )}
@@ -146,9 +150,9 @@ const SignIn = () => {
               <Link to="../forgotpassword" className="text-center">
                 Forgot Password?
               </Link>
-              <Button className="font-semibold text-black rounded p-2 w-24 mx-auto bg-[#cc80f9] transition duration-200">
+              <button className="font-semibold text-black rounded p-2 w-24 mx-auto bg-[#cc80f9] transition duration-200">
                 Sign In
-              </Button>
+              </button>
               <Link to="/signup" className="text-center">
                 Don't have an account? Sign Up
               </Link>

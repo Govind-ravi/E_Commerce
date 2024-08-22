@@ -178,38 +178,38 @@ const Product = () => {
   const handleCloseCheckOut = () => {
     setIsCheckOut(false);
   };
-
+  
   useEffect(() => {
-    const fetchProduct = () => {
+    const fetchProduct = async () => {
       setLoading(true);
       const productData = location?.state?.product;
-      setProduct(productData);
-      if (productData && !activeImage) {
-        setActiveImage(productData.images[0]); // Set initial active image if product exists
-      }
-      fetchUserDetails();
-      setLoading(false);
-    };
-
-    const updateCartQuantity = () => {
-      if (user && product) {
-        const cartItem = user.cart.find((item) => item.id === product._id);
-        if (cartItem) {
-          setCartQuantity(cartItem.quantity);
+      if (productData) {
+        setProduct(productData);
+        if (!activeImage && productData.images.length > 0) {
+          setActiveImage(productData.images[0]); // Set initial active image if product exists
         }
       }
+      await fetchUserDetails(); // Await if fetchUserDetails is asynchronous
+      setLoading(false);
     };
-
+  
+    fetchProduct();
+  }, [location?.state?.product]); // Only re-run effect if location.state.product changes
+  
+  useEffect(() => {
     if (user && product) {
+      const cartItem = user.cart.find((item) => item.id === product._id);
+      if (cartItem) {
+        setCartQuantity(cartItem.quantity);
+      }
       const isProductInWishlist = user?.wishlist?.some(
         (item) => item.id === product._id
       );
-      setIsWishlist(isProductInWishlist); // Update state once data is available
+      setIsWishlist(isProductInWishlist); // Update wishlist state
     }
-
-    fetchProduct();
-    updateCartQuantity();
-  }, [location, user, product?._id]);
+  }, [user, product?._id]); // Only re-run effect if user or product._id changes
+  
+  
 
   if (loading) {
     return <div>Loading...</div>;

@@ -60,7 +60,7 @@ export async function userSignInController(req, res) {
   try {
     const { email, password } = req.body;
 
-    const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ email: new RegExp(`^${email}$`, 'i') });
 
     if (!user) {
       return res

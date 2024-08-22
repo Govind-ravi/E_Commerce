@@ -95,7 +95,7 @@ const MyAddress = () => {
   };
 
   return (
-    <div className=" bg-white w-[80%] rounded-r py-2 px-4">
+    <div className=" w-[95%] sm:w-[80%] rounded-r py-2 px-4">
       <h1 className="text-4xl font-semibold">My Address</h1>
 
       {user && user.address.length > 0 ? (
@@ -104,14 +104,14 @@ const MyAddress = () => {
             return (
               <div
                 key={address.name}
-                className="bg-white my-2 p-2 w-1/2 relative rounded border"
+                className="bg-white my-2 p-2 w-[270px] xxs:w-[300px] relative rounded border"
               >
                 <label className="flex items-center gap-2">
                   <input
                     className=" top-[40%] size-4 accent-red-500"
                     type="radio"
                     value={address.name}
-                    checked={selectedAddress === address.name}
+                    checked={selectedAddress === address.name || user.address.length === 1}
                     onChange={handleAddressChange}
                   />
                   <div className="flex-grow">
@@ -141,7 +141,7 @@ const MyAddress = () => {
       {isFormVisible && (
         <form
           onSubmit={handleSubmit}
-          className="mt-4 w-1/3 flex flex-col gap-2"
+          className="mt-4 xs:w-[400px] lg:w-[300px] flex flex-col gap-2"
         >
           <div>
             <div className="relative flex items-center justify-between rounded-lg">

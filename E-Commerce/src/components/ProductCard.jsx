@@ -148,7 +148,6 @@ const ProductCard = ({ product }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Product added to wishlist", data);
       } else {
         console.log("Error adding to wishlist");
       }
@@ -178,7 +177,6 @@ const ProductCard = ({ product }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Product removed from wishlist", data);
       } else {
         console.log("Error removing from wishlist");
       }

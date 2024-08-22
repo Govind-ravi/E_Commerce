@@ -28,7 +28,6 @@ const SearchResults = () => {
         // Use searchTerm instead of query
         const result = await searchProducts(searchTerm);
         setProducts(result);
-        console.log(result);
       }
     };
 

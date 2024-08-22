@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { fetchProductById } from "../helpers/fetchProduct";
-import { FaPlus, FaMinus } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
+import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import APIs from "../APIs";
 import Context from "../context";
+import { Link } from "react-router-dom";
 
 const YourCart = () => {
   const user = useSelector((state) => state.user?.user);
@@ -13,35 +13,44 @@ const YourCart = () => {
   const [cartQuantities, setCartQuantities] = useState({});
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const productPromises = user?.cart?.map(async (item) => {
-        const product = await fetchProductById(item.id); // Ensure this function returns a promise
-        return { ...product, quantity: item.quantity }; // Include quantity in the product data
-      });
+  // Memoize fetchProducts
+const fetchProducts = useCallback(async () => {
+  console.log("Fetching products..."); // Debug log
+  if (!user?.cart?.length) return;
 
-      try {
-        const fetchedProducts = await Promise.all(productPromises);
-        setProducts(fetchedProducts); // Set the state with the array of products
-        // Initialize quantities
-        const quantities = fetchedProducts.reduce((acc, product) => {
-          acc[product._id] = product.quantity;
-          return acc;
-        }, {});
-        setCartQuantities(quantities);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    if (user?.cart?.length) {
-      fetchProducts();
+  const productPromises = user.cart.map(async (item) => {
+    try {
+      const product = await fetchProductById(item.id);
+      return { ...product, quantity: item.quantity };
+    } catch (error) {
+      console.error(`Error fetching product ${item.id}:`, error);
+      return null;
     }
-    fetchUserDetails();
-  }, [user?.cart]);
+  });
+
+  try {
+    const fetchedProducts = await Promise.all(productPromises);
+    setProducts(fetchedProducts.filter(Boolean)); // Remove null values
+    const quantities = fetchedProducts.reduce((acc, product) => {
+      acc[product._id] = product.quantity;
+      return acc;
+    }, {});
+    setCartQuantities(quantities);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+}, [user?.cart]); // Memoized dependencies
+
+// Ensure useEffect runs only when necessary
+useEffect(() => {
+  console.log("Running fetchProducts useEffect...");
+  fetchProducts();
+}, [fetchProducts]); // Only include fetchProducts here
+
 
   const handleIncreaseQuantity = async (productId) => {
     try {
+      console.log("Increasing quantity for product:", productId);
       const response = await fetch(APIs.addToCart.url, {
         method: "POST",
         credentials: "include",
@@ -63,6 +72,8 @@ const YourCart = () => {
             [productId]: updatedItem.quantity,
           }));
         }
+      } else {
+        console.error("Failed to increase quantity");
       }
     } catch (error) {
       console.error("Error increasing product quantity:", error);
@@ -71,6 +82,7 @@ const YourCart = () => {
 
   const handleDecreaseQuantity = async (productId) => {
     try {
+      console.log("Decreasing quantity for product:", productId);
       const response = await fetch(APIs.removeFromCart.url, {
         method: "POST",
         credentials: "include",
@@ -98,6 +110,8 @@ const YourCart = () => {
             return newQuantities;
           });
         }
+      } else {
+        console.error("Failed to decrease quantity");
       }
     } catch (error) {
       console.error("Error decreasing product quantity:", error);
@@ -106,6 +120,7 @@ const YourCart = () => {
 
   const clearCart = async () => {
     try {
+      console.log("Clearing cart...");
       const response = await fetch(APIs.clearCart.url, {
         method: "POST",
         credentials: "include",
@@ -120,51 +135,64 @@ const YourCart = () => {
         const data = await response.json();
         setProducts(data.cart);
         setCartQuantities({});
+      } else {
+        console.error("Failed to clear cart");
       }
     } catch (error) {
       console.error("Error clearing cart:", error);
     } finally {
       setIsOrderPlaced(true);
-      setInterval(() => {
-        setIsOrderPlaced(false);
-      }, 3000);
+      setTimeout(() => setIsOrderPlaced(false), 3000); // Use setTimeout instead of setInterval
     }
   };
 
   return (
     <>
-      <div className="relative w-[80%] rounded-r py-2 px-4">
-        {user?.cart?.length !== 0 && <div className="absolute w-28 h-10 bottom-4 right-10 rounded">
-          <button
-            onClick={clearCart}
-            className="h-full w-full rounded font-semibold"
-          >
-            {isOrderPlaced ? "Order Placed" : "Place Order"}
-          </button>
-        </div>}
-        <h1 className="text-4xl font-semibold">My Cart</h1>
+      <div className="relative w-full lg:w-[80%] rounded-r py-2 px-4">
+        {user?.cart?.length > 0 && (
+          <div className="absolute w-28 h-10 bottom-4 right-10 rounded">
+            <button
+              onClick={clearCart}
+              className="h-full w-full rounded font-semibold"
+            >
+              {isOrderPlaced ? "Order Placed" : "Place Order"}
+            </button>
+          </div>
+        )}
+        <h1 className="text-xl sm:text-2xl lg:text-4xl font-semibold">
+          My Cart
+        </h1>
         {user?.cart?.length === 0 ? (
           <p className="text-lg my-2">
             {isOrderPlaced ? "Order Placed" : "No Products in your Cart"}
           </p>
         ) : (
-          <div className="flex flex-col gap-2 my-2  overflow-y-scroll h-[calc(100vh-200px)]">
+          <div className="flex flex-col gap-2 my-2 overflow-y-scroll h-[calc(100vh-200px)]">
             {products.map((product) => (
               <div
                 key={product._id}
-                className="bg-gray-100 border-[1px] border-gray-500 flex w-1/3 p-2 rounded"
+                className="bg-gray-100 border-[1px] border-gray-500 flex items-center w-4/5 xss:w-3/4 xs:w-1/2 md:w-1/3 p-2 rounded"
               >
-                <div className="min-w-32">
-                  <img
-                    width={108}
-                    src={product.thumbnail}
-                    alt={product.title}
-                  />
+                <div className="w-[40%]">
+                  <Link
+                    className="cursor-pointer"
+                    to="/product"
+                    state={product}
+                  >
+                    <img
+                      className="w-full"
+                      src={product.thumbnail}
+                      alt={product.title}
+                    />
+                  </Link>
                 </div>
-                <div className="flex flex-col justify-between">
+                <div className="w-[60%] flex flex-col justify-between">
                   <div>
-                    <h3 className="text-xl font-semibold">{product.title}</h3>
-                    <p className="font-bold text-lg">
+                    <h3 className="text-lg sm:text-xl font-semibold">
+                      {product.title}
+                    </h3>
+                    <p className="w-full truncate">{product.description}</p>
+                    <p className="font-bold text-base sm:text-lg">
                       ₹{" "}
                       {Math.floor(
                         (product.price -
@@ -176,12 +204,12 @@ const YourCart = () => {
                       </span>
                     </p>
                   </div>
-                  <div className="flex justify-between items-center rounded border-2  border-[#fde66a] w-24">
+                  <div className="flex justify-between items-center rounded border-2 border-[#fde66a] w-20 sm:w-24">
                     <div
                       className="bg-[#fde66a] h-full flex items-center p-1"
                       onClick={() => handleDecreaseQuantity(product._id)}
                     >
-                      {cartQuantities?.[product._id] === 1 ? (
+                      {cartQuantities[product._id] === 1 ? (
                         <FaTrash
                           color="black"
                           className="h-full cursor-pointer"

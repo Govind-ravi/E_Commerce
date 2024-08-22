@@ -13,7 +13,10 @@ export const theme = {
     },
     transitionProperty: {
       'height': 'height'
-    }
+    },
+    fontSize: {
+      'xxs': '0.7rem', // Example custom size
+    },
   },
 };
 export const plugins = [];

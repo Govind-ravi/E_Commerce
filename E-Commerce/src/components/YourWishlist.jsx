@@ -26,9 +26,9 @@ const YourWishlist = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Product removed from wishlist", data);
-        
+
         // Update the local state to reflect the removed item
-        setProducts((prevProducts) => 
+        setProducts((prevProducts) =>
           prevProducts.filter((product) => product._id !== productId)
         );
       } else {
@@ -60,31 +60,28 @@ const YourWishlist = () => {
   }, [user?.wishlist]);
 
   return (
-    <div className="relative w-[80%] rounded-r py-2 px-4">
+    <div className="relative w-full xs:w-[95%] lg:w-[80%] rounded-r py-2 px-4">
       <h1 className="text-4xl font-semibold">My Wishlist</h1>
       {user?.wishlist?.length === 0 ? (
         <p className="text-lg my-2">No Products in your Wishlist</p>
       ) : (
-        <div className="flex flex-col gap-2 my-2 overflow-y-scroll h-[calc(100vh-200px)]">
+        <div className="flex flex-wrap gap-2 my-2 lg:overflow-y-scroll lg:h-[calc(100vh-200px)]">
           {products.map((product) => (
             <div
               key={product._id}
-              className="relative group bg-gray-100 border-[1px] border-gray-500 flex w-1/3 p-4 rounded"
+              className="relative group bg-gray-100 border-[1px] border-gray-500 flex  flex-col w-[140px] sm:flex-row xs:w-[150px] sm:w-[280px] lg:w-[300px] xl:w-[300px] p-1 xs:p-4 rounded"
             >
-              <IoIosHeartDislike
-                color="red"
-                className="absolute right-2 top-2 z-10 cursor-pointer"
-                onClick={() => handleRemoveFromWishlist(product._id)}
-              />
+              <div className="absolute right-2 top-2 z-10 cursor-pointer">
+                <IoIosHeartDislike
+                  color="red"
+                  onClick={() => handleRemoveFromWishlist(product._id)}
+                />
+              </div>
               <span className="text-gray-700 absolute hidden right-7 top-1 group-hover:inline text-sm">
                 Remove from Wishlist
               </span>
               <div className="min-w-32">
-                <img
-                  width={108}
-                  src={product.thumbnail}
-                  alt={product.title}
-                />
+                <img width={108} src={product.thumbnail} alt={product.title} />
               </div>
               <div className="flex flex-col justify-between">
                 <div>

@@ -17,7 +17,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSideBarMenu, setIsSideBarMenu] = useState(true);
-
+  
   const signOutClickHandler = async () => {
     try {
       const response = await fetch(APIs.signOut.url, {
@@ -34,10 +34,6 @@ const UserProfile = () => {
       navigate("../");
     } catch (error) {}
   };
-
-  useEffect(() => {
-    // setIsSideBarMenu(true)
-  }, []);
 
   return (
     <>
@@ -100,10 +96,10 @@ const UserProfile = () => {
           </button>
         </div>
         <div
-          onClick={() => setIsSideBarMenu(true)}
-          className="lg:hidden absolute  top-0 px-4 py-6 right-0 cursor-pointer rounded-full text-black"
+          
+          className="lg:hidden absolute -top-2 xs:top-0 px-4 py-6 right-0 cursor-pointer rounded-full text-black z-[1]"
         >
-          <FaUserCircle size={32} />
+          <FaUserCircle onClick={() => setIsSideBarMenu(true)} size={32} />
         </div>
         <Outlet />
         {isSideBarMenu && (

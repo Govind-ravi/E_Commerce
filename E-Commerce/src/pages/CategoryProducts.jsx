@@ -43,7 +43,7 @@ const CategoryProducts = () => {
   }
   return (
     <>
-      <h1 className="text-3xl m-4 capitalize">
+      <h1 className="text-3xl m-2 sm:m-4 capitalize">
         {products[0]?.category.replace(/-/g, " ")}
       </h1>
       <div className="flex flex-wrap gap-2 xs:gap-4 mx-2 md:mx-4">

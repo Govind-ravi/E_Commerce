@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Slider = ({ products }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -31,7 +32,7 @@ const Slider = ({ products }) => {
   useEffect(() => {
     const interval = setInterval(
       nextProduct,
-      currentIndex === products.length + 1 ? 500 : 3000
+      currentIndex === products.length + 1 ? 500 : 4000
     );
     return () => clearInterval(interval);
   }, [currentIndex, products.length]);
@@ -64,21 +65,22 @@ const Slider = ({ products }) => {
                           100) *
                         84
                     )}
+                    <span className="px-2 text-sm sm:text-lg text-gray-500 font-normal line-through">
+                      ₹{Math.floor(products[products.length - 1].price * 84)}
+                    </span>
                   </p>
                   <p className="text-md text-gray-700 mb-4">
-                    {products[products.length - 1].description}/-
+                    {products[products.length - 1].description}
                   </p>
                   <div className="flex items-center gap-4">
-                    <button
-                      className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                      onClick={() =>
-                        (window.location.href = `/product/${
-                          products[products.length - 1].id
-                        }`)
-                      }
+                    <Link
+                      to="/product"
+                      state={{ product: products[products.length - 1] }}
                     >
-                      Buy Now
-                    </button>
+                      <button className="py-1 px-2 xs:py-2 xs:px-4 bg-[#fae04e] text-white font-semibold rounded-lg shadow-md hover:bg-[#fde355] transition duration-300">
+                        Buy Now
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="p-4 w-[35%]">
@@ -106,19 +108,19 @@ const Slider = ({ products }) => {
                           (product.discountPercentage * product.price) / 100) *
                           84
                       )}
+                      <span className="px-2 text-sm sm:text-lg text-gray-500 font-normal line-through">
+                        ₹{Math.floor(product.price * 84)}
+                      </span>
                     </p>
                     <p className="text-md text-gray-700 mb-4">
                       {product.description}/-
                     </p>
                     <div className="flex items-center gap-4">
-                      <button
-                        className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                        onClick={() =>
-                          (window.location.href = `/product/${product.id}`)
-                        }
-                      >
-                        Buy Now
-                      </button>
+                      <Link to="/product" state={{ product }}>
+                        <button className="py-1 px-2 xs:py-2 xs:px-4 bg-[#fae04e] text-white font-semibold rounded-lg shadow-md hover:bg-[#fde355] transition duration-300">
+                          Buy Now
+                        </button>
+                      </Link>
                     </div>
                   </div>
                   <div className="w-[35%] p-4">
@@ -144,19 +146,19 @@ const Slider = ({ products }) => {
                           100) *
                         84
                     )}
+                    <span className="px-2 text-sm sm:text-lg text-gray-500 font-normal line-through">
+                      ₹{Math.floor(products[0].price * 84)}
+                    </span>
                   </p>
                   <p className="text-md text-gray-700 mb-4">
                     {products[0].description}/-
                   </p>
                   <div className="flex items-center gap-4">
-                    <button
-                      className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
-                      onClick={() =>
-                        (window.location.href = `/product/${products[0].id}`)
-                      }
-                    >
-                      Buy Now
-                    </button>
+                    <Link to="/product" state={{ product: products[0] }}>
+                      <button className="py-1 px-2 xs:py-2 xs:px-4 bg-[#fae04e] text-white font-semibold rounded-lg shadow-md hover:bg-[#fde355] transition duration-300">
+                        Buy Now
+                      </button>
+                    </Link>
                   </div>
                 </div>
                 <div className="p-4 w-[35%]">

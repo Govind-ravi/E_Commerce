@@ -162,7 +162,7 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div className="w-1/4 py-4 px-8">
+    <div className="w-[300px] mx-auto border bg-white shadow my-4 lg:mx-2 rounded py-4 px-8">
       {user ? (
         <>
           <form
