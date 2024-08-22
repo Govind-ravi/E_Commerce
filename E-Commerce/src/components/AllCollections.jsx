@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard";
 import Slider from "./Slider";
 import MobileSlider from "./MobileProductSlider";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const AllCollections = () => {
   const [collections, setCollections] = useState([]);
@@ -65,6 +66,18 @@ const AllCollections = () => {
   }, []);
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - Manage Collections</title>
+        <meta
+          name="description"
+          content="Manage and organize product collections in the Govind Hub Admin Panel. Add, edit, or remove collections efficiently."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, manage collections, product collections, admin panel, organize collections"
+        />
+      </Helmet>
+
       {collectionProducts &&
         collectionProducts.map((collection) => {
           const firstProduct = collection?.products[0];
@@ -96,7 +109,7 @@ const AllCollections = () => {
                     {firstProduct?.description}
                   </p>
                   <div className="flex items-center gap-4">
-                    <Link to="/product" state={{product: firstProduct}}>
+                    <Link to="/product" state={{ product: firstProduct }}>
                       <button className="py-1 px-2 xs:py-2 xs:px-4 bg-[#fae04e] text-white font-semibold rounded-lg shadow-md hover:bg-[#fde355] transition duration-300">
                         Buy Now
                       </button>

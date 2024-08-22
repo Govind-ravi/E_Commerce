@@ -11,6 +11,7 @@ import { AiFillCloseSquare } from "react-icons/ai";
 import APIs from "../APIs";
 import Context from "../context";
 import ImageSlider from "../components/ProductImageSlider";
+import { Helmet } from "react-helmet";
 
 const Product = () => {
   const user = useSelector((action) => action?.user?.user);
@@ -178,7 +179,7 @@ const Product = () => {
   const handleCloseCheckOut = () => {
     setIsCheckOut(false);
   };
-  
+
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
@@ -192,10 +193,10 @@ const Product = () => {
       await fetchUserDetails(); // Await if fetchUserDetails is asynchronous
       setLoading(false);
     };
-  
+
     fetchProduct();
   }, [location?.state?.product]); // Only re-run effect if location.state.product changes
-  
+
   useEffect(() => {
     if (user && product) {
       const cartItem = user.cart.find((item) => item.id === product._id);
@@ -208,8 +209,6 @@ const Product = () => {
       setIsWishlist(isProductInWishlist); // Update wishlist state
     }
   }, [user, product?._id]); // Only re-run effect if user or product._id changes
-  
-  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -217,6 +216,18 @@ const Product = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - {`${product?.title}`}</title>
+        <meta
+          name="description"
+          content="View detailed information about this product on Govind Hub. Check out the specifications, pricing, and reviews."
+        />
+        <meta
+          name="keywords"
+          content={`Govind Hub, product details, product information, buy product, product reviews, ${product?.title}`}
+        />
+      </Helmet>
+
       {isCheckOut && (
         <div className="fixed text-xl flex items-center justify-between w-40 bottom-20 right-20 bg-amber-200 px-1 pl-2 py-1 rounded font-semibold">
           <p className="cursor-pointer" onClick={() => navigate("/profile")}>

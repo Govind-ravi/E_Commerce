@@ -21,6 +21,7 @@ import AdminReports from "../adminComponents/AdminReports";
 import AdminDashboard from '../adminComponents/AdminDashboard'
 import CategoryProducts from "../pages/CategoryProducts";
 import ResetPassword from "../pages/ResetPassword";
+import NotFound from "../components/NotFound";
 
 
 const Router = createBrowserRouter([
@@ -115,6 +116,10 @@ const Router = createBrowserRouter([
       {
         path: 'reset-password/:token',
         element: <ResetPassword/>
+      },
+      {
+        path: '*',
+        element: <NotFound/>
       }
     ],
   },

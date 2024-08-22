@@ -7,6 +7,7 @@ import APIs from "../APIs";
 import Context from "../context";
 import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Helmet } from "react-helmet";
 
 const UpdateProfile = () => {
   const user = useSelector((state) => state.user.user);
@@ -162,164 +163,178 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div className="w-[300px] mx-auto border bg-white shadow my-4 lg:mx-2 rounded py-4 px-8">
-      {user ? (
-        <>
-          <form
-            className="flex flex-col gap-6 font-semibold"
-            onSubmit={handleSubmit}
-          >
-            <center className="font-semibold">
-              <label className=" flex flex-col items-center">
-                {data.profilePicture === "" && (
-                  <>
-                    <FaUserCircle
-                      size={100}
-                      color="black"
-                      className="text-center mt-2 "
-                    />
-                    {loading ? "Uploading..." : "Upload Picture"}
-                  </>
-                )}
-                {data.profilePicture !== "" && (
-                  <>
-                    <div className="rounded-full w-32 h-32 overflow-hidden border-4">
-                      <img
-                        className="object-cover"
-                        src={data.profilePicture}
-                        alt="User Profile"
+    <>
+      <Helmet>
+        <title>Govind Hub - Update Your Profile</title>
+        <meta
+          name="description"
+          content="Update your profile information on Govind Hub. Edit your personal details, contact information, and preferences."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, update profile, edit profile, personal details, account settings"
+        />
+      </Helmet>
+
+      <div className="w-[300px] mx-auto border bg-white shadow my-4 lg:mx-2 rounded py-4 px-8">
+        {user ? (
+          <>
+            <form
+              className="flex flex-col gap-6 font-semibold"
+              onSubmit={handleSubmit}
+            >
+              <center className="font-semibold">
+                <label className=" flex flex-col items-center">
+                  {data.profilePicture === "" && (
+                    <>
+                      <FaUserCircle
+                        size={100}
+                        color="black"
+                        className="text-center mt-2 "
                       />
-                    </div>
-                    {loading ? "Changing..." : "Change Picture"}
-                  </>
-                )}
-                <input
-                  type="file"
-                  name="profilePicture"
-                  className="hidden"
-                  onChange={handleUpload}
-                />
-              </label>
-            </center>
+                      {loading ? "Uploading..." : "Upload Picture"}
+                    </>
+                  )}
+                  {data.profilePicture !== "" && (
+                    <>
+                      <div className="rounded-full w-32 h-32 overflow-hidden border-4">
+                        <img
+                          className="object-cover"
+                          src={data.profilePicture}
+                          alt="User Profile"
+                        />
+                      </div>
+                      {loading ? "Changing..." : "Change Picture"}
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    name="profilePicture"
+                    className="hidden"
+                    onChange={handleUpload}
+                  />
+                </label>
+              </center>
 
-            <div>
-              <div className="relative flex items-center justify-between rounded-lg">
-                <input
-                  name="name"
-                  value={data.name}
-                  onChange={handleChange}
-                  type="text"
-                  placeholder="Full Name"
-                  className="w-full bg-transparent rounded-lg focus:outline-none"
-                  required
-                />
-              </div>{" "}
-              <div className="h-[0.05rem] mt-2 bg-black"></div>
-            </div>
-            <div>
-              <div className="relative flex items-center justify-between rounded-lg">
-                <input
-                  name="email"
-                  onChange={handleChange}
-                  value={data.email}
-                  type="email"
-                  placeholder="Email"
-                  className="w-full bg-transparent rounded-lg focus:outline-none"
-                  required
-                />
-                {emailError && (
-                  <p className="text-red-500">Email already registered</p>
-                )}
+              <div>
+                <div className="relative flex items-center justify-between rounded-lg">
+                  <input
+                    name="name"
+                    value={data.name}
+                    onChange={handleChange}
+                    type="text"
+                    placeholder="Full Name"
+                    className="w-full bg-transparent rounded-lg focus:outline-none"
+                    required
+                  />
+                </div>{" "}
+                <div className="h-[0.05rem] mt-2 bg-black"></div>
               </div>
-              <div className="h-[0.05rem] mt-2 bg-black"></div>
-            </div>
-
-            {updatePasswordVisible && (
-              <>
-                <div className="relative">
+              <div>
+                <div className="relative flex items-center justify-between rounded-lg">
                   <input
-                    name="password"
+                    name="email"
                     onChange={handleChange}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Current Password"
-                    className="bg-transparent rounded-lg focus:outline-none w-full"
+                    value={data.email}
+                    type="email"
+                    placeholder="Email"
+                    className="w-full bg-transparent rounded-lg focus:outline-none"
+                    required
                   />
-                  <div
-                    onClick={togglePasswordVisibility}
-                    className="absolute right-0 top-0 cursor-pointer"
-                  >
-                    {showPassword ? (
-                      <IoMdEyeOff size={24} />
-                    ) : (
-                      <IoMdEye size={24} />
-                    )}
-                  </div>
-                </div>
-                <div className="relative">
-                  <input
-                    name="newPassword"
-                    onChange={handleChange}
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="New Password"
-                    className="bg-transparent rounded-lg focus:outline-none w-full"
-                  />
-                  <div
-                    onClick={toggleConfirmPasswordVisibility}
-                    className="absolute right-0 top-0 cursor-pointer"
-                  >
-                    {showConfirmPassword ? (
-                      <IoMdEyeOff size={24} />
-                    ) : (
-                      <IoMdEye size={24} />
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <input
-                    name="confirmPassword"
-                    onChange={handleChange}
-                    type="password"
-                    placeholder="Confirm New Password"
-                    className="bg-transparent rounded-lg focus:outline-none w-full"
-                  />
-                  {passwordMismatch && (
-                    <p className="text-red-500">Passwords do not match</p>
+                  {emailError && (
+                    <p className="text-red-500">Email already registered</p>
                   )}
                 </div>
-              </>
-            )}
+                <div className="h-[0.05rem] mt-2 bg-black"></div>
+              </div>
 
-            {updatePasswordVisible ? (
+              {updatePasswordVisible && (
+                <>
+                  <div className="relative">
+                    <input
+                      name="password"
+                      onChange={handleChange}
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Current Password"
+                      className="bg-transparent rounded-lg focus:outline-none w-full"
+                    />
+                    <div
+                      onClick={togglePasswordVisibility}
+                      className="absolute right-0 top-0 cursor-pointer"
+                    >
+                      {showPassword ? (
+                        <IoMdEyeOff size={24} />
+                      ) : (
+                        <IoMdEye size={24} />
+                      )}
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <input
+                      name="newPassword"
+                      onChange={handleChange}
+                      type={showConfirmPassword ? "text" : "password"}
+                      placeholder="New Password"
+                      className="bg-transparent rounded-lg focus:outline-none w-full"
+                    />
+                    <div
+                      onClick={toggleConfirmPasswordVisibility}
+                      className="absolute right-0 top-0 cursor-pointer"
+                    >
+                      {showConfirmPassword ? (
+                        <IoMdEyeOff size={24} />
+                      ) : (
+                        <IoMdEye size={24} />
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <input
+                      name="confirmPassword"
+                      onChange={handleChange}
+                      type="password"
+                      placeholder="Confirm New Password"
+                      className="bg-transparent rounded-lg focus:outline-none w-full"
+                    />
+                    {passwordMismatch && (
+                      <p className="text-red-500">Passwords do not match</p>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {updatePasswordVisible ? (
+                <button
+                  type="button"
+                  onClick={handleChangePassword}
+                  className="mx-auto py-1 px-2 rounded cursor-pointer"
+                >
+                  {" "}
+                  Save Password
+                </button>
+              ) : (
+                <a
+                  type="button"
+                  onClick={handleUpdatePasswordClick}
+                  className="rounded cursor-pointer text-teal-800"
+                >
+                  Update Password
+                </a>
+              )}
+
               <button
-                type="button"
-                onClick={handleChangePassword}
-                className="mx-auto py-1 px-2 rounded cursor-pointer"
+                disabled={loading}
+                className="font-semibold text-black rounded p-2 w-24 mx-auto bg-[#cc80f9] transition duration-200"
               >
-                {" "}
-                Save Password
+                Update
               </button>
-            ) : (
-              <a
-                type="button"
-                onClick={handleUpdatePasswordClick}
-                className="rounded cursor-pointer text-teal-800"
-              >
-                Update Password
-              </a>
-            )}
-
-            <button
-              disabled={loading}
-              className="font-semibold text-black rounded p-2 w-24 mx-auto bg-[#cc80f9] transition duration-200"
-            >
-              Update
-            </button>
-          </form>
-        </>
-      ) : (
-        <p>Loading...</p> 
-      )}
-    </div>
+            </form>
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -11,13 +11,14 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { removeUser } from "../store/userSlice";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
+import { Helmet } from "react-helmet";
 
 const UserProfile = () => {
   const user = useSelector((action) => action?.user?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSideBarMenu, setIsSideBarMenu] = useState(true);
-  
+
   const signOutClickHandler = async () => {
     try {
       const response = await fetch(APIs.signOut.url, {
@@ -37,6 +38,18 @@ const UserProfile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - {`${user?.name}`}'s' Profile</title>
+        <meta
+          name="description"
+          content="View and manage your profile on Govind Hub. Update your personal information, preferences, and account settings."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, user profile, account settings, manage profile, personal information"
+        />
+      </Helmet>
+
       <div className="relative flex min-h-[calc(100vh-200px)] w-full">
         <div className="hidden bg-amber-200 w-[25%] p-4 pt-4 lg:flex flex-col gap-4 rounded-l">
           <center>
@@ -95,10 +108,7 @@ const UserProfile = () => {
             Sign Out
           </button>
         </div>
-        <div
-          
-          className="lg:hidden absolute -top-2 xs:top-0 px-4 py-6 right-0 cursor-pointer rounded-full text-black z-[1]"
-        >
+        <div className="lg:hidden absolute -top-2 xs:top-0 px-4 py-6 right-0 cursor-pointer rounded-full text-black z-[1]">
           <FaUserCircle onClick={() => setIsSideBarMenu(true)} size={32} />
         </div>
         <Outlet />

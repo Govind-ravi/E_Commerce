@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import categoryList from "../assets/CategoriesList";
 import APIs from "../APIs";
+import { Helmet } from "react-helmet";
 
 const CategoryProducts = () => {
   const { categoryName } = useParams();
@@ -36,13 +37,29 @@ const CategoryProducts = () => {
     fetchProducts();
   }, [categoryName]);
 
-  if(products.length === 0){
+  if (products.length === 0) {
     return (
-      <div className="p-4 font-semibold text-xl">No Products found in this category</div>
-    )
+      <div className="p-4 font-semibold text-xl">
+        No Products found in this category
+      </div>
+    );
   }
   return (
     <>
+      <Helmet>
+        <title>
+          Govind Hub - {`${products[0]?.category.replace(/-/g, " ")}`} Products
+        </title>
+        <meta
+          name="description"
+          content="Browse products by category on Govind Hub. Find the best items in each category and make your purchase today."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, category products, product categories, shop by category, online shopping"
+        />
+      </Helmet>
+
       <h1 className="text-3xl m-2 sm:m-4 capitalize">
         {products[0]?.category.replace(/-/g, " ")}
       </h1>

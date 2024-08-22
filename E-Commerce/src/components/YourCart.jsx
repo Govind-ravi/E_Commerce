@@ -5,6 +5,7 @@ import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import APIs from "../APIs";
 import Context from "../context";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const YourCart = () => {
   const user = useSelector((state) => state.user?.user);
@@ -14,39 +15,38 @@ const YourCart = () => {
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
   // Memoize fetchProducts
-const fetchProducts = useCallback(async () => {
-  console.log("Fetching products..."); // Debug log
-  if (!user?.cart?.length) return;
+  const fetchProducts = useCallback(async () => {
+    console.log("Fetching products..."); // Debug log
+    if (!user?.cart?.length) return;
 
-  const productPromises = user.cart.map(async (item) => {
+    const productPromises = user.cart.map(async (item) => {
+      try {
+        const product = await fetchProductById(item.id);
+        return { ...product, quantity: item.quantity };
+      } catch (error) {
+        console.error(`Error fetching product ${item.id}:`, error);
+        return null;
+      }
+    });
+
     try {
-      const product = await fetchProductById(item.id);
-      return { ...product, quantity: item.quantity };
+      const fetchedProducts = await Promise.all(productPromises);
+      setProducts(fetchedProducts.filter(Boolean)); // Remove null values
+      const quantities = fetchedProducts.reduce((acc, product) => {
+        acc[product._id] = product.quantity;
+        return acc;
+      }, {});
+      setCartQuantities(quantities);
     } catch (error) {
-      console.error(`Error fetching product ${item.id}:`, error);
-      return null;
+      console.error("Error fetching products:", error);
     }
-  });
+  }, [user?.cart]); // Memoized dependencies
 
-  try {
-    const fetchedProducts = await Promise.all(productPromises);
-    setProducts(fetchedProducts.filter(Boolean)); // Remove null values
-    const quantities = fetchedProducts.reduce((acc, product) => {
-      acc[product._id] = product.quantity;
-      return acc;
-    }, {});
-    setCartQuantities(quantities);
-  } catch (error) {
-    console.error("Error fetching products:", error);
-  }
-}, [user?.cart]); // Memoized dependencies
-
-// Ensure useEffect runs only when necessary
-useEffect(() => {
-  console.log("Running fetchProducts useEffect...");
-  fetchProducts();
-}, [fetchProducts]); // Only include fetchProducts here
-
+  // Ensure useEffect runs only when necessary
+  useEffect(() => {
+    console.log("Running fetchProducts useEffect...");
+    fetchProducts();
+  }, [fetchProducts]); // Only include fetchProducts here
 
   const handleIncreaseQuantity = async (productId) => {
     try {
@@ -148,6 +148,18 @@ useEffect(() => {
 
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - {`${user?.name}`}'s' Cart</title>
+        <meta
+          name="description"
+          content="View and manage the items in your cart on Govind Hub. Review your selections and proceed to checkout when ready."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, your cart, shopping cart, manage cart, checkout"
+        />
+      </Helmet>
+
       <div className="relative w-full lg:w-[80%] rounded-r py-2 px-4">
         {user?.cart?.length > 0 && (
           <div className="absolute w-28 h-10 bottom-4 right-10 rounded">

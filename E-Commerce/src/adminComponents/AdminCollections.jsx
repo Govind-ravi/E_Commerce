@@ -3,13 +3,14 @@ import APIs from "../APIs";
 import { IoMdClose } from "react-icons/io";
 import ProductCard from "../components/ProductCard";
 import { fetchProductById } from "../helpers/fetchProduct";
+import { Helmet } from "react-helmet";
 
 const AdminCollections = () => {
   const [collections, setCollections] = useState([]);
   const [newCollectionName, setNewCollectionName] = useState("");
   const [isAddCollectionVisible, setIsAddCollectionVisible] = useState(false);
   const [products, setProducts] = useState({});
-  
+
   const createNewCollections = async () => {
     if (!newCollectionName) return;
     try {
@@ -39,82 +40,6 @@ const AdminCollections = () => {
     }
   };
 
-  // const addProductToCollection = async (collectionId, productId) => {
-  //   if (!collectionId || !productId) return;
-
-  //   try {
-  //     const response = await fetch(APIs.addProductToCollection.url, {
-  //       method: "POST",
-  //       credentials: "include",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         collectionId,
-  //         productId,
-  //       }),
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       setCollections((prevCollections) =>
-  //         prevCollections?.map((collection) =>
-  //           collection._id === collectionId
-  //             ? {
-  //                 ...collection,
-  //                 collectionProductId: [
-  //                   ...collection.collectionProductId,
-  //                   productId,
-  //                 ],
-  //               }
-  //             : collection
-  //         )
-  //       );
-  //     } else {
-  //       console.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to add product to collection:", error);
-  //   }
-  // };
-
-  // const removeProductFromCollection = async (collectionId, productId) => {
-  //   if (!collectionId || !productId) return;
-  //   try {
-  //     const response = await fetch(APIs.deletProductIdFromCollection.url, {
-  //       method: "POST",
-  //       credentials: "include",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         collectionId,
-  //         productId,
-  //       }),
-  //     });
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       setCollections((prevCollections) =>
-  //         prevCollections?.map((collection) =>
-  //           collection._id === collectionId
-  //             ? {
-  //                 ...collection,
-  //                 collectionProductId: collection.collectionProductId.filter(
-  //                   (id) => id !== productId
-  //                 ),
-  //               }
-  //             : collection
-  //         )
-  //       );
-  //     } else {
-  //       console.error(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to remove product from collection:", error);
-  //   }
-  // };
-
   const fetchCollections = async () => {
     try {
       const response = await fetch(APIs.fetchAdminCollections.url, {
@@ -125,8 +50,8 @@ const AdminCollections = () => {
         setCollections(data.data);
 
         // Fetch all products based on product IDs in the collections
-        const productIds = data.data?.flatMap(
-          (collection) => collection.collectionProductId?.map((idObj) => idObj.id)
+        const productIds = data.data?.flatMap((collection) =>
+          collection.collectionProductId?.map((idObj) => idObj.id)
         );
 
         const productsData = await Promise.all(
@@ -137,13 +62,15 @@ const AdminCollections = () => {
         );
 
         // Create a lookup table for product data
-        const productLookup = productsData.reduce((acc, { id, productData }) => {
-          acc[id] = productData;
-          return acc;
-        }, {});
+        const productLookup = productsData.reduce(
+          (acc, { id, productData }) => {
+            acc[id] = productData;
+            return acc;
+          },
+          {}
+        );
 
         setProducts(productLookup);
-
       } else {
         console.error(data.message);
       }
@@ -155,11 +82,22 @@ const AdminCollections = () => {
   useEffect(() => {
     fetchCollections();
     console.log(1);
-    
   }, [setCollections]);
 
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - My Collections</title>
+        <meta
+          name="description"
+          content="Manage and organize product collections in the Govind Hub Admin Panel. Add, edit, or remove collections as needed."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, admin collections, manage collections, product collections, admin panel"
+        />
+      </Helmet>
+
       <div className="flex flex-col gap-2">
         {!isAddCollectionVisible && (
           <button
@@ -174,7 +112,9 @@ const AdminCollections = () => {
             <div className="flex justify-between text-xl font-semibold my-1">
               <span>Add New Collection</span>
               <IoMdClose
-                onClick={() => setIsAddCollectionVisible(!isAddCollectionVisible)}
+                onClick={() =>
+                  setIsAddCollectionVisible(!isAddCollectionVisible)
+                }
                 className="bg-gray-700 text-white"
                 size={22}
               />
@@ -204,14 +144,14 @@ const AdminCollections = () => {
                 {collection.collectionName}
               </h3>
               <div className="flex flex-wrap gap-2">
-                  {collection.collectionProductId?.map((idObj) => {
-                    const productData = products[idObj.id];
-                    return productData ? (
-                      <ProductCard key={idObj.id} product={productData} />
-                    ) : (
-                      <div key={idObj.id}>Loading product...</div>
-                    );
-                  })}
+                {collection.collectionProductId?.map((idObj) => {
+                  const productData = products[idObj.id];
+                  return productData ? (
+                    <ProductCard key={idObj.id} product={productData} />
+                  ) : (
+                    <div key={idObj.id}>Loading product...</div>
+                  );
+                })}
               </div>
             </div>
           ))}

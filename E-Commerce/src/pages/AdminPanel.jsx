@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { FaWindowClose } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 const AdminPanel = () => {
   const user = useSelector((action) => action?.user?.user);
@@ -10,6 +11,18 @@ const AdminPanel = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - Admin Panel</title>
+        <meta
+          name="description"
+          content="Manage your products, orders, and users on the Govind Hub Admin Panel."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, admin panel, manage products, manage orders, manage users"
+        />
+      </Helmet>
+
       {(user && user?.role === "admin") || user?.role === "user" ? (
         <>
           <div className="relative min-h-screen bg-gray-100">

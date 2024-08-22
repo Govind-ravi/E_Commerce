@@ -4,6 +4,7 @@ import APIs from "../APIs";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 
 const AdminProducts = () => {
   const user = useSelector((action) => action?.user?.user);
@@ -46,7 +47,6 @@ const AdminProducts = () => {
     fetchProducts();
   }, []);
 
-
   const initialProductData = {
     title: "",
     description: "",
@@ -81,10 +81,9 @@ const AdminProducts = () => {
 
   const [productData, setProductData] = useState(initialProductData);
 
-
   const handleUploadFormVisble = () => {
     setIsUploadform(!isUploadform);
-    setProductData(initialProductData)
+    setProductData(initialProductData);
   };
 
   const handleProductChange = (e) => {
@@ -168,6 +167,18 @@ const AdminProducts = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - Admin Products</title>
+        <meta
+          name="description"
+          content="Manage and update product listings on the Govind Hub Admin Panel. Add, edit, or remove products and organize inventory."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, admin products, manage products, product listings, inventory management"
+        />
+      </Helmet>
+
       {isUploadform && (
         <form
           action=""
@@ -175,7 +186,11 @@ const AdminProducts = () => {
           onSubmit={handleProductSubmit}
         >
           <div className="relative flex w-4/5 mx-auto gap-12 p-2 justify-center border m-2">
-          <IoMdClose size={24} className="bg-gray-300 absolute top-0 right-0" onClick={handleUploadFormVisble}/>
+            <IoMdClose
+              size={24}
+              className="bg-gray-300 absolute top-0 right-0"
+              onClick={handleUploadFormVisble}
+            />
             <div className="w-1/2 flex flex-col gap-4 m-2 p-2">
               {/* Title */}
               <div>
@@ -463,17 +478,21 @@ const AdminProducts = () => {
           </div>
           {/* Submit Button */}
           <div className="flex flex-col gap-2">
-            {user.role === 'user' ? (<button
-              type="submit"
-              className="disabled cursor-not-allowed font-semibold text-black rounded p-2 w-40 mx-auto transition duration-200"
-            >
-              Only Admin can upload Product
-            </button>): (<button
-              type="submit"
-              className="font-semibold text-black rounded p-2 w-40 mx-auto transition duration-200"
-            >
-              Upload Product
-            </button>)}
+            {user.role === "user" ? (
+              <button
+                type="submit"
+                className="disabled cursor-not-allowed font-semibold text-black rounded p-2 w-40 mx-auto transition duration-200"
+              >
+                Only Admin can upload Product
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="font-semibold text-black rounded p-2 w-40 mx-auto transition duration-200"
+              >
+                Upload Product
+              </button>
+            )}
           </div>
         </form>
       )}

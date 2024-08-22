@@ -5,14 +5,12 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { MdMenu } from "react-icons/md";
 import { FaWindowClose } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import APIs from "../APIs";
 import AccordionMenu from "./AccordianMenu";
 
 function Header() {
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
   const user = useSelector((state) => state?.user?.user);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");

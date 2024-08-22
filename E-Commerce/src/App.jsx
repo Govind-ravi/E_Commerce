@@ -7,6 +7,7 @@ import APIs from "./APIs";
 import Context from "./context";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
+import ErrorBoundary from "./components/ErrorBoundry";
 
 function App() {
   const user = useSelector((action) => action?.user?.user);
@@ -29,28 +30,29 @@ function App() {
     }
   };
   useEffect(() => {
-    
     if (!user) {
       fetchUserDetails();
     }
   }, []);
   return (
     <>
-      <Context.Provider
-        value={{
-          fetchUserDetails,
-        }}
-      >
-        <div>
-          <div className="">
-            <Header />
-            <main className="min-h-[calc(100vh-340px)]">
-              <Outlet />
-            </main>
-            <Footer />
+      <ErrorBoundary>
+        <Context.Provider
+          value={{
+            fetchUserDetails,
+          }}
+        >
+          <div>
+            <div className="">
+              <Header />
+              <main className="min-h-[calc(100vh-340px)]">
+                <Outlet />
+              </main>
+              <Footer />
+            </div>
           </div>
-        </div>
-      </Context.Provider>
+        </Context.Provider>
+      </ErrorBoundary>
     </>
   );
 }

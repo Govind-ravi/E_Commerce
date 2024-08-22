@@ -3,6 +3,7 @@ import APIs from "../APIs";
 import Context from "../context";
 import { useSelector } from "react-redux";
 import { MdDeleteOutline } from "react-icons/md";
+import { Helmet } from "react-helmet";
 
 const MyAddress = () => {
   const user = useSelector((action) => action?.user?.user);
@@ -47,7 +48,7 @@ const MyAddress = () => {
         },
         body: JSON.stringify({ id: user._id, addressName: name }), // Send the necessary data to delete the address
       });
-  
+
       const data = await response.json();
       await fetchUserDetails();
 
@@ -56,7 +57,6 @@ const MyAddress = () => {
     } catch (error) {
       console.error("Error deleting address:", error);
     }
-    
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,151 +95,174 @@ const MyAddress = () => {
   };
 
   return (
-    <div className=" w-[95%] sm:w-[80%] rounded-r py-2 px-4">
-      <h1 className="text-4xl font-semibold">My Address</h1>
+    <>
+      <Helmet>
+        <title>Govind Hub - My Address</title>
+        <meta
+          name="description"
+          content="Manage your saved addresses on Govind Hub. Update, add, or remove addresses for seamless checkout."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, my addresses, manage addresses, update addresses, checkout"
+        />
+      </Helmet>
 
-      {user && user.address.length > 0 ? (
-        <div>
-          {user.address.map((address) => {
-            return (
-              <div
-                key={address.name}
-                className="bg-white my-2 p-2 w-[270px] xxs:w-[300px] relative rounded border"
-              >
-                <label className="flex items-center gap-2">
-                  <input
-                    className=" top-[40%] size-4 accent-red-500"
-                    type="radio"
-                    value={address.name}
-                    checked={selectedAddress === address.name || user.address.length === 1}
-                    onChange={handleAddressChange}
-                  />
-                  <div className="flex-grow">
-                    <p className="text-xl">{address.name}</p>
-                    <p className="text-sm">
-                      {address.street}, {address.city}{" "}
-                    </p>
-                    <p className="text-sm">
-                      {address.state}, {address.zipcode}, {address.country}
-                    </p>
-                  </div>
-                  <MdDeleteOutline className="text-red-500" size={24} onClick={()=>{handleDeleteAddress(address.name)}}/>
-                </label>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <p className="font-semibold">No address found.</p>
-      )}
-      {!isFormVisible && (
-        <button className="py-2 px-4 rounded" onClick={handleAddAddressClick}>
-          Add address
-        </button>
-      )}
+      <div className=" w-[95%] sm:w-[80%] rounded-r py-2 px-4">
+        <h1 className="text-4xl font-semibold">My Address</h1>
 
-      {isFormVisible && (
-        <form
-          onSubmit={handleSubmit}
-          className="mt-4 xs:w-[400px] lg:w-[300px] flex flex-col gap-2"
-        >
+        {user && user.address.length > 0 ? (
           <div>
-            <div className="relative flex items-center justify-between rounded-lg">
-              <input
-                placeholder="Name"
-                type="text"
-                name="name"
-                value={newAddress.name}
-                onChange={handleInputChange}
-                className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
-                required
-              />
-            </div>
-            <div className="h-[0.05rem] mt-2 bg-black"></div>
-            {isNameError && (
-              <p className="text-red-600 text-sm">Use another Name</p>
-            )}
+            {user.address.map((address) => {
+              return (
+                <div
+                  key={address.name}
+                  className="bg-white my-2 p-2 w-[270px] xxs:w-[300px] relative rounded border"
+                >
+                  <label className="flex items-center gap-2">
+                    <input
+                      className=" top-[40%] size-4 accent-red-500"
+                      type="radio"
+                      value={address.name}
+                      checked={
+                        selectedAddress === address.name ||
+                        user.address.length === 1
+                      }
+                      onChange={handleAddressChange}
+                    />
+                    <div className="flex-grow">
+                      <p className="text-xl">{address.name}</p>
+                      <p className="text-sm">
+                        {address.street}, {address.city}{" "}
+                      </p>
+                      <p className="text-sm">
+                        {address.state}, {address.zipcode}, {address.country}
+                      </p>
+                    </div>
+                    <MdDeleteOutline
+                      className="text-red-500"
+                      size={24}
+                      onClick={() => {
+                        handleDeleteAddress(address.name);
+                      }}
+                    />
+                  </label>
+                </div>
+              );
+            })}
           </div>
-          <div>
-            <div className="relative flex items-center justify-between rounded-lg">
-              <input
-                placeholder="Street Address"
-                type="text"
-                name="street"
-                value={newAddress.street}
-                onChange={handleInputChange}
-                className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
-                required
-              />
-            </div>
-            <div className="h-[0.05rem] mt-2 bg-black"></div>
-          </div>
-          <div>
-            <div className="relative flex items-center justify-between rounded-lg">
-              <input
-                placeholder="City"
-                type="text"
-                name="city"
-                value={newAddress.city}
-                onChange={handleInputChange}
-                className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
-                required
-              />
-            </div>
-            <div className="h-[0.05rem] mt-2 bg-black"></div>
-          </div>
-          <div>
-            <div className="relative flex items-center justify-between rounded-lg">
-              <input
-                placeholder="State"
-                type="text"
-                name="state"
-                value={newAddress.state}
-                onChange={handleInputChange}
-                className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
-                required
-              />
-            </div>
-            <div className="h-[0.05rem] mt-2 bg-black"></div>
-          </div>
-          <div>
-            <div className="relative flex items-center justify-between rounded-lg">
-              <input
-                placeholder="Zip Code"
-                type="text"
-                name="zipcode"
-                value={newAddress.zipcode}
-                onChange={handleInputChange}
-                className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
-                required
-              />
-            </div>
-            <div className="h-[0.05rem] mt-2 bg-black"></div>
-          </div>
-          <div>
-            <div className="relative flex items-center justify-between rounded-lg">
-              <input
-                placeholder="Country"
-                type="text"
-                name="country"
-                value={newAddress.country}
-                onChange={handleInputChange}
-                className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
-                required
-              />
-            </div>
-            <div className="h-[0.05rem] mt-2 bg-black"></div>
-          </div>
-
-          <button
-            type="submit"
-            className="mt-4 py-2 px-4 bg-blue-500 text-white rounded"
-          >
-            Save Address
+        ) : (
+          <p className="font-semibold">No address found.</p>
+        )}
+        {!isFormVisible && (
+          <button className="py-2 px-4 rounded" onClick={handleAddAddressClick}>
+            Add address
           </button>
-        </form>
-      )}
-    </div>
+        )}
+
+        {isFormVisible && (
+          <form
+            onSubmit={handleSubmit}
+            className="mt-4 xs:w-[400px] lg:w-[300px] flex flex-col gap-2"
+          >
+            <div>
+              <div className="relative flex items-center justify-between rounded-lg">
+                <input
+                  placeholder="Name"
+                  type="text"
+                  name="name"
+                  value={newAddress.name}
+                  onChange={handleInputChange}
+                  className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="h-[0.05rem] mt-2 bg-black"></div>
+              {isNameError && (
+                <p className="text-red-600 text-sm">Use another Name</p>
+              )}
+            </div>
+            <div>
+              <div className="relative flex items-center justify-between rounded-lg">
+                <input
+                  placeholder="Street Address"
+                  type="text"
+                  name="street"
+                  value={newAddress.street}
+                  onChange={handleInputChange}
+                  className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="h-[0.05rem] mt-2 bg-black"></div>
+            </div>
+            <div>
+              <div className="relative flex items-center justify-between rounded-lg">
+                <input
+                  placeholder="City"
+                  type="text"
+                  name="city"
+                  value={newAddress.city}
+                  onChange={handleInputChange}
+                  className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="h-[0.05rem] mt-2 bg-black"></div>
+            </div>
+            <div>
+              <div className="relative flex items-center justify-between rounded-lg">
+                <input
+                  placeholder="State"
+                  type="text"
+                  name="state"
+                  value={newAddress.state}
+                  onChange={handleInputChange}
+                  className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="h-[0.05rem] mt-2 bg-black"></div>
+            </div>
+            <div>
+              <div className="relative flex items-center justify-between rounded-lg">
+                <input
+                  placeholder="Zip Code"
+                  type="text"
+                  name="zipcode"
+                  value={newAddress.zipcode}
+                  onChange={handleInputChange}
+                  className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="h-[0.05rem] mt-2 bg-black"></div>
+            </div>
+            <div>
+              <div className="relative flex items-center justify-between rounded-lg">
+                <input
+                  placeholder="Country"
+                  type="text"
+                  name="country"
+                  value={newAddress.country}
+                  onChange={handleInputChange}
+                  className="font-semibold w-full bg-transparent rounded-lg focus:outline-none"
+                  required
+                />
+              </div>
+              <div className="h-[0.05rem] mt-2 bg-black"></div>
+            </div>
+
+            <button
+              type="submit"
+              className="mt-4 py-2 px-4 bg-blue-500 text-white rounded"
+            >
+              Save Address
+            </button>
+          </form>
+        )}
+      </div>
+    </>
   );
 };
 

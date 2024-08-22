@@ -5,6 +5,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import APIs from "../APIs";
 import Context from "../context";
+import { Helmet } from "react-helmet";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -72,6 +73,18 @@ const SignIn = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Govind Hub - Sign In</title>
+        <meta
+          name="description"
+          content="Sign in to your Govind Hub account to access your profile, orders, and personalized settings."
+        />
+        <meta
+          name="keywords"
+          content="Govind Hub, sign in, login, user account, access profile"
+        />
+      </Helmet>
+
       <div className="flex max-h-[500px] max-w-[95vw] md:max-w-[90vw] lg:max-w-[80vw] xl:max-w-[60vw] mx-auto mt-10 items-center h-[70vh] text-black">
         <div className="hidden primaryDiv h-full xs:flex flex-col justify-center items-center w-[45%] md:w-[50%] gap-2 p-2">
           <h1 className="text-3xl font-bold text-center">Hello User!</h1>
