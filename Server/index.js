@@ -11,6 +11,8 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL, // Ensure CLIENT_URL is set to your frontend URL
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"], // List the methods your API supports
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
