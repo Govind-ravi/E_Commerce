@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { IoIosHeartDislike } from "react-icons/io";
 import APIs from "../APIs";
 import { Helmet } from "react-helmet";
+import LoadingScreen from "../helpers/LoadingScreen";
 
 const YourWishlist = () => {
-  const user = useSelector((state) => state.user?.user);
+  const user = useSelector((state) => state?.user?.user);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleRemoveFromWishlist = async (productId) => {
     try {
@@ -42,6 +44,7 @@ const YourWishlist = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       const productPromises = user?.wishlist?.map(async (item) => {
         const product = await fetchProductById(item.id);
         return product;
@@ -52,6 +55,8 @@ const YourWishlist = () => {
         setProducts(fetchedProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -59,6 +64,17 @@ const YourWishlist = () => {
       fetchProducts();
     }
   }, [user?.wishlist]);
+
+  if (loading)
+    return (
+      <>
+        <div className="flex flex-col flex-wrap0 mx-4 ">
+          <LoadingScreen width={"300px"} height={"150px"} />
+          <LoadingScreen width={"300px"} height={"150px"} />
+          <LoadingScreen width={"300px"} height={"150px"} />
+        </div>
+      </>
+    );
 
   return (
     <>

@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
 import { useState, useEffect, useContext } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import APIs from "../APIs";
@@ -18,7 +17,6 @@ const UpdateProfile = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const [updatePasswordVisible, setUpdatePasswordVisible] = useState(false);
-  const [success, setsuccess] = useState("");
 
   const [data, setData] = useState({
     name: "",

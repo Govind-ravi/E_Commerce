@@ -1,23 +1,23 @@
-import { useContext, useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { fetchProductById } from "../helpers/fetchProduct";
 import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import APIs from "../APIs";
-import Context from "../context";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import LoadingScreen from "../helpers/LoadingScreen";
 
 const YourCart = () => {
   const user = useSelector((state) => state.user?.user);
-  const { fetchUserDetails } = useContext(Context);
   const [products, setProducts] = useState([]);
   const [cartQuantities, setCartQuantities] = useState({});
   const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Memoize fetchProducts
   const fetchProducts = useCallback(async () => {
-    console.log("Fetching products..."); // Debug log
-    if (!user?.cart?.length) return;
+    setLoading(true);
+    if (!user?.cart?.length) return setLoading(false);
 
     const productPromises = user.cart.map(async (item) => {
       try {
@@ -37,6 +37,7 @@ const YourCart = () => {
         return acc;
       }, {});
       setCartQuantities(quantities);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -44,13 +45,11 @@ const YourCart = () => {
 
   // Ensure useEffect runs only when necessary
   useEffect(() => {
-    console.log("Running fetchProducts useEffect...");
     fetchProducts();
   }, [fetchProducts]); // Only include fetchProducts here
 
   const handleIncreaseQuantity = async (productId) => {
     try {
-      console.log("Increasing quantity for product:", productId);
       const response = await fetch(APIs.addToCart.url, {
         method: "POST",
         credentials: "include",
@@ -82,7 +81,6 @@ const YourCart = () => {
 
   const handleDecreaseQuantity = async (productId) => {
     try {
-      console.log("Decreasing quantity for product:", productId);
       const response = await fetch(APIs.removeFromCart.url, {
         method: "POST",
         credentials: "include",
@@ -120,7 +118,6 @@ const YourCart = () => {
 
   const clearCart = async () => {
     try {
-      console.log("Clearing cart...");
       const response = await fetch(APIs.clearCart.url, {
         method: "POST",
         credentials: "include",
@@ -145,6 +142,17 @@ const YourCart = () => {
       setTimeout(() => setIsOrderPlaced(false), 3000); // Use setTimeout instead of setInterval
     }
   };
+
+  if (loading)
+    return (
+      <>
+        <div className="flex flex-col flex-wrap0 mx-4 ">
+          <LoadingScreen width={'300px'} height={'150px'}/>
+          <LoadingScreen width={'300px'} height={'150px'}/>
+          <LoadingScreen width={'300px'} height={'150px'}/>
+        </div>
+      </>
+    );
 
   return (
     <>

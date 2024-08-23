@@ -4,6 +4,7 @@ import ProductCard from "../components/ProductCard";
 import categoryList from "../assets/CategoriesList";
 import APIs from "../APIs";
 import { Helmet } from "react-helmet";
+import LoadingScreen from "../helpers/LoadingScreen";
 
 const CategoryProducts = () => {
   const { categoryName } = useParams();
@@ -11,14 +12,9 @@ const CategoryProducts = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const category_name = categoryList.map((item, i) => {
-    if (item.category === categoryName) {
-      return item.name;
-    }
-  });
-
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           `${APIs.getProductsByCategory.url}/${categoryName}`
@@ -36,6 +32,13 @@ const CategoryProducts = () => {
     };
     fetchProducts();
   }, [categoryName]);
+
+  if (loading) return <div className="my-2 mx-4 flex flex-wrap gap-4">
+  <LoadingScreen width={'250px'} height={'150px'}/>
+  <LoadingScreen width={'250px'} height={'150px'}/>
+  <LoadingScreen width={'250px'} height={'150px'}/>
+  <LoadingScreen width={'250px'} height={'150px'}/>
+</div>;
 
   if (products.length === 0) {
     return (

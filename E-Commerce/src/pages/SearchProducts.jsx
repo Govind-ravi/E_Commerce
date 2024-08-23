@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import APIs from "../APIs";
 import ProductCard from "../components/ProductCard";
 import { Helmet } from "react-helmet";
+import LoadingScreen from "../helpers/LoadingScreen";
 
 const searchProducts = async (searchTerm) => {
   try {
@@ -22,18 +23,30 @@ const SearchResults = () => {
   const [products, setProducts] = useState([]);
   const queryParams = new URLSearchParams(location.search);
   const searchTerm = queryParams.get("query");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       if (searchTerm) {
         // Use searchTerm instead of query
         const result = await searchProducts(searchTerm);
         setProducts(result);
+        setLoading(false);
       }
     };
 
     fetchProducts();
-  }, [searchTerm]); // Dependency array should include searchTerm
+  }, [searchTerm]); 
+
+  if (loading) {
+    return <div className="my-2 mx-4 flex flex-wrap gap-4">
+      <LoadingScreen width={'250px'} height={'150px'}/>
+      <LoadingScreen width={'250px'} height={'150px'}/>
+      <LoadingScreen width={'250px'} height={'150px'}/>
+      <LoadingScreen width={'250px'} height={'150px'}/>
+    </div>;
+  }
 
   return (
     <>

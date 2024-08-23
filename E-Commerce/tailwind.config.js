@@ -17,6 +17,9 @@ export const theme = {
     fontSize: {
       'xxs': '0.7rem', // Example custom size
     },
+    animation: {
+      'pulse-sync': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+    },
   },
 };
 export const plugins = [];

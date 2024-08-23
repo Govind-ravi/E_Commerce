@@ -12,6 +12,7 @@ import APIs from "../APIs";
 import Context from "../context";
 import ImageSlider from "../components/ProductImageSlider";
 import { Helmet } from "react-helmet";
+import LoadingScreen from "../helpers/LoadingScreen";
 
 const Product = () => {
   const user = useSelector((action) => action?.user?.user);
@@ -211,7 +212,15 @@ const Product = () => {
   }, [user, product?._id]); // Only re-run effect if user or product._id changes
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center my-4 gap-2">
+      <div>
+        <LoadingScreen width={'100px'} height={'100px'}/>
+        <LoadingScreen width={'100px'} height={'100px'}/>
+        <LoadingScreen width={'100px'} height={'100px'}/>
+      </div>
+      <LoadingScreen width={'30vw'} height={'60vh'}/>
+      <LoadingScreen width={'50vw'} height={'60vh'}/>
+    </div>;
   }
 
   return (
@@ -278,16 +287,28 @@ const Product = () => {
               ))}
             </div>
             <div>
-              <div
-                className="hidden lg:block w-full h-full xl:w-[450px] xl:h-[450px] border-2 bg-gray-50 cursor-crosshair"
-                onMouseMove={handleZoom}
-                onMouseLeave={handleMouseLeave}
-              >
+              <div className="hidden relative lg:block w-full h-full max-w-[450px] max-h-[450px] border-2 bg-gray-50 cursor-crosshair">
                 <img
                   className="w-full h-full object-contain"
+                  onMouseMove={handleZoom}
+                  onMouseLeave={handleMouseLeave}
                   src={activeImage}
                   alt=""
                 />
+                {zoomVisible && (
+                  <div className="w-[450px] h-[450px] bg-gray-50 overflow-hidden border absolute left-full top-0">
+                    <div
+                      className="h-[450px] w-[450px]"
+                      style={{
+                        backgroundImage: `url(${activeImage})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: `${imageZoomCoordinates.x * 100}% ${
+                          imageZoomCoordinates.y * 100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
+                )}
               </div>
 
               <div className="lg:hidden w-[300px] h-[300px] xs:w-[400px] xs:h-[400px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px]">
@@ -297,22 +318,22 @@ const Product = () => {
                 <div className="w-1/2">
                   {cartQuantity === 0 ? (
                     <button
-                      className="py-2 w-full px-4 rounded border-2 border-[#f6e1b1]"
+                      className="py-2 w-full px-4 rounded border-2 border-[#fde66a]"
                       onClick={handleAddToCart}
                     >
                       Add to Cart
                     </button>
                   ) : (
-                    <div className="flex justify-between items-center rounded border-2 h-full border-[#f6e1b1]">
+                    <div className="flex justify-between items-center rounded border-2 h-full border-[#fde66a]">
                       <div
-                        className="bg-[#f6e1b1] h-full flex items-center p-2"
+                        className="bg-[#fde66a] h-full flex items-center p-2"
                         onClick={handleDecreaseQuantity}
                       >
                         <FaMinus className="h-full cursor-pointer" />
                       </div>
                       <span>{cartQuantity}</span>
                       <div
-                        className="bg-[#f6e1b1] h-full flex items-center p-2"
+                        className="bg-[#fde66a] h-full flex items-center p-2"
                         onClick={handleIncreaseQuantity}
                       >
                         <FaPlus className="h-full cursor-pointer" />
@@ -324,7 +345,7 @@ const Product = () => {
                   className="py-2 px-4 w-1/2 rounded"
                   style={{
                     background: "white",
-                    border: "3px solid #f6e1b1",
+                    border: "3px solid #fde66a",
                     boxSizing: "border-box",
                   }}
                 >
@@ -332,20 +353,6 @@ const Product = () => {
                 </button>
               </div>
             </div>
-            {zoomVisible && (
-              <div className="w-[500px] h-[500px] bg-gray-50 overflow-hidden border absolute -right-[82%] top-0">
-                <div
-                  className="h-[450px] w-[450px]"
-                  style={{
-                    backgroundImage: `url(${activeImage})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: `${imageZoomCoordinates.x * 100}% ${
-                      imageZoomCoordinates.y * 100
-                    }%`,
-                  }}
-                ></div>
-              </div>
-            )}
           </div>
           <div className="px-2 xs:px-8 sm:px-0 w-[60%] sm:w-1/2 mt-2 sm:h-[80vh] sm:overflow-scroll">
             <span className="bg-amber-200 py-1 px-4 text-sm rounded-lg">

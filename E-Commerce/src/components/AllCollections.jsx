@@ -6,13 +6,16 @@ import Slider from "./Slider";
 import MobileSlider from "./MobileProductSlider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import LoadingScreen from "../helpers/LoadingScreen";
 
 const AllCollections = () => {
   const [collections, setCollections] = useState([]);
   const [collectionProducts, setCollectionProducts] = useState([]);
-  const [collectionsFetched, setCollectionsFetched] = useState(false); // Track if collections have been fetched
+  const [collectionsFetched, setCollectionsFetched] = useState(false);
+  const [loading, setloading] = useState(false);
 
   const fetchAllCollections = async () => {
+    setloading(true);
     try {
       const response = await fetch(APIs.allCollections.url);
       if (!response.ok) {
@@ -39,7 +42,8 @@ const AllCollections = () => {
       });
     }
 
-    setCollectionProducts(allProducts); // Update state once
+    setCollectionProducts(allProducts);
+    setloading(false); // Update state once
   };
 
   // Fetch collections only once when the component mounts
@@ -64,6 +68,14 @@ const AllCollections = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  if (loading)
+    return (
+      <div className="w-[95vw] mx-auto">
+        <LoadingScreen width={"95vw"} height={"400px"} />
+      </div>
+    );
+
   return (
     <>
       <Helmet>

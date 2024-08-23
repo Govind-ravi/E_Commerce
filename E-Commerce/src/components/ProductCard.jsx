@@ -271,7 +271,7 @@ const ProductCard = ({ product }) => {
                             onClick={handleAdminClick}
                           />
                           {isCollectionVisible && (
-                            <span className="flex flex-col absolute bg-gray-500 rounded p-1 text-white z-100 -right-full text-nowrap text-sm">
+                            <span className="flex flex-col absolute z-[500] bg-gray-500 rounded p-1 text-white -right-full text-nowrap text-sm">
                               {collections?.map((collection) =>
                                 collection.collectionProductId?.some(
                                   (productObj) => productObj.id === product._id
