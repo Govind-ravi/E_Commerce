@@ -36,6 +36,7 @@ export async function userSignUpController(req, res) {
     const tokenOption = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: 'None'
     };
 
     res.cookie("token", token, tokenOption);
@@ -89,6 +90,7 @@ export async function userSignInController(req, res) {
     const tokenOption = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // Ensure this is set for production environments
+      sameSite: 'None'
     };
 
     // Send response with token
