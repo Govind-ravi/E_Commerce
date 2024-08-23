@@ -1,4 +1,4 @@
-const domain = "http://localhost:3000/api";
+const domain = import.meta.env.VITE_API_URL;
 
 const APIs = {
   SignUp: {
