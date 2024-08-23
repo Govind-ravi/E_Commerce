@@ -111,7 +111,11 @@ export async function userSignInController(req, res) {
 
 export async function userSignOutController(req, res) {
   try {
-    res.clearCookie("token").status(200).json({
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Ensure this matches the setting when the cookie was set
+      sameSite: 'None', // Ensure this matches the setting when the cookie was set
+    }).status(200).json({
       error: false,
       message: "User Signed Out successfully.",
       success: true,
