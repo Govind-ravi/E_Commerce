@@ -2,9 +2,7 @@ import jwt from "jsonwebtoken";
 
 const authToken = (req, res, next) => {
   try {
-    // Prefer `Authorization` header for token
-    const authHeader = req.headers.authorization || '';
-    const token = authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : req.cookies?.token;
+    const token =  req.cookies?.token;
 
     if (!token) {
       return res.status(401).json({ message: "No user logged in", error: true, success: false });
