@@ -3,15 +3,13 @@ import cors from "cors";
 import connectDB from "./config/DB.js";
 import Router from "./routes/index.js";
 import cookieParser from "cookie-parser";
-import path from "path"; // Import path module
-import { fileURLToPath } from 'url'; // Import to handle __dirname in ES module
 
 const app = express();
 
 // Use CORS middleware
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, // Ensure CLIENT_URL is set in your .env
+    origin: process.env.CLIENT_URL, // Ensure CLIENT_URL is set to your frontend URL
     credentials: true,
   })
 );
@@ -20,23 +18,16 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-// Connect to the database
-connectDB();
-
 // API routes
 app.use("/api", Router);
 
-// Resolve __dirname since it's not available in ES modules by default
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Serve the React frontend
-app.use(express.static(path.join(__dirname, "..", "E-commerce", "dist")));
-
-// Fallback route to serve the React frontend for all other routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "E-commerce", "dist", "index.html"));
+// Serve a basic route for testing
+app.get("/", (req, res) => {
+  res.send("Hello World! This is the Govind Hub API.");
 });
+
+// Connect to the database
+connectDB();
 
 // Start the server
 const port = process.env.PORT || 3000;
