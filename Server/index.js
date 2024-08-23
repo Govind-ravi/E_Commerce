@@ -20,6 +20,9 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
+// Connect to the database
+connectDB();
+
 // API routes
 app.use("/api", Router);
 
@@ -30,10 +33,9 @@ const __dirname = path.dirname(__filename);
 // Serve the React frontend
 app.use(express.static(path.join(__dirname, "..", "E-commerce", "dist")));
 
-connectDB();
-
+// Fallback route to serve the React frontend for all other routes
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "E-commerce", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "..", "E-commerce", "dist", "index.html"));
 });
 
 // Start the server
