@@ -21,6 +21,12 @@ body {
     padding-top: 70px; /* Adjust as needed for medium screens */
   }
 }
+@media (max-width: 768px) {
+  body {
+    padding-top: 90px; /* Adjust as needed for medium screens */
+  }
+}
+
 @media (max-width: 480px) {
   body {
     padding-top: 50px; /* Adjust as needed for medium screens */
