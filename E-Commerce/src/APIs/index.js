@@ -1,4 +1,5 @@
-const domain = import.meta.env.VITE_API_URL;
+const api_url = import.meta.env.VITE_API_URL;
+const domain = `${api_url}/api`;
 
 const APIs = {
   SignUp: {
@@ -71,8 +72,8 @@ const APIs = {
     url: `${domain}/category`,
   },
   resetPassword: {
-    url: `${domain}/request-reset`
-  }
+    url: `${domain}/request-reset`,
+  },
 };
 
 export default APIs;
